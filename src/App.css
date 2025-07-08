@@ -91,7 +91,7 @@ body, .App {
 
 .search-bar-box {
   width: 95vw;
-  max-width: 1200px;
+  max-width: 1120px;
   height: 90px;
   background: #023047;
   border-radius: 28px;
@@ -100,6 +100,8 @@ body, .App {
   align-items: center;
   box-shadow: 0 4px 16px rgba(0,0,0,0.08);
   position: relative;
+  padding-left: 0px;
+  padding-right: 32px;
 }
 
 .currency-box {
@@ -255,6 +257,8 @@ body, .App {
 .guest-box {
   display: flex;
   align-items: center;
+  flex-direction: row;
+  gap: 8px;
   background: #fff;
   border-radius: 16px;
   padding: 8px 12px 8px 10px;
@@ -265,7 +269,7 @@ body, .App {
   min-width: 80px;
   user-select: none;
   transition: box-shadow 0.2s;
-  font-family: 'Poppins', sans-serif;
+  font-family: 'Inter', sans-serif;
   font-weight: 500;
   font-size: 1.1rem;
   color: #1E232C;
@@ -285,12 +289,23 @@ body, .App {
   justify-content: center;
   font-size: 1.4rem;
   color: #0E597E;
-  margin-right: 10px;
+  margin-right: 8px;
 }
 
 .guest-text {
-  color: #1E232C;
-  font-family: 'Inter', sans-serif;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-size: 0.85rem;
   font-weight: 700;
-  font-size: 0.92rem;
+}
+
+.rdrDaySelected, .rdrDayStartEdge, .rdrDayEndEdge {
+  background: #219EBC !important;
+  color: #fff !important;
+  border-radius: 50% !important;
+}
+.rdrInRange {
+  background: #8ECAE6 !important;
+  color: #1E232C !important;
 }
