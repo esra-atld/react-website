@@ -226,3 +226,27 @@ body, .App {
 .nationality-dropdown div:hover {
   background: #F9FAFB;
 }
+
+.location-input {
+  border: none;
+  outline: none;
+  font-weight: 600;
+  color: #1E232C;
+  font-size: 1rem;
+  background: transparent;
+  width: 180px;
+  transition: color 0.2s;
+}
+.location-input::placeholder {
+  color: #1E232C;
+  opacity: 1;
+  transition: color 0.2s;
+}
+.location-input:focus::placeholder {
+  color: #C3C3C3;
+}
+
+.currency-dropdown div,
+.nationality-dropdown div {
+  color: #1E232C;
+}
