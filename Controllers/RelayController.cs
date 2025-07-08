@@ -10,13 +10,13 @@ namespace BackendSan.Controllers
 {
     [ApiController]
     [Route("api")]
-    public class RelayController : ControllerBase
+    public class RelayController : BaseApiController
     {
         private readonly RelayService _relayService;
 
-        public RelayController(RelayService relayService)
+        public RelayController(RelayService relayService) : base(relayService)
         {
-            _relayService = relayService;
+            
         }
 
         [HttpPost("getarrivalautocomplete")]
@@ -39,41 +39,10 @@ namespace BackendSan.Controllers
 
 
 
-        [HttpPost("getcheckindates")]
-        public async Task<IActionResult> GetCheckinDates([FromBody] object payload)
-            => await Forward<object>("productservice/getcheckindates", payload);
+        
 
 
-
-        private async Task<IActionResult> Forward<T>(string endpoint, object payload)
-        {
-            
-            var json = JsonSerializer.Serialize(payload);
-
-            try
-            {
-                var response = await _relayService.ForwardRequestAsync(endpoint, json);
-                var responseBody = await response.Content.ReadAsStringAsync();
-
-                if (!response.IsSuccessStatusCode)
-                {
-                    return StatusCode((int)response.StatusCode, responseBody);
-                }
-                var deserialized = JsonSerializer.Deserialize<T>(
-                    responseBody,
-                    new JsonSerializerOptions
-                    {
-                        PropertyNameCaseInsensitive = true
-                    });
-
-                return Ok(deserialized);
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"Error forwarding request: {ex.Message}");
-                return StatusCode(500, $"Internal server error: {ex.Message}");
-            }
-        }
+        
 
     }
 }
