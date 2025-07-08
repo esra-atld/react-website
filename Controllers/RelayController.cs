@@ -21,6 +21,10 @@ namespace BackendSan.Controllers
         public async Task<IActionResult> GetArrivalAutocomplete([FromBody] object payload)
             => await Forward("productservice/getarrivalautocomplete", payload);
 
+        [HttpPost("GetCheckinDates")]
+        public async Task<IActionResult> GetCheckinDates([FromBody] object payload)
+            => await Forward("productservice/getcheckindates", payload);
+
         private async Task<IActionResult> Forward(string endpoint, object payload)
         {
             // For simplicity, directly using ToString() for the payload might not be robust for all object types.
