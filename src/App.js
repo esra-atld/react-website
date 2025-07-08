@@ -1,9 +1,20 @@
 import logo from './logo.svg';
 import './App.css';
+import { FaMapMarkerAlt } from 'react-icons/fa';
 
 function App() {
   return (
     <div className="App">
+      {/* Top Header Bar */}
+      <div className="top-header-bar">
+        <div className="header-content">
+          <span className="travel-icon">
+            <FaMapMarkerAlt />
+          </span>
+          <h1 className="site-name">Tripora</h1>
+        </div>
+      </div>
+      
       <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
         <p>
