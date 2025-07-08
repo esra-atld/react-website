@@ -1,11 +1,21 @@
+using Microsoft.AspNetCore.Builder;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
+using BackendSan.Services; 
+
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
-builder.Services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+builder.Services.AddMemoryCache(); // Required for IMemoryCache
+builder.Services.AddHttpClient(); // Required for IHttpClientFactory
+builder.Services.AddSingleton<TokenStore>();
+builder.Services.AddScoped<RelayService>(); 
+builder.Services.AddControllers(); 
 
 var app = builder.Build();
 
@@ -21,5 +31,24 @@ app.UseHttpsRedirection();
 app.UseAuthorization();
 
 app.MapControllers();
+
+using (var scope = app.Services.CreateScope())
+{
+    var relayService = scope.ServiceProvider.GetRequiredService<RelayService>();
+    try
+    {
+        Console.WriteLine("Attempting to log in and retrieve initial token...");
+        
+        await relayService.InitializeTokenAsync(); 
+
+        Console.WriteLine("Initial token retrieved successfully.");
+    }
+    catch (Exception ex)
+    {
+        Console.Error.WriteLine($"Error retrieving initial token: {ex.Message}");
+        
+    }
+}
+
 
 app.Run();
