@@ -1,7 +1,6 @@
 ﻿using System;
-using BackendSan.Models;
 
-namespace BackendSan.Models
+namespace BackendSan.Models.Response
 {
     public class AuthApiResponse
     {

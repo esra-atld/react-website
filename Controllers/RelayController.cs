@@ -1,4 +1,6 @@
-﻿using BackendSan.Services;
+﻿using BackendSan.Models.Request;
+using BackendSan.Models.Responses;
+using BackendSan.Services;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Text.Json;
@@ -17,33 +19,61 @@ namespace BackendSan.Controllers
             _relayService = relayService;
         }
 
-        [HttpPost("GetArrivalAutocomplete")]
-        public async Task<IActionResult> GetArrivalAutocomplete([FromBody] object payload)
-            => await Forward("productservice/getarrivalautocomplete", payload);
-
-        [HttpPost("GetCheckinDates")]
-        public async Task<IActionResult> GetCheckinDates([FromBody] object payload)
-            => await Forward("productservice/getcheckindates", payload);
-
-        private async Task<IActionResult> Forward(string endpoint, object payload)
+        [HttpPost("getarrivalautocomplete")]
+        public async Task<IActionResult> GetArrivalAutocomplete(GetArrivalAutocompleteRequestDto requestDto)
         {
-            // For simplicity, directly using ToString() for the payload might not be robust for all object types.
-            // Consider using a JSON serializer like System.Text.Json.JsonSerializer.Serialize(payload)
-            // for more complex objects to ensure correct JSON formatting.
+            var result = await Forward<GetArrivalAutocompleteResponseDto>("productservice/getarrivalautocomplete", requestDto);
+
+            if (result is OkObjectResult okResult && okResult.Value is GetArrivalAutocompleteResponseDto dto)
+            {
+                if (dto.Body?.Items != null)
+                {
+                    dto.Body.Items = dto.Body.Items.Take(10).ToList();
+                }
+
+                return Ok(dto);
+            }
+
+            return result;
+        }
+
+
+
+        [HttpPost("getcheckindates")]
+        public async Task<IActionResult> GetCheckinDates([FromBody] object payload)
+            => await Forward<object>("productservice/getcheckindates", payload);
+
+
+
+        private async Task<IActionResult> Forward<T>(string endpoint, object payload)
+        {
+            
             var json = JsonSerializer.Serialize(payload);
 
             try
             {
                 var response = await _relayService.ForwardRequestAsync(endpoint, json);
                 var responseBody = await response.Content.ReadAsStringAsync();
-                return StatusCode((int)response.StatusCode, responseBody);
+
+                if (!response.IsSuccessStatusCode)
+                {
+                    return StatusCode((int)response.StatusCode, responseBody);
+                }
+                var deserialized = JsonSerializer.Deserialize<T>(
+                    responseBody,
+                    new JsonSerializerOptions
+                    {
+                        PropertyNameCaseInsensitive = true
+                    });
+
+                return Ok(deserialized);
             }
             catch (Exception ex)
             {
-                // Log the exception for debugging
                 Console.WriteLine($"Error forwarding request: {ex.Message}");
                 return StatusCode(500, $"Internal server error: {ex.Message}");
             }
         }
+
     }
 }
