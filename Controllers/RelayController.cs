@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace BackendSan.Controllers
 {
     [ApiController]
-    [Route("relay")]
+    [Route("api")]
     public class RelayController : ControllerBase
     {
         private readonly RelayService _relayService;
@@ -17,9 +17,9 @@ namespace BackendSan.Controllers
             _relayService = relayService;
         }
 
-        [HttpPost("users")]
-        public async Task<IActionResult> Users([FromBody] object payload)
-            => await Forward("api/users", payload);
+        [HttpPost("GetArrivalAutocomplete")]
+        public async Task<IActionResult> GetArrivalAutocomplete([FromBody] object payload)
+            => await Forward("productservice/getarrivalautocomplete", payload);
 
         private async Task<IActionResult> Forward(string endpoint, object payload)
         {
