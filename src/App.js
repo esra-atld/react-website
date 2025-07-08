@@ -1,6 +1,6 @@
 import logo from './logo.svg';
 import './App.css';
-import { FaMapMarkerAlt, FaFlag, FaRegCalendarAlt, FaUser } from 'react-icons/fa';
+import { FaMapMarkerAlt, FaFlag, FaRegCalendarAlt, FaUser, FaSearch } from 'react-icons/fa';
 import React, { useState, useRef, useEffect } from 'react';
 
 function App() {
@@ -150,6 +150,32 @@ function App() {
           <span className="guest-icon"><FaUser /></span>
           <span className="guest-text">0 Misafir, 0 Oda</span>
         </div>
+        {/* Search Button */}
+        <button
+          className="search-btn"
+          style={{
+            marginLeft: 16,
+            display: 'flex',
+            alignItems: 'center',
+            background: '#8ECAE6',
+            borderRadius: 16,
+            padding: '14px 20px',
+            minWidth: 110,
+            boxShadow: '0 2px 8px rgba(0,0,0,0.06)',
+            border: 'none',
+            cursor: 'pointer',
+            height: '56px',
+            fontFamily: 'Inter, sans-serif',
+            fontWeight: 700,
+            fontSize: '1.18rem',
+            color: '#fff',
+            transition: 'background 0.2s',
+            userSelect: 'none',
+          }}
+        >
+          <FaSearch style={{ color: '#fff', fontSize: '1.4rem', marginRight: 13 }} />
+          <span style={{ color: '#fff', fontWeight: 700, fontFamily: 'Inter, sans-serif', fontSize: '1.18rem' }}>Ara</span>
+        </button>
       </div>
       
       <header className="App-header">
