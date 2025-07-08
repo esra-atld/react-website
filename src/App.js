@@ -1,6 +1,6 @@
 import logo from './logo.svg';
 import './App.css';
-import { FaMapMarkerAlt, FaFlag, FaRegCalendarAlt } from 'react-icons/fa';
+import { FaMapMarkerAlt, FaFlag, FaRegCalendarAlt, FaUser } from 'react-icons/fa';
 import React, { useState, useRef, useEffect } from 'react';
 
 function App() {
@@ -142,6 +142,13 @@ function App() {
           <span style={{ fontFamily: 'Inter, sans-serif', fontWeight: 700, fontSize: '0.92rem', color: '#1E232C' }}>
             Check-in — Check-out
           </span>
+        </div>
+        {/* Guest Box */}
+        <div className="guest-box"
+          style={{ marginLeft: 16, display: 'flex', alignItems: 'center', background: '#fff', borderRadius: 16, padding: '10px 20px 10px 14px', boxShadow: '0 2px 8px rgba(0,0,0,0.06)', minWidth: 200, userSelect: 'none' }}
+        >
+          <span className="guest-icon"><FaUser /></span>
+          <span className="guest-text">0 Misafir, 0 Oda</span>
         </div>
       </div>
       
