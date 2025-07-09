@@ -12,8 +12,6 @@ namespace BackendSan.Controllers
     [Route("api")]
     public class RelayController : BaseApiController
     {
-        private readonly RelayService _relayService;
-
         public RelayController(RelayService relayService) : base(relayService)
         {
             
@@ -36,13 +34,6 @@ namespace BackendSan.Controllers
 
             return result;
         }
-
-
-
-        
-
-
-        
 
     }
 }
