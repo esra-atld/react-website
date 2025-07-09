@@ -1,5 +1,7 @@
 import logo from './logo.svg';
 import './App.css';
+import parisImage from './assets/paris.jpg';
+import lisbonImage from './assets/lisbon.jpg';
 import { FaMapMarkerAlt, FaFlag, FaRegCalendarAlt, FaUser, FaSearch } from 'react-icons/fa';
 import React, { useState, useRef, useEffect } from 'react';
 import { DateRange } from 'react-date-range';
@@ -793,7 +795,7 @@ function App() {
                           }}
                         >
                           <option value="">Yaş seçin</option>
-                          {Array.from({ length: 18 }, (_, i) => (
+                          {Array.from({ length: 13 }, (_, i) => (
                             <option key={i} value={i}>
                               {i} yaş
                             </option>
@@ -833,6 +835,199 @@ function App() {
           <FaSearch style={{ color: '#fff', fontSize: '1.4rem', marginRight: 13 }} />
           <span style={{ color: '#fff', fontWeight: 700, fontFamily: 'Inter, sans-serif', fontSize: '1.18rem' }}>Ara</span>
         </button>
+      </div>
+      
+      {/* Önerilenler Kısmı */}
+      <div style={{ 
+        marginTop: '40px', 
+        padding: '0 20px',
+        maxWidth: '1200px',
+        marginLeft: 'auto',
+        marginRight: 'auto'
+      }}>
+        <h2 style={{ 
+          fontFamily: 'Inter, sans-serif', 
+          fontWeight: 700, 
+          fontSize: '2rem', 
+          color: '#1E232C', 
+          marginBottom: '24px',
+          textAlign: 'center'
+        }}>
+          Popüler Otel Destinasyonları
+        </h2>
+        <div style={{ 
+          display: 'grid', 
+          gridTemplateColumns: 'repeat(2, 600px)', 
+          gap: '40px',
+          maxWidth: '1300px',
+          margin: '0 auto'
+        }}>
+          {/* İlk Sıra */}
+          <div style={{
+            width: '100%',
+            height: '300px',
+            minWidth: '500px',
+            background: `linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.3)), url('https://images.unsplash.com/photo-1524231757912-21f4fe3a7200?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80')`,
+            backgroundSize: 'cover',
+            backgroundPosition: 'center',
+            backgroundRepeat: 'no-repeat',
+            borderRadius: '16px',
+            display: 'flex',
+            cursor: 'pointer',
+            transition: 'all 0.2s',
+            boxShadow: '0 2px 8px rgba(0,0,0,0.06)',
+            border: 'none',
+            position: 'relative',
+            overflow: 'hidden'
+          }}
+          onMouseEnter={(e) => {
+            e.target.style.transform = 'translateY(-2px)';
+            e.target.style.boxShadow = '0 4px 12px rgba(0,0,0,0.1)';
+          }}
+          onMouseLeave={(e) => {
+            e.target.style.transform = 'translateY(0)';
+            e.target.style.boxShadow = '0 2px 8px rgba(0,0,0,0.06)';
+          }}
+          >
+            <span style={{ 
+              color: '#f2e8cf', 
+              fontWeight: 700, 
+              fontFamily: 'Poppins, sans-serif', 
+              fontSize: '1.5rem',
+              textAlign: 'left',
+              textShadow: '0 2px 4px rgba(0,0,0,0.7)',
+              position: 'absolute',
+              top: '20px',
+              left: '20px'
+            }}>
+              İstanbul
+            </span>
+          </div>
+          
+          <div style={{
+            width: '100%',
+            height: '300px',
+            minWidth: '500px',
+            background: `linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.3)), url(${parisImage})`,
+            backgroundSize: 'cover',
+            backgroundPosition: 'center',
+            backgroundRepeat: 'no-repeat',
+            borderRadius: '16px',
+            display: 'flex',
+            cursor: 'pointer',
+            transition: 'all 0.2s',
+            boxShadow: '0 2px 8px rgba(0,0,0,0.06)',
+            border: 'none',
+            position: 'relative',
+            overflow: 'hidden'
+          }}
+          onMouseEnter={(e) => {
+            e.target.style.transform = 'translateY(-2px)';
+            e.target.style.boxShadow = '0 4px 12px rgba(0,0,0,0.1)';
+          }}
+          onMouseLeave={(e) => {
+            e.target.style.transform = 'translateY(0)';
+            e.target.style.boxShadow = '0 2px 8px rgba(0,0,0,0.06)';
+          }}
+          >
+            <span style={{ 
+              color: '#f2e8cf', 
+              fontWeight: 700, 
+              fontFamily: 'Poppins, sans-serif', 
+              fontSize: '1.5rem',
+              textAlign: 'left',
+              textShadow: '0 2px 4px rgba(0,0,0,0.7)',
+              position: 'absolute',
+              top: '20px',
+              left: '20px'
+            }}>
+              Paris
+            </span>
+          </div>
+          
+          {/* İkinci Sıra */}
+          <div style={{
+            width: '100%',
+            height: '300px',
+            minWidth: '500px',
+            background: `linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.3)), url(${lisbonImage})`,
+            backgroundSize: 'cover',
+            backgroundPosition: 'center',
+            backgroundRepeat: 'no-repeat',
+            borderRadius: '16px',
+            display: 'flex',
+            cursor: 'pointer',
+            transition: 'all 0.2s',
+            boxShadow: '0 2px 8px rgba(0,0,0,0.06)',
+            border: 'none',
+            position: 'relative',
+            overflow: 'hidden'
+          }}
+          onMouseEnter={(e) => {
+            e.target.style.transform = 'translateY(-2px)';
+            e.target.style.boxShadow = '0 4px 12px rgba(0,0,0,0.1)';
+          }}
+          onMouseLeave={(e) => {
+            e.target.style.transform = 'translateY(0)';
+            e.target.style.boxShadow = '0 2px 8px rgba(0,0,0,0.06)';
+          }}
+          >
+            <span style={{ 
+              color: '#f2e8cf', 
+              fontWeight: 700, 
+              fontFamily: 'Poppins, sans-serif', 
+              fontSize: '1.5rem',
+              textAlign: 'left',
+              textShadow: '0 2px 4px rgba(0,0,0,0.7)',
+              position: 'absolute',
+              top: '20px',
+              left: '20px'
+            }}>
+              Lizbon
+            </span>
+          </div>
+          
+          <div style={{
+            width: '100%',
+            height: '300px',
+            minWidth: '500px',
+            background: `linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.3)), url('https://images.unsplash.com/photo-1552832230-c0197dd311b5?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1200&q=80')`,
+            backgroundSize: 'cover',
+            backgroundPosition: 'center',
+            backgroundRepeat: 'no-repeat',
+            borderRadius: '16px',
+            display: 'flex',
+            cursor: 'pointer',
+            transition: 'all 0.2s',
+            boxShadow: '0 2px 8px rgba(0,0,0,0.06)',
+            border: 'none',
+            position: 'relative',
+            overflow: 'hidden'
+          }}
+          onMouseEnter={(e) => {
+            e.target.style.transform = 'translateY(-2px)';
+            e.target.style.boxShadow = '0 4px 12px rgba(0,0,0,0.1)';
+          }}
+          onMouseLeave={(e) => {
+            e.target.style.transform = 'translateY(0)';
+            e.target.style.boxShadow = '0 2px 8px rgba(0,0,0,0.06)';
+          }}
+          >
+            <span style={{ 
+              color: '#f2e8cf', 
+              fontWeight: 700, 
+              fontFamily: 'Poppins, sans-serif', 
+              fontSize: '1.5rem',
+              textAlign: 'left',
+              textShadow: '0 2px 4px rgba(0,0,0,0.7)',
+              position: 'absolute',
+              top: '20px',
+              left: '20px'
+            }}>
+              Roma
+            </span>
+          </div>
+        </div>
       </div>
       
       <header className="App-header">
