@@ -1,7 +1,7 @@
 using System;
 using BackendSan.Models;
 
-namespace BackendSan.Models.Request
+namespace BackendSan.Models.Requests
 {
     public class ArrivalLocationDto
     {
