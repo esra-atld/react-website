@@ -1,0 +1,71 @@
+.guest-box {
+  display: flex;
+  align-items: center;
+  background: #fff;
+  border-radius: 16px;
+  padding: 10px 20px 10px 14px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+  min-width: 180px;
+  user-select: none;
+  position: relative;
+  cursor: pointer;
+}
+
+.guest-incdec-btn {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  border: 1px solid #D1D5DB;
+  background: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: #1E232C;
+  transition: all 0.2s;
+  cursor: pointer;
+}
+.guest-incdec-btn:disabled {
+  background: #F3F4F6;
+  color: #9CA3AF;
+  cursor: not-allowed;
+}
+.guest-incdec-btn:not(:disabled):hover {
+  background: #8ECAE6;
+  color: #1E232C;
+}
+.guest-incdec-btn:not(:disabled):active {
+  background: #6BB5D1;
+  color: #fff;
+}
+
+.guest-age-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.guest-age-label {
+  font-family: 'Inter', sans-serif;
+  font-weight: 500;
+  font-size: 0.9rem;
+  color: #6B7280;
+  min-width: 60px;
+}
+.guest-age-select {
+  flex: 1;
+  padding: 8px 12px;
+  border-radius: 8px;
+  border: 1px solid #D1D5DB;
+  background: #fff;
+  font-family: 'Inter', sans-serif;
+  font-size: 0.9rem;
+  color: #1E232C;
+  font-weight: 500;
+  cursor: pointer;
+  outline: none;
+  transition: all 0.2s;
+}
+.guest-age-select.invalid {
+  border: 2px solid #FF6B6B;
+} 
