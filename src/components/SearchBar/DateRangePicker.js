@@ -42,13 +42,12 @@ function DateRangePickerComponent() {
     <div
       className="date-range-box"
       ref={dateBoxRef}
-      style={{ marginLeft: 8, display: 'flex', alignItems: 'center', background: '#fff', borderRadius: 16, padding: '10px 20px 10px 14px', boxShadow: '0 2px 8px rgba(0,0,0,0.06)', minWidth: 220, userSelect: 'none', position: 'relative', cursor: 'pointer' }}
       onClick={() => setCalendarOpen(true)}
     >
-      <span style={{ background: '#F9FAFB', borderRadius: '50%', width: 32, height: 32, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '1.4rem', color: '#0E597E', marginRight: 10 }}>
-        <FaRegCalendarAlt style={{ color: '#0E597E' }} />
+      <span className="date-range-icon">
+        <FaRegCalendarAlt />
       </span>
-      <span style={{ fontFamily: 'Inter, sans-serif', fontWeight: 700, fontSize: '0.85rem', color: '#1E232C', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', maxWidth: 200 }}>
+      <span className="date-range-text">
         {formatRange(range[0].startDate, range[0].endDate)}
       </span>
       {calendarOpen && (

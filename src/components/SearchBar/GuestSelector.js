@@ -45,10 +45,10 @@ function GuestSelector() {
       ref={guestRef}
       onClick={() => setDropdownOpen((open) => !open)}
     >
-      <span style={{ background: '#F9FAFB', borderRadius: '50%', width: 32, height: 32, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '1.4rem', color: '#0E597E', marginRight: 10 }}>
-        <FaUser style={{ color: '#0E597E' }} />
+      <span className="guest-icon">
+        <FaUser />
       </span>
-      <span style={{ fontFamily: 'Inter, sans-serif', fontWeight: 700, fontSize: '0.85rem', color: '#1E232C', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', maxWidth: 150 }}>
+      <span className="guest-text">
         {guestText}
       </span>
       {dropdownOpen && (
