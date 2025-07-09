@@ -9,6 +9,9 @@
     public class GetArrivalAutocompleteResponseDto
     {
         public BackendSearchResponseBody? Body { get; set; }
+        public HeaderDto? Header { get; set; }
+
+
 
     }
     public class BackendSearchResponseBody
