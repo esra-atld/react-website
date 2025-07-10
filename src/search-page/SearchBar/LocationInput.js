@@ -21,12 +21,13 @@ function getLocationIcon(type) {
   }
 }
 
-function LocationInput() {
+function LocationInput({ onLocationSelect }) {
   const [location, setLocation] = useState('');
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [loading, setLoading] = useState(false);
   const [filteredOptions, setFilteredOptions] = useState([]);
   const [error, setError] = useState(null);
+  const [selectedOption, setSelectedOption] = useState(null); // New state for storing selected option
   const locationRef = useRef(null);
   const inputRef = useRef(null);
   const debounceTimeoutRef = useRef(null);
@@ -46,23 +47,24 @@ function LocationInput() {
   const handleChange = (e) => {
     const value = e.target.value;
     setLocation(value);
-
+    setSelectedOption(null); // Clear selected option when user types
+  
     if (debounceTimeoutRef.current) {
       clearTimeout(debounceTimeoutRef.current);
     }
-
-    if (value.trim().length < 4) {
+  
+    if (value.trim().length < 3) {  // Changed from 4 to 3
       setFilteredOptions([]);
       setDropdownOpen(false);
       setLoading(false);
       setError(null);
       return;
     }
-
+  
     setLoading(true);
     setDropdownOpen(true);
     setError(null);
-
+  
     debounceTimeoutRef.current = setTimeout(async () => {
       try {
         const data = await getArrivalAutocomplete({
@@ -83,26 +85,57 @@ function LocationInput() {
 
   const handleSelect = (selectedOption) => {
     let selectedName = '';
-    if (selectedOption.Type === SearchSuggestionType.CityOrDestination && selectedOption.City?.Name) {
-        selectedName = selectedOption.City.Name;
-    } else if (selectedOption.Type === SearchSuggestionType.Hotel && selectedOption.Hotel?.Name) {
-        selectedName = selectedOption.Hotel.Name;
+    if (selectedOption.type === SearchSuggestionType.CityOrDestination && selectedOption.city?.name) {
+        selectedName = selectedOption.city.name;
+    } else if (selectedOption.type === SearchSuggestionType.Hotel && selectedOption.hotel?.name) {
+        selectedName = selectedOption.hotel.name || selectedOption.hotel.internationalName;
     }
+    
     setLocation(selectedName);
+    setSelectedOption(selectedOption); // Store the complete option object
     setDropdownOpen(false);
     setFilteredOptions([]);
+    console.log("Selected option:", selectedOption);
+    
+    // Notify parent component about the selection
+    if (onLocationSelect) {
+      onLocationSelect(selectedOption);
+    }
   };
 
   const handleBoxClick = () => {
     if (inputRef.current) {
       inputRef.current.focus();
+      
+      // If there's a selected option, clear everything and trigger new search
+      if (selectedOption) {
+        setLocation('');
+        setSelectedOption(null);
+        setFilteredOptions([]);
+        setDropdownOpen(false);
+        return;
+      }
+
       if (location.trim().length >= 4 && !loading) {
         setDropdownOpen(true);
       }
     }
   };
 
-
+  const handleInputFocus = () => {
+    // If clicking on input with selected option, clear it
+    if (selectedOption) {
+      setLocation('');
+      setSelectedOption(null);
+      setFilteredOptions([]);
+      setDropdownOpen(false);
+      return;
+    }
+  
+    if (location.trim().length >= 3 && !loading) {  // Changed from 4 to 3
+      setDropdownOpen(true);
+    }
+  };
 
   return (
     <div
@@ -115,30 +148,26 @@ function LocationInput() {
         <FaFlag style={{ color: '#0E597E' }} />
       </span>
       <input
-        type="text"
-        className="location-input"
-        placeholder="Nereye gitmek istersiniz?"
-        value={location}
-        onChange={handleChange}
-        onFocus={() => {
-          if (location.trim().length >= 4 && !loading) {
-            setDropdownOpen(true);
-          }
-        }}
-        ref={inputRef}
-        style={{
-          border: 'none',
-          outline: 'none',
-          fontWeight: 600,
-          color: '#1E232C',
-          fontSize: '0.92rem',
-          background: 'transparent',
-          width: 200,
-          transition: 'color 0.2s',
-          fontFamily: 'Inter, sans-serif'
-        }}
-        onClick={e => e.stopPropagation()}
-      />
+      type="text"
+      className="location-input"
+      placeholder="Nereye gitmek istersiniz?"
+      value={location}
+      onChange={handleChange}
+      onFocus={handleInputFocus}  // Changed from inline function to handler
+      ref={inputRef}
+      style={{
+        border: 'none',
+        outline: 'none',
+        fontWeight: 600,
+        color: '#1E232C',
+        fontSize: '0.92rem',
+        background: 'transparent',
+        width: 200,
+        transition: 'color 0.2s',
+        fontFamily: 'Inter, sans-serif'
+      }}
+      onClick={e => e.stopPropagation()}
+    />
       {loading && (
           <div style={{ position: 'absolute', right: '20px', top: '50%', transform: 'translateY(-50%)' }}>
               <svg className="animate-spin h-5 w-5 text-blue-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
@@ -174,81 +203,71 @@ function LocationInput() {
                 {error}
               </div>
           )}
-          {/* Conditional rendering for suggestions */}
           {!loading && !error && filteredOptions.length > 0 ? (
-            filteredOptions.map((option, index) => {
-              // DEBUG LOG: Log each option object right before rendering
-              console.log("Rendering option:", option);
-              return (
-                <div
-                  key={option.Id || option.id || index} // Use a unique ID from the API response if available, fallback to index
-                  onClick={() => handleSelect(option)}
-                  style={{
-                    padding: '12px 16px',
-                    cursor: 'pointer',
-                    color: '#1E232C',
-                    fontWeight: 500,
-                    background: '#fff',
-                    transition: 'background 0.15s',
-                    fontFamily: 'Inter, sans-serif',
-                    fontSize: '0.9rem',
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: '12px'
-                  }}
-                  onMouseOver={e => e.currentTarget.style.background = '#8ECAE6'}
-                  onMouseOut={e => e.currentTarget.style.background = '#fff'}
-                >
-                  <span style={{
-                    fontSize: '1.2rem',
-                    color: '#0E597E',
-                    width: '20px',
-                    textAlign: 'center'
-                  }}>
-                    {/* Accessing option.type with lowercase 't' as per API response */}
-                    {getLocationIcon(option.type)}
-                  </span>
-                  <div style={{ flex: 1 }}>
-                    {/* Accessing option.type with lowercase 't' */}
-                    {option.type === SearchSuggestionType.CityOrDestination && (
-                      <>
-                        {/* Accessing properties with lowercase first letter as per API response */}
-                        <div style={{ fontWeight: 600, marginBottom: '2px' }}>
-                          {option.city?.name}
+            filteredOptions.map((option, index) => (
+              <div
+                key={option.Id || option.id || index}
+                onClick={() => handleSelect(option)}
+                style={{
+                  padding: '12px 16px',
+                  cursor: 'pointer',
+                  color: '#1E232C',
+                  fontWeight: 500,
+                  background: '#fff',
+                  transition: 'background 0.15s',
+                  fontFamily: 'Inter, sans-serif',
+                  fontSize: '0.9rem',
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '12px'
+                }}
+                onMouseOver={e => e.currentTarget.style.background = '#8ECAE6'}
+                onMouseOut={e => e.currentTarget.style.background = '#fff'}
+              >
+                <span style={{
+                  fontSize: '1.2rem',
+                  color: '#0E597E',
+                  width: '20px',
+                  textAlign: 'center'
+                }}>
+                  {getLocationIcon(option.type)}
+                </span>
+                <div style={{ flex: 1 }}>
+                  {option.type === SearchSuggestionType.CityOrDestination && (
+                    <>
+                      <div style={{ fontWeight: 600, marginBottom: '2px' }}>
+                        {option.city?.name}
+                      </div>
+                      {option.country?.name && (
+                        <div style={{
+                          fontSize: '0.8rem',
+                          color: '#6B7280',
+                          fontWeight: 400
+                        }}>
+                          {option.country.name}
                         </div>
-                        {option.country?.name && (
-                          <div style={{
-                            fontSize: '0.8rem',
-                            color: '#6B7280',
-                            fontWeight: 400
-                          }}>
-                            {option.country.name}
-                          </div>
-                        )}
-                      </>
-                    )}
-                    {/* Accessing option.type with lowercase 't' */}
-                    {option.type === SearchSuggestionType.Hotel && (
-                      <>
-                        {/* Accessing properties with lowercase first letter as per API response */}
-                        <div style={{ fontWeight: 600, marginBottom: '2px' }}>
-                          {option.hotel?.name || option.hotel?.internationalName}
+                      )}
+                    </>
+                  )}
+                  {option.type === SearchSuggestionType.Hotel && (
+                    <>
+                      <div style={{ fontWeight: 600, marginBottom: '2px' }}>
+                        {option.hotel?.name || option.hotel?.internationalName}
+                      </div>
+                      {(option.city?.name || option.country?.name) && (
+                        <div style={{
+                          fontSize: '0.8rem',
+                          color: '#6B7280',
+                          fontWeight: 400
+                        }}>
+                          {option.city?.name}{option.city?.name && option.country?.name ? ', ' : ''}{option.country?.name}
                         </div>
-                        {(option.city?.name || option.country?.name) && (
-                          <div style={{
-                            fontSize: '0.8rem',
-                            color: '#6B7280',
-                            fontWeight: 400
-                          }}>
-                            {option.city?.name}{option.city?.name && option.country?.name ? ', ' : ''}{option.country?.name}
-                          </div>
-                        )}
-                      </>
-                    )}
-                  </div>
+                      )}
+                    </>
+                  )}
                 </div>
-              );
-            })
+              </div>
+            ))
           ) : !loading && !error && location.trim().length >= 4 ? (
             <div style={{
               padding: '16px',
