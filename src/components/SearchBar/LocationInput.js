@@ -47,6 +47,7 @@ function LocationInput() {
   const [loading, setLoading] = useState(false);
   const [filteredOptions, setFilteredOptions] = useState([]);
   const locationRef = useRef(null);
+  const inputRef = useRef(null);
 
   useEffect(() => {
     function handleClickOutside(event) {
@@ -86,11 +87,21 @@ function LocationInput() {
     setFilteredOptions([]);
   };
 
+  const handleBoxClick = () => {
+    if (inputRef.current) {
+      inputRef.current.focus();
+      if (location.length >= 4) {
+        setDropdownOpen(true);
+      }
+    }
+  };
+
   return (
     <div
       className="location-box"
       ref={locationRef}
       style={{ marginLeft: 8, display: 'flex', alignItems: 'center', background: '#fff', borderRadius: 16, padding: '10px 20px 10px 14px', boxShadow: '0 2px 8px rgba(0,0,0,0.06)', position: 'relative', minWidth: 200, userSelect: 'none', transition: 'box-shadow 0.2s' }}
+      onClick={handleBoxClick}
     >
       <span style={{ background: '#F9FAFB', borderRadius: '50%', width: 32, height: 32, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '1.4rem', color: '#0E597E', marginRight: 10 }}>
         <FaFlag style={{ color: '#0E597E' }} />
@@ -106,6 +117,7 @@ function LocationInput() {
             setDropdownOpen(true);
           }
         }}
+        ref={inputRef}
         style={{ 
           border: 'none', 
           outline: 'none', 
@@ -117,13 +129,14 @@ function LocationInput() {
           transition: 'color 0.2s', 
           fontFamily: 'Inter, sans-serif' 
         }}
+        onClick={e => e.stopPropagation()}
       />
       {dropdownOpen && (
         <div style={{ 
           position: 'absolute', 
           top: '110%', 
           left: 0, 
-          zIndex: 100, 
+          zIndex: 120, 
           background: '#fff', 
           borderRadius: 12, 
           boxShadow: '0 4px 20px rgba(0,0,0,0.15)', 

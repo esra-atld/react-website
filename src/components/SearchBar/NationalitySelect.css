@@ -3,7 +3,7 @@
   align-items: center;
   background: #fff;
   border-radius: 16px;
-  padding: 10px 20px 10px 14px;
+  padding: 10px 23px 10px 16px;
   box-shadow: 0 2px 8px rgba(0,0,0,0.06);
   min-width: 100px;
   user-select: none;
@@ -11,12 +11,12 @@
   cursor: pointer;
 }
 .nationality-icon {
-  margin-right: 10px;
+  margin-right: 2px;
   font-size: 1.4rem;
 }
 .nationality-text {
   font-weight: 700;
-  font-size: 0.95rem;
+  font-size: 0.90rem;
   color: #1E232C;
 }
 .nationality-dropdown {

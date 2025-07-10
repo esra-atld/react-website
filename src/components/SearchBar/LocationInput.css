@@ -6,7 +6,8 @@
   padding: 10px 20px 10px 14px;
   box-shadow: 0 2px 8px rgba(0,0,0,0.06);
   position: relative;
-  min-width: 200px;
+  flex: 1 1 auto;
+  max-width: 400px;
   user-select: none;
   transition: box-shadow 0.2s;
   cursor: pointer;
@@ -18,7 +19,10 @@
   color: #1E232C;
   font-size: 0.92rem;
   background: transparent;
-  width: 200px;
+  width: 100%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
   transition: color 0.2s;
   font-family: 'Inter', sans-serif;
 }

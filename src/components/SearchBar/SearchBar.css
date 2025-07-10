@@ -11,7 +11,9 @@
   box-shadow: 0 4px 16px rgba(0,0,0,0.08);
   position: relative;
   padding-left: 0px;
-  padding-right: 32px;
+  padding-right: 16px;
+  overflow: visible;
+  z-index: 5;
 }
 
 .currency-box {
@@ -20,7 +22,7 @@
   background: #fff;
   border-radius: 16px;
   padding: 8px 12px 8px 10px;
-  margin-left: 24px;
+  margin-left: 16px;
   cursor: pointer;
   box-shadow: 0 2px 8px rgba(0,0,0,0.06);
   position: relative;
@@ -83,7 +85,7 @@
   background: #fff;
   border-radius: 16px;
   padding: 8px 12px 8px 10px;
-  margin-left: 16px;
+  margin-left: 4px;
   cursor: pointer;
   box-shadow: 0 2px 8px rgba(0,0,0,0.06);
   position: relative;
@@ -165,6 +167,29 @@
 .currency-dropdown div,
 .nationality-dropdown div {
   color: #1E232C;
+}
+
+@media (max-width: 700px) {
+  .search-bar-box {
+    flex-wrap: wrap;
+    height: auto;
+    padding: 8px 4vw;
+    min-width: 0;
+  }
+  .currency-box, .nationality-box, .location-box, .date-range-box, .guest-box {
+    margin-left: 0 !important;
+    margin-top: 8px;
+    margin-bottom: 8px;
+    min-width: 0;
+    width: 100%;
+    max-width: 100%;
+  }
+  .search-btn {
+    margin-left: 0 !important;
+    width: 100%;
+    min-width: 0;
+    margin-top: 8px;
+  }
 }
 
  
