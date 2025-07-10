@@ -6,8 +6,8 @@ import { DateRange } from 'react-date-range';
 import 'react-date-range/dist/styles.css';
 import 'react-date-range/dist/theme/default.css';
 import { tr } from 'date-fns/locale';
-import SearchBar from './components/SearchBar/SearchBar';
-import PopularDestinations from './components/PopularDestinations/PopularDestinations';
+import SearchBar from './search-page/SearchBar/SearchBar';
+import PopularDestinations from './search-page/PopularDestinations/PopularDestinations';
 
 function formatRange(start, end) {
   if (!start || !end) return 'Check-in — Check-out';
