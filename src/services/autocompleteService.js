@@ -1,5 +1,5 @@
 // services/autocompleteService.js
-
+import baseApi from './baseApi';
 /**
  * @typedef {Object} GetArrivalAutocompleteRequestDto
  * @property {number} ProductType - The type of product (e.g., 1 for flight, 2 for hotel).
@@ -70,32 +70,14 @@
  * @returns {Promise<BackendSearchItem[]>} A promise that resolves to an array of BackendSearchItem, or an empty array if no items are found or an error occurs.
  */
 export const getArrivalAutocomplete = async (requestData) => {
-    // IMPORTANT: Replace with your actual API endpoint
-    const API_ENDPOINT = 'http://localhost:5045/api/getarrivalautocomplete';
-
     try {
-        const response = await fetch(API_ENDPOINT, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                // Add any other headers like authorization tokens if required
-            },
-            body: JSON.stringify(requestData),
-        });
-
-        if (!response.ok) {
-            const errorText = await response.text();
-            throw new Error(`API Error: ${response.status} ${response.statusText} - ${errorText}`);
-        }
-
-        /** @type {GetArrivalAutocompleteResponseDto} */
-        const data = await response.json();
-
-        // Corrected: Access 'body.items' with lowercase 'b' and 'i'
-        return data.body?.items || [];
+      /** @type {GetArrivalAutocompleteResponseDto} */
+      const data = await baseApi.post('/getarrivalautocomplete', requestData);
+  
+      return data.body?.items || [];
     } catch (error) {
-        console.error('Error fetching autocomplete suggestions:', error);
-        // In a real application, you might want to show a user-friendly error message
-        throw error; // Re-throw to be handled by the component
+      console.error('Error fetching autocomplete suggestions:', error);
+      throw error;
     }
-};
+  };
+

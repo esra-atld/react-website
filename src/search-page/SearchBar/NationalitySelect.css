@@ -30,6 +30,9 @@
   padding: 8px 0;
   min-width: 120px;
   border: 1px solid #E5E7EB;
+
+  max-height: 200px;      /* Limit the dropdown height */
+  overflow-y: auto;       /* Enable vertical scroll when needed */
 }
 
 .nationality-dropdown > div {
