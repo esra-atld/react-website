@@ -1,10 +1,18 @@
 import React, { useState, useRef, useEffect } from 'react';
+import { getCurrencies } from '../../services/currencyService';
 import './CurrencySelect.css';
 
 function CurrencySelect() {
-  const [currency, setCurrency] = useState('USD');
+  const [selectedCurrency, setSelectedCurrency] = useState('TRY');
+  const [currencies, setCurrencies] = useState([]);
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const currencyRef = useRef(null);
+
+  useEffect(() => {
+    getCurrencies()
+      .then((data) => setCurrencies(data))
+      .catch((error) => console.error('Failed to fetch currencies:', error));
+  }, []);
 
   useEffect(() => {
     function handleClickOutside(event) {
@@ -18,23 +26,29 @@ function CurrencySelect() {
     };
   }, []);
 
+  const handleCurrencySelect = (code) => {
+    setSelectedCurrency(code);
+    localStorage.setItem('currency', code); // save for later requests
+    setDropdownOpen(false);
+  };
+
   return (
     <div
       className="currency-box"
-      onClick={() => setDropdownOpen((open) => !open)}
+      onClick={() => setDropdownOpen(!dropdownOpen)}
       ref={currencyRef}
     >
       <span className="currency-icon">💲</span>
-      <span className="currency-text">{currency}</span>
+      <span className="currency-text">{selectedCurrency}</span>
       {dropdownOpen && (
         <div className="currency-dropdown">
-          {['USD', 'EUR', 'GBP', 'TRY'].map((cur) => (
+          {currencies.map((cur) => (
             <div
-              key={cur}
+              key={cur.code}
               className="currency-option"
-              onClick={() => { setCurrency(cur); setDropdownOpen(false); }}
+              onClick={() => handleCurrencySelect(cur.code)}
             >
-              {cur}
+              {cur.code}
             </div>
           ))}
         </div>
@@ -43,4 +57,4 @@ function CurrencySelect() {
   );
 }
 
-export default CurrencySelect; 
+export default CurrencySelect;
