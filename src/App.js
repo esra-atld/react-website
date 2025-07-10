@@ -27,7 +27,7 @@ function App() {
   const [dropdownOpen, setDropdownOpen] = useState(false); // Corresponds to currency dropdown
   const currencyRef = useRef(null);
 
-  const [nationality, setNationality] = useState('Turkey'); // Example: if NationalitySelect is controlled here
+  const [nationality, setNationality] = useState('TUR'); // Example: if NationalitySelect is controlled here
   const [nationalityDropdownOpen, setNationalityDropdownOpen] = useState(false);
   const nationalityRef = useRef(null);
 
