@@ -44,7 +44,7 @@ body, .App {
   max-width: 1200px;
   width: auto;
   padding-left: 36px !important;
-  padding-right: 32px;
+  padding-right: 16px;
   display: flex;
   justify-content: flex-start;
   align-items: center;

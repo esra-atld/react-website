@@ -1,7 +1,5 @@
 import React, {useState} from 'react';
 import './SearchBar.css';
-import CurrencySelect from './CurrencySelect';
-import NationalitySelect from './NationalitySelect';
 import LocationInput from './LocationInput';
 import DateRangePickerComponent from './DateRangePicker';
 import GuestSelector from './GuestSelector';
@@ -13,8 +11,6 @@ export function SearchBar() {
 
   return (
     <div className="search-bar-box">
-      <CurrencySelect />
-      <NationalitySelect />
       <LocationInput onLocationSelect={setSelectedLocation} />
       <DateRangePickerComponent selectedLocation={selectedLocation} />
       <GuestSelector />

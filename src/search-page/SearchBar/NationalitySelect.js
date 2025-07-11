@@ -46,9 +46,8 @@ function NationalitySelect({ onNationalityChange }) {
       ref={nationalityRef}
       style={{ marginLeft: 8 }}
     >
-      <span className="nationality-icon">🌍</span>
       <span className="nationality-text">
-        {selectedNationality?.threeLetterCode || 'Select Nationality'}
+        {selectedNationality?.threeLetterCode || 'TUR'}
       </span>
 
       {dropdownOpen && (

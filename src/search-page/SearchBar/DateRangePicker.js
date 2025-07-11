@@ -14,7 +14,7 @@ function formatRange(start, end) {
   const gunler = ['Paz', 'Pzt', 'Sal', 'Çar', 'Per', 'Cum', 'Cmt'];
   const s = new Date(start);
   const e = new Date(end);
-  return `${s.getDate()} ${aylar[s.getMonth()]} ${s.getFullYear()}, ${gunler[s.getDay()]} - ${e.getDate()} ${aylar[e.getMonth()]} ${e.getFullYear()}, ${gunler[e.getDay()]}`;
+  return `${s.getDate()} ${aylar[s.getMonth()]} , ${gunler[s.getDay()]} - ${e.getDate()} ${aylar[e.getMonth()]}, ${gunler[e.getDay()]}`;
 }
 
 function DateRangePickerComponent({ selectedLocation }) {

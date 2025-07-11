@@ -38,7 +38,6 @@ function CurrencySelect() {
       onClick={() => setDropdownOpen(!dropdownOpen)}
       ref={currencyRef}
     >
-      <span className="currency-icon">💲</span>
       <span className="currency-text">{selectedCurrency}</span>
       {dropdownOpen && (
         <div className="currency-dropdown">

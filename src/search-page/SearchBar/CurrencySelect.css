@@ -1,11 +1,11 @@
 .currency-box {
   display: flex;
   align-items: center;
-  background: #fff;
+  background: transparent;
   border-radius: 16px;
-  padding: 10px 20px 10px 14px;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.06);
-  min-width: 100px;
+  padding: 8px 16px 8px 12px;
+  box-shadow: none;
+  min-width: 80px;
   user-select: none;
   position: relative;
   cursor: pointer;
@@ -15,9 +15,10 @@
   font-size: 1.4rem;
 }
 .currency-text {
-  font-weight: 700;
-  font-size: 0.95rem;
-  color: #1E232C;
+  font-weight: 600;
+  font-size: 1.5rem;
+  color: white;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
 }
 .currency-dropdown {
   position: absolute;

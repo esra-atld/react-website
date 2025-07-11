@@ -11,6 +11,8 @@ import React, { useState, useRef, useEffect } from 'react';
 // Corrected import paths based on your latest App.js provided
 import SearchBar from './search-page/SearchBar/SearchBar';
 import PopularDestinations from './search-page/PopularDestinations/PopularDestinations';
+import NationalitySelect from './search-page/SearchBar/NationalitySelect';
+import CurrencySelect from './search-page/SearchBar/CurrencySelect';
 
 function formatRange(start, end) {
   if (!start || !end) return 'Check-in — Check-out';
@@ -111,10 +113,26 @@ function App() {
           </span>
           <h1 className="site-name">Tripora</h1>
         </div>
+        <div style={{ position: 'absolute', right: '16px', top: '50%', transform: 'translateY(-50%)', display: 'flex', gap: '20px', alignItems: 'center' }}>
+          <CurrencySelect />
+          <div style={{ width: '1.5px', height: '20px', backgroundColor: 'white' }}></div>
+          <NationalitySelect />
+          <div style={{ width: '1.5px', height: '20px', backgroundColor: 'white' }}></div>
+          <div style={{ 
+            fontWeight: '600', 
+            fontSize: '1.5rem', 
+            color: 'white', 
+            textShadow: '0 2px 4px rgba(0, 0, 0, 0.3)',
+            cursor: 'pointer',
+            userSelect: 'none'
+          }}>
+            Yardım
+          </div>
+        </div>
       </div>
 
       {/* Search Bar Box */}
-      <div style={{ marginTop: '150px', display: 'flex', justifyContent: 'center', width: '100%' }}>
+      <div style={{ marginTop: '40px', display: 'flex', justifyContent: 'center', width: '100%', marginBottom: '40px' }}>
           <SearchBar /> {/* Your SearchBar component is rendered here */}
       </div>
 

@@ -9,7 +9,8 @@
   user-select: none;
   position: relative;
   cursor: pointer;
-  margin-left: 14px;
+  margin-left: auto;
+  margin-right: -4px;
   transition: box-shadow 0.2s;
 }
 
