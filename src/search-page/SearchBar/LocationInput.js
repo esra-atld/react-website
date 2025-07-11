@@ -3,7 +3,7 @@ import { FaFlag, FaMapMarkerAlt, FaHotel } from 'react-icons/fa';
 import './LocationInput.css';
 import { getArrivalAutocomplete } from '../../services/autocompleteService';
 
-const SearchSuggestionType = {
+export const SearchSuggestionType = {
     CityOrDestination: 1,
     Hotel: 2,
 };
