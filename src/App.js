@@ -137,7 +137,9 @@ function App() {
       </div>
 
       {/* Popular Destinations */}
+      <div class="PD-container"> 
       <PopularDestinations />
+      </div>  
 
       <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
