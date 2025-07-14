@@ -23,7 +23,7 @@ public class HotelDto
     public int StopSaleStandart { get; set; }
     public List<object> Handicaps { get; set; }
     public GeoLocationDto Geolocation { get; set; }
-    public int Stars { get; set; }
+    public double Stars { get; set; }
     public double Rating { get; set; }
     public List<object> Themes { get; set; }
     public LocationDto Location { get; set; }
