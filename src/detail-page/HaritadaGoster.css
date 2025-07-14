@@ -1,0 +1,22 @@
+.haritada-goster-link {
+  display: inline-flex;
+  align-items: center;
+  font-family: 'Inter', sans-serif;
+  font-size: 1rem;
+  color: #1976d2;
+  text-decoration: underline;
+  cursor: pointer;
+  margin-top: 2px;
+  margin-left: 2px;
+  font-weight: 500;
+  transition: color 0.15s;
+}
+
+.haritada-goster-link:hover {
+  color: #0d47a1;
+}
+
+.harita-ikon {
+  font-size: 1.1em;
+  margin-right: 4px;
+} 

@@ -3,6 +3,8 @@ import Header from '../components/Header';
 import SearchBar from '../search-page/SearchBar/SearchBar';
 import Sidebar from './Sidebar';
 import './DetailPage.css';
+import SortCriteriaButton from './SortCriteriaButton';
+import OtelKartlari from './OtelKartlari';
 
 function DetailPage() {
   const handleSearch = () => {
@@ -16,11 +18,11 @@ function DetailPage() {
       <div className="search-section">
         <SearchBar onSearch={handleSearch} />
       </div>
+      <SortCriteriaButton />
       <div className="detail-content">
         <Sidebar />
         <div className="detail-container">
-          <h1>Detay Sayfası</h1>
-          <p>Bu sayfa tasarlanacak...</p>
+          <OtelKartlari />
         </div>
       </div>
     </div>
