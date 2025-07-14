@@ -5,7 +5,7 @@
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
   height: fit-content;
   position: sticky;
-  top: 140px;
+  top: 40px;
   margin-right: 20px;
   flex-shrink: 0;
 }
@@ -69,44 +69,6 @@
 .hotel-marker {
   background: transparent !important;
   border: none !important;
-}
-
-.map-overlay {
-  position: absolute;
-  top: 0;
-  right: 0;
-  padding: 8px;
-  z-index: 1000;
-  pointer-events: none;
-}
-
-.map-controls {
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-  pointer-events: auto;
-}
-
-.map-zoom-in, .map-zoom-out {
-  width: 32px;
-  height: 32px;
-  border-radius: 6px;
-  border: none;
-  background: rgba(255, 255, 255, 0.9);
-  color: #1E232C;
-  font-size: 16px;
-  font-weight: 600;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: all 0.2s;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
-
-.map-zoom-in:hover, .map-zoom-out:hover {
-  background: rgba(255, 255, 255, 1);
-  transform: scale(1.05);
 }
 
 .map-info {

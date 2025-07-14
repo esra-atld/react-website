@@ -11,12 +11,6 @@ function Sidebar() {
           <h3>Harita</h3>
           <div className="map-container">
             <LeafletMap />
-            <div className="map-overlay">
-              <div className="map-controls">
-                <button className="map-zoom-in">+</button>
-                <button className="map-zoom-out">-</button>
-              </div>
-            </div>
           </div>
           <div className="map-info">
             <p>Antalya bölgesindeki oteller</p>
