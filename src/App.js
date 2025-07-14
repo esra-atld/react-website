@@ -1,18 +1,15 @@
 import logo from './logo.svg';
 import './App.css';
-import { FaMapMarkerAlt } from 'react-icons/fa'; // Only FaMapMarkerAlt is used in this App.js for the header icon
+import { FaMapMarkerAlt } from 'react-icons/fa';
 import React, { useState, useRef, useEffect } from 'react';
-// DateRange and related imports are expected to be handled within DateRangePickerComponent
-// import { DateRange } from 'react-date-range';
-// import 'react-date-range/dist/styles.css';
-// import 'react-date-range/dist/theme/default.css';
-// import { tr } from 'date-fns/locale';
+import { BrowserRouter as Router, Routes, Route, useNavigate } from 'react-router-dom';
 
-// Corrected import paths based on your latest App.js provided
 import SearchBar from './search-page/SearchBar/SearchBar';
 import PopularDestinations from './search-page/PopularDestinations/PopularDestinations';
 import NationalitySelect from './search-page/SearchBar/NationalitySelect';
 import CurrencySelect from './search-page/SearchBar/CurrencySelect';
+import DetailPage from './detail-page/DetailPage';
+import Header from './components/Header';
 
 function formatRange(start, end) {
   if (!start || !end) return 'Check-in — Check-out';
@@ -23,17 +20,17 @@ function formatRange(start, end) {
   return `${s.getDate()} ${aylar[s.getMonth()]}, ${gunler[s.getDay()]} - ${e.getDate()} ${aylar[e.getMonth()]}, ${gunler[e.getDay()]}`;
 }
 
-function App() {
-  
-  const [currency, setCurrency] = useState('USD'); // Example: if CurrencySelect is controlled here
-  const [dropdownOpen, setDropdownOpen] = useState(false); // Corresponds to currency dropdown
+// Ana sayfa bileşeni
+function HomePage() {
+  const [currency, setCurrency] = useState('USD');
+  const [dropdownOpen, setDropdownOpen] = useState(false);
   const currencyRef = useRef(null);
 
-  const [nationality, setNationality] = useState('TUR'); // Example: if NationalitySelect is controlled here
+  const [nationality, setNationality] = useState('TUR');
   const [nationalityDropdownOpen, setNationalityDropdownOpen] = useState(false);
   const nationalityRef = useRef(null);
 
-  const [range, setRange] = useState([ // Example: if DateRangePickerComponent is controlled here
+  const [range, setRange] = useState([
     {
       startDate: null,
       endDate: null,
@@ -43,13 +40,14 @@ function App() {
   const [calendarOpen, setCalendarOpen] = useState(false);
   const dateBoxRef = useRef(null);
 
-  const [guestDropdownOpen, setGuestDropdownOpen] = useState(false); // Example: if GuestSelector is controlled here
+  const [guestDropdownOpen, setGuestDropdownOpen] = useState(false);
   const guestRef = useRef(null);
   const [adults, setAdults] = useState(1);
   const [children, setChildren] = useState(0);
   const [rooms, setRooms] = useState(1);
   const [childrenAges, setChildrenAges] = useState([]);
 
+  const navigate = useNavigate();
 
   useEffect(() => {
     function handleClickOutside(event) {
@@ -59,7 +57,6 @@ function App() {
       if (nationalityRef.current && !nationalityRef.current.contains(event.target)) {
         setNationalityDropdownOpen(false);
       }
-      // locationRef and setLocationDropdownOpen removed - handled by LocationInput
       if (dateBoxRef.current && !dateBoxRef.current.contains(event.target)) {
         setCalendarOpen(false);
       }
@@ -73,7 +70,6 @@ function App() {
     };
   }, []);
 
-  // Children age update logic (should ideally be inside GuestSelector)
   useEffect(() => {
     if (children > childrenAges.length) {
       setChildrenAges([...childrenAges, null]);
@@ -82,22 +78,23 @@ function App() {
     }
   }, [children, childrenAges.length]);
 
-  // Guest count calculation (should ideally be inside GuestSelector)
   const totalGuests = adults + children;
   const guestText = `${totalGuests} Misafir, ${rooms} Oda`;
 
-  // Child age update function (should ideally be inside GuestSelector)
   const updateChildAge = (index, age) => {
     const newAges = [...childrenAges];
     newAges[index] = age;
     setChildrenAges(newAges);
   };
 
+  const handleSearch = () => {
+    // Search butonuna basıldığında detay sayfasına yönlendir
+    navigate('/detail');
+  };
+
   return (
     <div className="App">
-      {/* Load Tailwind CSS */}
       <script src="https://cdn.tailwindcss.com"></script>
-      {/* Set Inter font */}
       <style>
           {`
           body {
@@ -105,40 +102,15 @@ function App() {
           }
           `}
       </style>
-      {/* Top Header Bar */}
-      <div className="top-header-bar">
-        <div className="header-content">
-          <span className="travel-icon">
-            <FaMapMarkerAlt />
-          </span>
-          <h1 className="site-name">Tripora</h1>
-        </div>
-        <div style={{ position: 'absolute', right: '16px', top: '50%', transform: 'translateY(-50%)', display: 'flex', gap: '20px', alignItems: 'center' }}>
-          <CurrencySelect />
-          <div style={{ width: '1.5px', height: '20px', backgroundColor: 'white' }}></div>
-          <NationalitySelect />
-          <div style={{ width: '1.5px', height: '20px', backgroundColor: 'white' }}></div>
-          <div style={{ 
-            fontWeight: '600', 
-            fontSize: '1.5rem', 
-            color: 'white', 
-            textShadow: '0 2px 4px rgba(0, 0, 0, 0.3)',
-            cursor: 'pointer',
-            userSelect: 'none'
-          }}>
-            Yardım
-          </div>
-        </div>
-      </div>
+      
+      <Header />
 
-      {/* Search Bar Box */}
       <div style={{ marginTop: '40px', display: 'flex', justifyContent: 'center', width: '100%', marginBottom: '40px' }}>
-          <SearchBar /> {/* Your SearchBar component is rendered here */}
+          <SearchBar onSearch={handleSearch} />
       </div>
 
-      {/* Popular Destinations */}
-      <div class="PD-container"> 
-      <PopularDestinations />
+      <div className="PD-container"> 
+        <PopularDestinations />
       </div>  
 
       <header className="App-header">
@@ -156,6 +128,18 @@ function App() {
         </a>
       </header>
     </div>
+  );
+}
+
+// Ana App bileşeni
+function App() {
+  return (
+    <Router>
+      <Routes>
+        <Route path="/" element={<HomePage />} />
+        <Route path="/detail" element={<DetailPage />} />
+      </Routes>
+    </Router>
   );
 }
 
