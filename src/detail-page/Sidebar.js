@@ -2,9 +2,9 @@ import React from 'react';
 import './Sidebar.css';
 import LeafletMap from './LeafletMap';
 
-function Sidebar() {
+function Sidebar({ style }) {
   return (
-    <div className="sidebar">
+    <div className="sidebar" style={style}>
       <div className="sidebar-content">
         {/* Harita Bölümü */}
         <div className="map-section">

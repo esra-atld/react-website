@@ -107,7 +107,7 @@ function DetailPage() {
       </div>
       <SortCriteriaButton />
       <div className="detail-content">
-        <Sidebar />
+        <Sidebar style={{ marginTop: "0px" }} />
         <div className="detail-container">
           {hotels.map((hotel) => (
             <OtelKartlari key={hotel.id} hotel={hotel} />
