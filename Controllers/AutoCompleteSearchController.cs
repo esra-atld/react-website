@@ -10,9 +10,9 @@ namespace BackendSan.Controllers
 {
     [ApiController]
     [Route("api")]
-    public class RelayController : BaseApiController
+    public class AutoCompleteSearchController : BaseApiController
     {
-        public RelayController(RelayService relayService) : base(relayService)
+        public AutoCompleteSearchController(RelayService relayService) : base(relayService)
         {
             
         }

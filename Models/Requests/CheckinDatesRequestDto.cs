@@ -5,8 +5,8 @@ namespace BackendSan.Models.Requests
 {
     public class ArrivalLocationDto
     {
-        public string Id { get; set; }
-        public int Type { get; set; }
+        public string id { get; set; }
+        public int type { get; set; }
     }
 
     public class CheckinDatesRequestDto
