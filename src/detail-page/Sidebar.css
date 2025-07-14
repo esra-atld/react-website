@@ -24,6 +24,112 @@
   padding-bottom: 12px;
 }
 
+/* Harita Bölümü Stilleri */
+.map-section {
+  margin-bottom: 32px;
+}
+
+.map-section h3 {
+  margin-bottom: 16px;
+  border-bottom: none;
+  padding-bottom: 0;
+}
+
+.map-container {
+  position: relative;
+  width: 100%;
+  height: 200px;
+  border-radius: 12px;
+  overflow: hidden;
+  margin-bottom: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Leaflet harita stilleri */
+.map-container .leaflet-container {
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.map-container .leaflet-popup-content-wrapper {
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.map-container .leaflet-popup-content {
+  margin: 0;
+  padding: 0;
+}
+
+.map-container .leaflet-popup-tip {
+  background: white;
+}
+
+/* Otel işaretleyici stilleri */
+.hotel-marker {
+  background: transparent !important;
+  border: none !important;
+}
+
+.map-overlay {
+  position: absolute;
+  top: 0;
+  right: 0;
+  padding: 8px;
+  z-index: 1000;
+  pointer-events: none;
+}
+
+.map-controls {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  pointer-events: auto;
+}
+
+.map-zoom-in, .map-zoom-out {
+  width: 32px;
+  height: 32px;
+  border-radius: 6px;
+  border: none;
+  background: rgba(255, 255, 255, 0.9);
+  color: #1E232C;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.map-zoom-in:hover, .map-zoom-out:hover {
+  background: rgba(255, 255, 255, 1);
+  transform: scale(1.05);
+}
+
+.map-info {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.map-info p {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.9rem;
+  color: #374151;
+  margin: 0;
+  font-weight: 500;
+}
+
+.hotel-count {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.8rem;
+  color: #6B7280;
+  font-weight: 400;
+}
+
 .filter-section {
   margin-bottom: 24px;
 }

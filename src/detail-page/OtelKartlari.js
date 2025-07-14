@@ -2,21 +2,24 @@ import React from 'react';
 import './OtelKartlari.css';
 import HaritadaGoster from './HaritadaGoster';
 
-function OtelKartlari() {
-  const yildizSayisi = 3; // örnek olarak 3 yıldız aktif
+function OtelKartlari({ hotel }) {
+  const yildizSayisi = hotel.stars || 3; // örnek olarak 3 yıldız aktif
   return (
     <div className="otel-kartlari-box">
       <div className="otel-image-area">
-        <img src="https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=400&q=80" alt="Otel" className="otel-image" />
+        <img src={hotel.image} alt={hotel.name} className="otel-image" />
       </div>
       <div className="otel-main-content">
         <div className="otel-header">
-          <span className="otel-isim">Akra Antalya</span>
-          <span className="otel-adres">Eski lara, Muratpaşa, Antalya</span>
+          <span className="otel-isim">{hotel.name}</span>
+          <span className="otel-adres">{hotel.address}</span>
           <HaritadaGoster />
           <div className="otel-ozellikler">
-            <span className="ozellik"><span className="ozellik-ikon">🏊‍♂️</span> Havuz</span>
-            <span className="ozellik"><span className="ozellik-ikon">💆‍♀️</span> Spa</span>
+            {hotel.amenities.map((amenity, index) => (
+              <span key={index} className="ozellik">
+                <span className="ozellik-ikon">{amenity.icon}</span> {amenity.name}
+              </span>
+            ))}
           </div>
         </div>
         <div className="otel-yildiz-bolumu">
@@ -30,8 +33,8 @@ function OtelKartlari() {
         </div>
       </div>
       <div className="otel-fiyat-bolumu">
-        <span className="otel-fiyat">43.742 TL</span>
-        <span className="otel-fiyat-detay">3 gece, 1 oda için<br/>Gecelik 14.581 TL<br/>vergiler ve ücretler dahildir</span>
+        <span className="otel-fiyat">{hotel.price}</span>
+        <span className="otel-fiyat-detay">{hotel.priceDetails}</span>
         <button className="oda-sec-btn">Oda Seç</button>
       </div>
     </div>

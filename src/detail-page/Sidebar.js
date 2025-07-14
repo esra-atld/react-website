@@ -1,11 +1,29 @@
 import React from 'react';
 import './Sidebar.css';
+import LeafletMap from './LeafletMap';
 
 function Sidebar() {
   return (
     <div className="sidebar">
       <div className="sidebar-content">
-        <h3>Filtreler</h3>
+        {/* Harita Bölümü */}
+        <div className="map-section">
+          <h3>Harita</h3>
+          <div className="map-container">
+            <LeafletMap />
+            <div className="map-overlay">
+              <div className="map-controls">
+                <button className="map-zoom-in">+</button>
+                <button className="map-zoom-out">-</button>
+              </div>
+            </div>
+          </div>
+          <div className="map-info">
+            <p>Antalya bölgesindeki oteller</p>
+            <span className="hotel-count">6 otel bulundu</span>
+          </div>
+        </div>
+
         <div className="filter-section">
           <h4>Fiyat Aralığı</h4>
           <div className="price-range">
