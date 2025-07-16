@@ -16,7 +16,7 @@ namespace BackendSan.Controllers
 
         }
         [HttpPost("hotelPriceSearch")]
-        public async Task<IActionResult> HotelPriceSearch(HotelPriceSearchRequestDto requestDto)
+        public async Task<IActionResult> HotelPriceSearch(PriceSearchRequestDto requestDto)
         {
             var result = await Forward<PriceSearchResponseDto>("productservice/pricesearch", requestDto);
             
@@ -46,7 +46,7 @@ namespace BackendSan.Controllers
         }
 
         [HttpPost("locationPriceSearch")]
-        public async Task<IActionResult> PriceSearch(LocationPriceSearchRequestDto requestDto)
+        public async Task<IActionResult> PriceSearch(PriceSearchRequestDto requestDto)
         {
             var result = await Forward<PriceSearchResponseDto>("productservice/pricesearch", requestDto);
 
