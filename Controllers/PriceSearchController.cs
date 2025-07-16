@@ -15,14 +15,42 @@ namespace BackendSan.Controllers
         {
 
         }
+        [HttpPost("hotelPriceSearch")]
+        public async Task<IActionResult> HotelPriceSearch(HotelPriceSearchRequestDto requestDto)
+        {
+            var result = await Forward<PriceSearchResponseDto>("productservice/pricesearch", requestDto);
+            
+            if (result is OkObjectResult okResult && okResult.Value is PriceSearchResponseDto dto)
+            {
+                if (dto.Body?.hotels != null)
+                {
+                    var hotelsToKeep = new List<HotelDTO>();
+                    foreach (var hotel in dto.Body?.hotels ?? new List<HotelDTO>())
+                    {
+                        if (hotel.provider != 0 && hotel.provider != 1) 
+                        {
+                            if (hotel.description != null && !string.IsNullOrEmpty(hotel.description.text))
+                            {
+                                // Remove HTML tags from the hotel description
+                                hotel.description.text = RemoveHtmlTags(hotel.description.text);
+                                hotel.description.text = hotel.description.text.Trim();
+                            }
+                            hotelsToKeep.Add(hotel); 
+                        }
+                    }
+                    dto.Body.hotels = hotelsToKeep;
+                }
+                return Ok(dto);
+            }
+            return result;
+        }
 
         [HttpPost("locationPriceSearch")]
         public async Task<IActionResult> PriceSearch(LocationPriceSearchRequestDto requestDto)
         {
-            var result = await Forward<LocationPriceSearchResponseDto>("productservice/pricesearch", requestDto);
-            Console.WriteLine(result);
+            var result = await Forward<PriceSearchResponseDto>("productservice/pricesearch", requestDto);
 
-            if (result is OkObjectResult okResult && okResult.Value is LocationPriceSearchResponseDto dto)
+            if (result is OkObjectResult okResult && okResult.Value is PriceSearchResponseDto dto)
             {
                 if (dto.Body?.hotels != null)
                 {
