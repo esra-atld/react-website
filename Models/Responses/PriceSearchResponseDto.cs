@@ -2,11 +2,11 @@
 {
     public class PriceSearchResponseDto
     {
-        public LocationPriceSearchResponseBody? Body { get; set; }
+        public PriceSearchResponseBody? Body { get; set; }
         public HeaderDto? Header { get; set; } 
     }
 
-    public class LocationPriceSearchResponseBody
+    public class PriceSearchResponseBody
     {
         public string searchId { get; set; }
         public DateTime expiresOn { get; set; }
