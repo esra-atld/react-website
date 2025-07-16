@@ -1,6 +1,6 @@
 ﻿namespace BackendSan.Models.Responses
 {
-    public class LocationPriceSearchResponseDto
+    public class PriceSearchResponseDto
     {
         public LocationPriceSearchResponseBody? Body { get; set; }
         public HeaderDto? Header { get; set; } 
@@ -29,6 +29,7 @@
         public List<OfferDTO> offers { get; set; } 
         public string address { get; set; }
         public List<BoardDTO> boardGroups { get; set; }
+        public List<BoardDTO> boards { get; set; } 
         public List<BadgeDTO> badges { get; set; }
         public HotelCategory hotelCategory { get; set; }
         public int orderNumber { get; set; }
@@ -163,10 +164,11 @@
 
 
     }
+    
     public class  BoardDTO
     {
-        public string id { get; set; }
-        public string name { get; set; }
+        public string? id { get; set; }
+        public string? name { get; set; }
 
     }
 
