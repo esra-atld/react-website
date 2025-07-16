@@ -1,9 +1,14 @@
 import React from 'react';
 import './OtelKartlari.css';
 import HaritadaGoster from './HaritadaGoster';
+import { useNavigate } from 'react-router-dom';
 
 function OtelKartlari({ hotel }) {
   const yildizSayisi = hotel.stars || 3; // örnek olarak 3 yıldız aktif
+  const navigate = useNavigate();
+  const handleRoomSelect = () => {
+    navigate(`/room/${hotel.id}`);
+  };
   return (
     <div className="otel-kartlari-box">
       <div className="otel-image-area">
@@ -35,7 +40,7 @@ function OtelKartlari({ hotel }) {
       <div className="otel-fiyat-bolumu">
         <span className="otel-fiyat">{hotel.price}</span>
         <span className="otel-fiyat-detay">{hotel.priceDetails}</span>
-        <button className="oda-sec-btn">Oda Seç</button>
+        <button className="oda-sec-btn" onClick={handleRoomSelect}>Oda Seç</button>
       </div>
     </div>
   );

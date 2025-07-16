@@ -5,6 +5,7 @@ import Sidebar from './Sidebar';
 import './DetailPage.css';
 import SortCriteriaButton from './SortCriteriaButton';
 import OtelKartlari from './OtelKartlari';
+import RoomDetailPage from './RoomDetailPage'; // yeni import klasörden
 
 function DetailPage() {
   const handleSearch = () => {

@@ -9,6 +9,7 @@ import PopularDestinations from './search-page/PopularDestinations/PopularDestin
 import NationalitySelect from './search-page/SearchBar/NationalitySelect';
 import CurrencySelect from './search-page/SearchBar/CurrencySelect';
 import DetailPage from './detail-page/DetailPage';
+import RoomDetailPage from './detail-page/RoomDetailPage';
 import Header from './components/Header';
 
 function formatRange(start, end) {
@@ -138,6 +139,7 @@ function App() {
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/detail" element={<DetailPage />} />
+        <Route path="/room/:id" element={<RoomDetailPage />} />
       </Routes>
     </Router>
   );
