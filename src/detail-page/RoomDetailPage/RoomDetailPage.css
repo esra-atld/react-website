@@ -369,4 +369,111 @@
   position: absolute;
   left: 0.2em;
   top: 0.1em;
+}
+
+.about-section-title {
+  font-family: 'Inter', sans-serif;
+  font-weight: 700;
+  font-size: 18px;
+  color: #1E232C;
+  margin-top: 24px;
+  margin-bottom: 8px;
+}
+
+.about-section-desc {
+  font-family: 'Inter', sans-serif;
+  font-weight: 400;
+  color: #1E232C;
+  margin-bottom: 12px;
+  font-size: 16px;
+}
+
+.about-section-desc-grey {
+  color: #7B7B7B;
+}
+
+.about-section-features-row {
+  display: flex;
+  gap: 48px;
+  margin-bottom: 8px;
+}
+
+.about-section-features-row .about-section-list {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+@media (max-width: 600px) {
+  .about-section-features-row {
+    flex-direction: column;
+    gap: 12px;
+  }
+}
+
+.about-section-list {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 16px 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px 24px;
+}
+
+.about-section-list li {
+  font-size: 15px;
+  color: #1E232C;
+  font-family: 'Inter', sans-serif;
+  font-weight: 500;
+}
+
+.about-section-link {
+  color: #1668E3;
+  font-family: 'Inter', sans-serif;
+  font-weight: 600;
+  font-size: 15px;
+  text-decoration: none;
+  transition: text-decoration 0.2s;
+  margin-top: 4px;
+}
+
+.about-section-link:hover {
+  text-decoration: underline;
+}
+
+.about-section-divider {
+  width: 100%;
+  max-width: 800px;
+  height: 2px;
+  background: #E0E0E0;
+  margin: 20px 0 16px 0;
+  border: none;
+}
+
+.room-selection-title {
+  font-family: 'Inter', sans-serif;
+  font-weight: 700;
+  font-size: 22px;
+  color: #1E232C;
+  margin-bottom: 12px;
+}
+
+.room-selection-placeholder {
+  width: 100%;
+  max-width: 540px;
+  height: 320px;
+  background: #F3F6F9;
+  border-radius: 18px;
+  margin-bottom: 32px;
+  margin-top: 8px;
+  border: 1px solid #E0E0E0;
+}
+
+.hotel-title {
+  font-family: 'Inter', sans-serif;
+  font-weight: 800;
+  font-size: 28px;
+  color: #1E232C;
+  margin-bottom: 8px;
 } 

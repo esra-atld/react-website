@@ -2,9 +2,10 @@ import React from 'react';
 import './OtelKartlari.css';
 import HaritadaGoster from './HaritadaGoster';
 import { useNavigate } from 'react-router-dom';
+import { FaStar } from 'react-icons/fa';
+import PropTypes from 'prop-types';
 
 function OtelKartlari({ hotel }) {
-  const yildizSayisi = hotel.stars || 3; // örnek olarak 3 yıldız aktif
   const navigate = useNavigate();
   const handleRoomSelect = () => {
     navigate(`/room/${hotel.id}`);
@@ -20,20 +21,16 @@ function OtelKartlari({ hotel }) {
           <span className="otel-adres">{hotel.address}</span>
           <HaritadaGoster />
           <div className="otel-ozellikler">
-            {hotel.amenities.map((amenity, index) => (
-              <span key={index} className="ozellik">
+            {hotel.amenities.map((amenity) => (
+              <span key={amenity.name} className="ozellik">
                 <span className="ozellik-ikon">{amenity.icon}</span> {amenity.name}
               </span>
             ))}
           </div>
         </div>
-        <div className="otel-yildiz-bolumu">
-          {Array.from({ length: yildizSayisi }).map((_, i) => (
-            <span key={i} className="otel-yildiz">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="#FB8500">
-                <polygon points="12,2 15,9 22,9.5 17,14.5 18.5,22 12,18 5.5,22 7,14.5 2,9.5 9,9" />
-              </svg>
-            </span>
+        <div className="otel-yildizlar">
+          {[1,2,3,4,5].map((i) => (
+            <FaStar key={i} color={i <= (hotel.stars || 3) ? '#FFB703' : '#e0e0e0'} size={18} style={{marginRight: 2}} />
           ))}
         </div>
       </div>
@@ -45,5 +42,23 @@ function OtelKartlari({ hotel }) {
     </div>
   );
 }
+
+OtelKartlari.propTypes = {
+  hotel: PropTypes.shape({
+    id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
+    name: PropTypes.string.isRequired,
+    address: PropTypes.string.isRequired,
+    image: PropTypes.string.isRequired,
+    stars: PropTypes.number,
+    price: PropTypes.string.isRequired,
+    priceDetails: PropTypes.string.isRequired,
+    amenities: PropTypes.arrayOf(
+      PropTypes.shape({
+        name: PropTypes.string.isRequired,
+        icon: PropTypes.node.isRequired,
+      })
+    ).isRequired,
+  }).isRequired,
+};
 
 export default OtelKartlari; 
