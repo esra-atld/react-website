@@ -1,5 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { FaFlag, FaMapMarkerAlt, FaHotel } from 'react-icons/fa';
+import { FaSpinner } from 'react-icons/fa';
 import './LocationInput.css';
 import { getArrivalAutocomplete } from '../../services/autocompleteService';
 
@@ -138,42 +139,61 @@ function LocationInput({ onLocationSelect }) {
   };
 
   return (
-    <div
-      className="location-box"
-      ref={locationRef}
-      style={{ marginLeft: 8, display: 'flex', alignItems: 'center', background: '#fff', borderRadius: 16, padding: '10px 20px 10px 14px', boxShadow: '0 2px 8px rgba(0,0,0,0.06)', position: 'relative', minWidth: 200, userSelect: 'none', transition: 'box-shadow 0.2s', cursor: 'pointer' }}
-      onClick={handleBoxClick}
-    >
+      <div
+        className="location-box"
+        ref={locationRef}
+        style={{ 
+        marginLeft: 8, 
+        display: 'flex', 
+        alignItems: 'center', 
+        background: '#fff', 
+        borderRadius: 16, 
+        padding: '10px 20px 10px 14px', 
+        boxShadow: '0 2px 8px rgba(0,0,0,0.06)', 
+        position: 'relative', 
+        minWidth: 280, // Match dropdown minWidth
+        width: 280, // Fixed width
+        userSelect: 'none', 
+        transition: 'box-shadow 0.2s', 
+        cursor: 'pointer' 
+        }}
+        onClick={handleBoxClick}
+      >
       <span style={{ background: '#F9FAFB', borderRadius: '50%', width: 32, height: 32, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '1.4rem', color: '#0E597E', marginRight: 10 }}>
         <FaFlag style={{ color: '#0E597E' }} />
       </span>
       <input
-      type="text"
-      className="location-input"
-      placeholder="Nereye gitmek istersiniz?"
-      value={location}
-      onChange={handleChange}
-      onFocus={handleInputFocus}  // Changed from inline function to handler
-      ref={inputRef}
-      style={{
-        border: 'none',
-        outline: 'none',
-        fontWeight: 600,
-        color: '#1E232C',
-        fontSize: '0.92rem',
-        background: 'transparent',
-        width: 200,
-        transition: 'color 0.2s',
-        fontFamily: 'Inter, sans-serif'
-      }}
-      onClick={e => e.stopPropagation()}
-    />
+  type="text"
+  className="location-input"
+  placeholder="Nereye gitmek istersiniz?"
+  value={location}
+  onChange={handleChange}
+  onFocus={handleInputFocus}
+  ref={inputRef}
+  style={{
+    border: 'none',
+    outline: 'none',
+    fontWeight: 600,
+    color: '#1E232C',
+    fontSize: '0.92rem',
+    background: 'transparent',
+    width: '100%', // Take full width of container
+    transition: 'color 0.2s',
+    fontFamily: 'Inter, sans-serif'
+  }}
+  onClick={e => e.stopPropagation()}
+/>
       {loading && (
           <div style={{ position: 'absolute', right: '20px', top: '50%', transform: 'translateY(-50%)' }}>
-              <svg className="animate-spin h-5 w-5 text-blue-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                  <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                  <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-              </svg>
+              <FaSpinner
+  className="spinner-icon"
+  style={{
+    fontSize: '16px',       // control size
+    color: '#3B82F6',       // tailwind blue-500
+    animation: 'spin 1s linear infinite'
+  }}
+/>
+
           </div>
       )}
 
@@ -182,27 +202,48 @@ function LocationInput({ onLocationSelect }) {
           position: 'absolute',
           top: '110%',
           left: 0,
+          right: 0, // Add this to stretch to container width
           zIndex: 120,
           background: '#fff',
           borderRadius: 12,
           boxShadow: '0 4px 20px rgba(0,0,0,0.15)',
           padding: '8px 0',
-          minWidth: 280,
+          width: '100%', // Match container width
           border: '1px solid #E5E7EB',
           maxHeight: 300,
           overflowY: 'auto'
         }} onClick={e => e.stopPropagation()}>
-          {error && (
-              <div style={{
-                padding: '16px',
-                textAlign: 'center',
-                color: '#EF4444',
-                fontFamily: 'Inter, sans-serif',
-                fontSize: '0.85rem'
-              }}>
-                {error}
-              </div>
-          )}
+          {loading && ( // Add this loading indicator inside the dropdown
+      <div style={{
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        padding: '20px',
+        height: '60px'
+      }}>
+        <FaSpinner
+  className="spinner-icon"
+  style={{
+    fontSize: '16px',       // control size
+    color: '#3B82F6',       // tailwind blue-500
+    animation: 'spin 1s linear infinite'
+  }}
+/>
+
+        <span style={{ marginLeft: '10px', color: '#6B7280' }}>Aranıyor...</span>
+      </div>
+    )}
+    {!loading && error && (
+      <div style={{
+        padding: '16px',
+        textAlign: 'center',
+        color: '#EF4444',
+        fontFamily: 'Inter, sans-serif',
+        fontSize: '0.85rem'
+      }}>
+        {error}
+      </div>
+    )}
           {!loading && !error && filteredOptions.length > 0 ? (
             filteredOptions.map((option, index) => (
               <div
