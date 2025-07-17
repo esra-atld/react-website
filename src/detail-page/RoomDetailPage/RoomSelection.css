@@ -1,0 +1,41 @@
+.room-selection-row {
+  display: flex;
+  gap: 16px;
+  width: 100%;
+  justify-content: flex-start;
+  align-items: center;
+  background: none;
+  box-shadow: none;
+  padding: 0;
+  margin: 24px 0 0 0;
+}
+
+.room-selection-btn {
+  background: #FB8500;
+  color: #fff;
+  font-family: 'Inter', sans-serif;
+  font-size: 1rem;
+  font-weight: 600;
+  border: none;
+  border-radius: 8px;
+  padding: 10px 20px;
+  cursor: pointer;
+  transition: background 0.2s;
+  box-shadow: 0 2px 8px rgba(30, 36, 50, 0.10);
+}
+.room-selection-btn:disabled {
+  background: #e0e0e0;
+  color: #888;
+  cursor: not-allowed;
+}
+.room-selection-btn:hover:not(:disabled) {
+  background: #ffb703;
+}
+
+@media (max-width: 900px) {
+  .room-selection-row {
+    flex-direction: column;
+    gap: 12px;
+    align-items: stretch;
+  }
+} 
