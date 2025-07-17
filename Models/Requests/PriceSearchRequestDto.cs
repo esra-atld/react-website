@@ -8,7 +8,7 @@
         public bool getOnlyBestOffers { get; set; } = false;
         public int productType { get; set; } = 2; 
 
-        public required List<ArrivalLocationDto>? arrivalLocations { get; set; }
+        public List<ArrivalLocationDto>? arrivalLocations { get; set; }
         public List<string>? Products { get; set; }
 
         public required List<RoomCriteriaDto> roomCriteria { get; set; }
