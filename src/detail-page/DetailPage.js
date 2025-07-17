@@ -129,7 +129,10 @@ function DetailPage({ handleSearch }) {
 
   return (
     <div className="detail-page">
-      <Header />
+      <Header 
+        selectedNationality={selectedNationality} 
+        onNationalityChange={setSelectedNationality} 
+      />
       {loading && (
         <div className="loading-overlay">
           <div className="spinner"></div>

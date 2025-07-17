@@ -1,11 +1,10 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { getNationalities } from '../../services/nationalityService'; // import the service
+import { getNationalities } from '../../services/nationalityService';
 import './NationalitySelect.css';
 
 function NationalitySelect({ onNationalityChange, selectedNationality }) {
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [nationalities, setNationalities] = useState([]);
-  const [internalSelectedNationality, setInternalSelectedNationality] = useState(null);
   const nationalityRef = useRef(null);
 
   // Fetch nationalities on first render
@@ -13,16 +12,18 @@ function NationalitySelect({ onNationalityChange, selectedNationality }) {
     getNationalities()
       .then((data) => {
         setNationalities(data);
-        const defaultNat = data.find(n => n.id === 'TR') || data[0]; 
-        setInternalSelectedNationality(defaultNat);
-        onNationalityChange?.(defaultNat); 
+        // Only set default if no nationality is selected (e.g., first load)
+        if (!selectedNationality) {
+          const defaultNat = data.find(n => n.id === 'TR') || data[0];
+          onNationalityChange?.(defaultNat);
+        }
       })
       .catch(err => {
         console.error('Failed to load nationalities:', err);
       });
-  }, []);
+  }, []); // No dependency on selectedNationality to avoid loops
 
-  // Handle clicks outside
+  // Close dropdown on clicks outside
   useEffect(() => {
     function handleClickOutside(event) {
       if (nationalityRef.current && !nationalityRef.current.contains(event.target)) {
@@ -34,9 +35,8 @@ function NationalitySelect({ onNationalityChange, selectedNationality }) {
   }, []);
 
   const handleSelect = (nat) => {
-    setInternalSelectedNationality(nat);
+    onNationalityChange?.(nat); // Update context directly
     setDropdownOpen(false);
-    onNationalityChange?.(nat); // Pass full nationality object to parent
   };
 
   return (
@@ -61,11 +61,11 @@ function NationalitySelect({ onNationalityChange, selectedNationality }) {
                 cursor: 'pointer',
                 color: '#1E232C',
                 fontWeight: 500,
-                background: '#fff',
+                background: nat.id === selectedNationality?.id ? '#E5E7EB' : '#fff',
                 transition: 'background 0.15s'
               }}
               onMouseOver={e => e.currentTarget.style.background = '#E5E7EB'}
-              onMouseOut={e => e.currentTarget.style.background = '#fff'}
+              onMouseOut={e => e.currentTarget.style.background = nat.id === selectedNationality?.id ? '#E5E7EB' : '#fff'}
             >
               {nat.threeLetterCode}
             </div>
