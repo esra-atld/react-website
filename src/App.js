@@ -103,6 +103,8 @@ function HomePage({ handleSearch }) {
       <Header 
         selectedNationality={selectedNationality} 
         onNationalityChange={setSelectedNationality} 
+        selectedCurrency={currency}
+        onCurrencyChange={setCurrency}
       />
 
       <div style={{ marginTop: '40px', display: 'flex', justifyContent: 'center', width: '100%', marginBottom: '40px' }}>
@@ -183,7 +185,7 @@ function AppRoutes() {
       night: range[0].endDate && range[0].startDate 
         ? Math.max(1, Math.ceil((new Date(range[0].endDate) - new Date(range[0].startDate)) / (1000 * 60 * 60 * 24)))
       : 1,
-      currency,
+      currency: currency?.code || "TRY",
       culture: "tr-TR"
     };
 
