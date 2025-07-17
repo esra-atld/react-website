@@ -1,17 +1,44 @@
 import React from 'react';
+import { useLocation } from 'react-router-dom';
 import Header from '../components/Header';
 import SearchBar from '../search-page/SearchBar/SearchBar';
 import Sidebar from './Sidebar';
 import './DetailPage.css';
 import SortCriteriaButton from './SortCriteriaButton';
 import OtelKartlari from './OtelKartlari';
+import { useBooking } from '../BookingContext';
 
-function DetailPage() {
-  const handleSearch = () => {
-    // Detay sayfasında search yapıldığında ne olacağını burada tanımlayabilirsin
-    console.log('Search clicked in detail page');
-  };
+function DetailPage({ handleSearch }) {
+  const {
+      selectedLocation, setSelectedLocation,
+      selectedNationality, setSelectedNationality,
+      range, setRange,
+      adults, setAdults,
+      childrens, setChildren,
+      childrenAges, setChildrenAges,
+      rooms, setRooms,
+      currency, setCurrency,
+      loading, setLoading, 
+    } = useBooking();
+  
+  const getAmenityIcon = (amenity) => {
+    switch (amenity) {
+      case 'POOL': return '🏊‍♂️';
+      case 'SPA': return '💆‍♀️';
+      case 'RESTAURANT': return '🍽️';
+      case 'GYM': return '🏋️‍♂️';
+      case 'BAR': return '🍹';
+      case 'BEACH': return '🏖️';
+      case 'CASINO': return '🎰';
+      case 'GOLF': return '🏌️‍♂️';
+      case 'TENNIS': return '🎾';
+      default: return '✨';
+    }
+  };  
+  const location = useLocation();
+  const hotelss = location.state?.hotelss || [];
 
+  console.log("DetailPage hotels:", hotelss);
   // Örnek otel verileri
   const hotels = [
     {
@@ -102,17 +129,50 @@ function DetailPage() {
   return (
     <div className="detail-page">
       <Header />
+      {loading && (
+        <div className="loading-overlay">
+          <div className="spinner"></div>
+          <div>Yükleniyor...</div>
+        </div>
+      )}
       <div className="search-section">
-        <SearchBar onSearch={handleSearch} />
+        <SearchBar 
+          handleSearch={handleSearch}
+          selectedLocation={selectedLocation}
+          onLocationSelect={setSelectedLocation}
+        />
       </div>
       <SortCriteriaButton />
       <div className="detail-content">
         <Sidebar style={{ marginTop: "0px" }} />
         <div className="detail-container">
-          {hotels.map((hotel) => (
-            <OtelKartlari key={hotel.id} hotel={hotel} />
-          ))}
-        </div>
+        {hotelss.length > 0 ? (
+          hotelss.map(hotel => {
+            // Build amenity icons nicely
+            const mappedAmenities = hotel.amenities?.map(a => ({
+              icon: getAmenityIcon(a),
+              name: a
+            })) || [];
+          
+            return (
+              <OtelKartlari
+                key={hotel.id}
+                hotel={{
+                  name: hotel.name,
+                  address: hotel.address || "Adres bulunamadı",
+                  image: hotel.thumbnailFull || "https://via.placeholder.com/400x300",
+                  stars: hotel.stars || 4,
+                  amenities: mappedAmenities,
+                  price: `${hotel.offers[0].price.amount} ${hotel.offers[0].price.currency}`,
+                  priceDetails: "Fiyat bilgi detayı bulunamadı"
+                }}
+              />
+            );
+          })
+        ) : (
+          <div>Hiç otel bulunamadı.</div>
+        )}
+      </div>
       </div>
     </div>
   );

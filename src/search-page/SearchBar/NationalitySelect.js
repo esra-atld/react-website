@@ -2,10 +2,10 @@ import React, { useState, useRef, useEffect } from 'react';
 import { getNationalities } from '../../services/nationalityService'; // import the service
 import './NationalitySelect.css';
 
-function NationalitySelect({ onNationalityChange }) {
+function NationalitySelect({ onNationalityChange, selectedNationality }) {
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [nationalities, setNationalities] = useState([]);
-  const [selectedNationality, setSelectedNationality] = useState(null);
+  const [internalSelectedNationality, setInternalSelectedNationality] = useState(null);
   const nationalityRef = useRef(null);
 
   // Fetch nationalities on first render
@@ -13,9 +13,9 @@ function NationalitySelect({ onNationalityChange }) {
     getNationalities()
       .then((data) => {
         setNationalities(data);
-        const defaultNat = data.find(n => n.threeLetterCode === 'TUR') || data[0];
-        setSelectedNationality(defaultNat);
-        onNationalityChange?.(defaultNat); // Optional callback to parent
+        const defaultNat = data.find(n => n.id === 'TR') || data[0]; 
+        setInternalSelectedNationality(defaultNat);
+        onNationalityChange?.(defaultNat); 
       })
       .catch(err => {
         console.error('Failed to load nationalities:', err);
@@ -34,7 +34,7 @@ function NationalitySelect({ onNationalityChange }) {
   }, []);
 
   const handleSelect = (nat) => {
-    setSelectedNationality(nat);
+    setInternalSelectedNationality(nat);
     setDropdownOpen(false);
     onNationalityChange?.(nat); // Pass full nationality object to parent
   };

@@ -1,14 +1,24 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { FaUser } from 'react-icons/fa';
 import './GuestSelector.css';
+import { useBooking } from '../../BookingContext';
 
 function GuestSelector() {
+  const {
+    selectedLocation, setSelectedLocation,
+    selectedNationality, setSelectedNationality,
+    range, setRange,
+    adults, setAdults,
+    childrens, setChildren,
+    childrenAges, setChildrenAges,
+    rooms, setRooms,
+    currency, setCurrency,
+    loading, setLoading, 
+  } = useBooking();
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const guestRef = useRef(null);
-  const [adults, setAdults] = useState(1);
-  const [children, setChildren] = useState(0);
-  const [rooms, setRooms] = useState(1);
-  const [childrenAges, setChildrenAges] = useState([]);
+  
+  const currentChildrenAges = childrenAges || [];
 
   useEffect(() => {
     function handleClickOutside(event) {
@@ -23,18 +33,19 @@ function GuestSelector() {
   }, []);
 
   useEffect(() => {
-    if (children > childrenAges.length) {
-      setChildrenAges([...childrenAges, null]);
-    } else if (children < childrenAges.length) {
-      setChildrenAges(childrenAges.slice(0, children));
-    }
-  }, [children, childrenAges.length]);
+    // Use currentChildrenAges here to safely access .length
+    if (childrens > currentChildrenAges.length) {
+      setChildrenAges([...currentChildrenAges, null]);
+    } else if (childrens < currentChildrenAges.length) {
+      setChildrenAges(currentChildrenAges.slice(0, childrens));
+    }
+  }, [childrens, currentChildrenAges.length, setChildrenAges]); //Add setChildrenAges to dependencies
 
-  const totalGuests = adults + children;
+  const totalGuests = adults + childrens;
   const guestText = `${totalGuests} Misafir, ${rooms} Oda`;
 
   const updateChildAge = (index, age) => {
-    const newAges = [...childrenAges];
+    const newAges = [...currentChildrenAges]; 
     newAges[index] = age;
     setChildrenAges(newAges);
   };
@@ -102,26 +113,26 @@ function GuestSelector() {
               <button
                 className="guest-incdec-btn"
                 aria-label="Çocuk sayısını azalt"
-                onClick={e => { e.stopPropagation(); setChildren(Math.max(0, children - 1)); }}
-                disabled={children <= 0}
+                onClick={e => { e.stopPropagation(); setChildren(Math.max(0, childrens - 1)); }}
+                disabled={childrens <= 0}
               >
                 -
               </button>
               <span style={{ fontFamily: 'Inter, sans-serif', fontWeight: 600, fontSize: '1.1rem', color: '#1E232C', minWidth: '20px', textAlign: 'center' }}>
-                {children}
+                {childrens}
               </span>
               <button
                 className="guest-incdec-btn"
                 aria-label="Çocuk sayısını artır"
-                onClick={e => { e.stopPropagation(); setChildren(Math.min(6, children + 1)); }}
-                disabled={children >= 6}
+                onClick={e => { e.stopPropagation(); setChildren(Math.min(6, childrens + 1)); }}
+                disabled={childrens >= 6}
               >
                 +
               </button>
             </div>
           </div>
           {/* Oda */}
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: children > 0 ? '20px' : 0 }}>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: childrens > 0 ? '20px' : 0 }}>
             <div style={{ flex: 1 }}>
               <div style={{ fontFamily: 'Inter, sans-serif', fontWeight: 600, fontSize: '1rem', color: '#1E232C', marginBottom: '4px' }}>Oda</div>
               <div style={{ fontFamily: 'Inter, sans-serif', fontWeight: 400, fontSize: '0.85rem', color: '#6B7280' }}>Oda sayısı</div>
@@ -149,7 +160,7 @@ function GuestSelector() {
             </div>
           </div>
           {/* Çocuk Yaş Seçimi */}
-          {children > 0 && (
+          {childrens > 0 && (
             <div style={{ borderTop: '1px solid #E5E7EB', paddingTop: '20px' }}>
               <div style={{ fontFamily: 'Inter, sans-serif', fontWeight: 600, fontSize: '1rem', color: '#1E232C', marginBottom: '16px' }}>
                 Yaş (zorunlu)

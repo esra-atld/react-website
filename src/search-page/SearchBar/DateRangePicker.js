@@ -7,6 +7,7 @@ import { tr } from 'date-fns/locale';
 import './DateRangePicker.css';
 import { SearchSuggestionType } from './LocationInput'; 
 import { getCheckInDates } from '../../services/checkInDatesService'; 
+import { useBooking } from '../../BookingContext';
 
 function formatRange(start, end) {
   if (!start || !end) return 'Check-in — Check-out';
@@ -17,14 +18,20 @@ function formatRange(start, end) {
   return `${s.getDate()} ${aylar[s.getMonth()]} , ${gunler[s.getDay()]} - ${e.getDate()} ${aylar[e.getMonth()]}, ${gunler[e.getDay()]}`;
 }
 
-function DateRangePickerComponent({ selectedLocation }) {
-  const [range, setRange] = useState([
-    {
-      startDate: null,
-      endDate: null,
-      key: 'selection',
-    },
-  ]);
+function DateRangePickerComponent() {
+  
+  const {
+      selectedLocation, setSelectedLocation,
+      selectedNationality, setSelectedNationality,
+      range, setRange,
+      adults, setAdults,
+      childrens, setChildren,
+      childrenAges, setChildrenAges,
+      rooms, setRooms,
+      currency, setCurrency,
+      loading, setLoading, 
+    } = useBooking();
+  
   const [calendarOpen, setCalendarOpen] = useState(false);
   const [availableMinDate, setAvailableMinDate] = useState(null);
   const [availableMaxDate, setAvailableMaxDate] = useState(null);
@@ -54,7 +61,6 @@ function DateRangePickerComponent({ selectedLocation }) {
       if (selectedLocation) {
         setLoadingDates(true);
         setDateFetchError(null); 
-        setRange([{ startDate: null, endDate: null, key: 'selection' }]); 
         setAvailableMinDate(null);
         setAvailableMaxDate(null);
         setUnavailableDates([]);
@@ -146,7 +152,7 @@ function DateRangePickerComponent({ selectedLocation }) {
         <FaRegCalendarAlt />
       </span>
       <span className="date-range-text">
-        {formatRange(range[0].startDate, range[0].endDate)}
+        {formatRange(range?.[0]?.startDate, range?.[0]?.endDate)}
       </span>
       {calendarOpen && (
         <div style={{ position: 'absolute', top: '110%', left: 0, zIndex: 100, maxWidth: 320 }} onClick={e => e.stopPropagation()}>
@@ -154,12 +160,9 @@ function DateRangePickerComponent({ selectedLocation }) {
           minDate={availableMinDate || new Date()}
           maxDate={availableMaxDate || new Date(new Date().setFullYear(new Date().getFullYear() + 1))}
             editableDateInputs={false}
-            onChange={item => {
-              setRange([item.selection]);
-              if (item.selection.startDate && item.selection.endDate && item.selection.startDate !== item.selection.endDate) setTimeout(() => setCalendarOpen(false), 1000);
-            }}
             moveRangeOnFirstSelection={false}
             ranges={range}
+            onChange={handleDateRangeChange}
             locale={tr}
             months={1}
             direction="horizontal"

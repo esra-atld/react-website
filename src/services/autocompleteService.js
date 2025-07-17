@@ -34,19 +34,19 @@ import baseApi from './baseApi';
 
 /**
  * @typedef {Object} BackendSearchItem
- * @property {number} type - 1 for city/destination, 2 for hotel. (Corrected casing)
- * @property {BackendGeoLocation} [geolocation] (Corrected casing)
- * @property {BackendLocationInfo} [country] (Corrected casing)
- * @property {BackendLocationInfo} [state] (Corrected casing)
- * @property {BackendLocationInfo} [city] (Corrected casing)
- * @property {BackendHotelInfo} [hotel] (Corrected casing)
- * @property {number} provider (Corrected casing)
- * @property {BackendGiataInfo} [giataInfo] (Corrected casing)
+ * @property {number} type - 1 for city/destination, 2 for hotel. 
+ * @property {BackendGeoLocation} [geolocation] 
+ * @property {BackendLocationInfo} [country] 
+ * @property {BackendLocationInfo} [state] 
+ * @property {BackendLocationInfo} [city] 
+ * @property {BackendHotelInfo} [hotel] 
+ * @property {number} provider 
+ * @property {BackendGiataInfo} [giataInfo] 
  */
 
 /**
  * @typedef {Object} BackendSearchResponseBody
- * @property {BackendSearchItem[]} [items] (Corrected casing)
+ * @property {BackendSearchItem[]} [items] 
  */
 
 /**
@@ -59,8 +59,8 @@ import baseApi from './baseApi';
 
 /**
  * @typedef {Object} GetArrivalAutocompleteResponseDto
- * @property {BackendSearchResponseBody} [body] (Corrected casing)
- * @property {HeaderDto} [header] (Corrected casing)
+ * @property {BackendSearchResponseBody} [body] 
+ * @property {HeaderDto} [header] 
  */
 
 

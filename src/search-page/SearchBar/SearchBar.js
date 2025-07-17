@@ -4,22 +4,36 @@ import LocationInput from './LocationInput';
 import DateRangePickerComponent from './DateRangePicker';
 import GuestSelector from './GuestSelector';
 import SearchButton from './SearchButton';
+import { useBooking } from '../../BookingContext';
 
-export function SearchBar({ onSearch }) {
+export function SearchBar({ handleSearch }) {
+  const {
+    selectedLocation, setSelectedLocation,
+    selectedNationality, setSelectedNationality,
+    range, setRange,
+    adults, setAdults,
+    childrens, setChildren,
+    childrenAges, setChildrenAges,
+    rooms, setRooms,
+    currency, setCurrency,
+    loading, setLoading, 
+  } = useBooking();
   
-  const [selectedLocation, setSelectedLocation] = useState(null);
-
   const handleSearchClick = () => {
-    if (onSearch) {
-      onSearch();
+    if (handleSearch) {
+      handleSearch();
     }
   };
 
   return (
     <div className="search-bar-box">
-      <LocationInput onLocationSelect={setSelectedLocation} />
-      <DateRangePickerComponent selectedLocation={selectedLocation} />
-      <GuestSelector />
+      <LocationInput 
+        onLocationSelect={setSelectedLocation}
+        selectedLocation={selectedLocation}
+       />
+      <DateRangePickerComponent/>
+      
+      <GuestSelector/>
       <SearchButton onClick={handleSearchClick} />
     </div>
   );
