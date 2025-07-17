@@ -189,6 +189,7 @@ function AppRoutes() {
 
     try {
       if(selectedLocation.type === SearchSuggestionType.Hotel ) {
+          requestData.Products = [];
           requestData.Products.push(selectedLocation.hotel.id);
           const data = await hotelPriceSearch(requestData);
           if(!data.body || !data.body.hotels || data.body.hotels.length === 0) {
