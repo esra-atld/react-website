@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import { useLocation } from 'react-router-dom';
 import Header from '../components/Header';
 import SearchBar from '../search-page/SearchBar/SearchBar';
@@ -37,95 +37,66 @@ function DetailPage({ handleSearch }) {
     }
   };  
   const location = useLocation();
-  const hotelss = location.state?.hotelss || [];
+  const hotels = location.state?.hotels || [];
 
-  console.log("DetailPage hotels:", hotelss);
-  // Örnek otel verileri
-  const hotels = [
-    {
-      id: 1,
-      name: 'Akra Antalya',
-      address: 'Eski lara, Muratpaşa, Antalya',
-      image: 'https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=400&q=80',
-      stars: 4,
-      price: '43.742 TL',
-      priceDetails: '3 gece, 1 oda için\nGecelik 14.581 TL\nvergiler ve ücretler dahildir',
-      amenities: [
-        { icon: '🏊‍♂️', name: 'Havuz' },
-        { icon: '💆‍♀️', name: 'Spa' }
-      ]
-    },
-    {
-      id: 2,
-      name: 'Grand Hotel İstanbul',
-      address: 'Sultanahmet, Fatih, İstanbul',
-      image: 'https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&w=400&q=80',
-      stars: 5,
-      price: '67.890 TL',
-      priceDetails: '3 gece, 1 oda için\nGecelik 22.630 TL\nvergiler ve ücretler dahildir',
-      amenities: [
-        { icon: '🏊‍♂️', name: 'Havuz' },
-        { icon: '🍽️', name: 'Restoran' },
-        { icon: '🏋️‍♂️', name: 'Spor Salonu' }
-      ]
-    },
-    {
-      id: 3,
-      name: 'Marmara Bodrum',
-      address: 'Bodrum Merkez, Muğla',
-      image: 'https://images.unsplash.com/photo-1571896349842-33c89424de2d?auto=format&fit=crop&w=400&q=80',
-      stars: 4,
-      price: '89.450 TL',
-      priceDetails: '3 gece, 1 oda için\nGecelik 29.817 TL\nvergiler ve ücretler dahildir',
-      amenities: [
-        { icon: '🏖️', name: 'Özel Plaj' },
-        { icon: '🍹', name: 'Bar' },
-        { icon: '🚗', name: 'Ücretsiz Otopark' }
-      ]
-    },
-    {
-      id: 4,
-      name: 'Kaya Palazzo',
-      address: 'Kemer, Antalya',
-      image: 'https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?auto=format&fit=crop&w=400&q=80',
-      stars: 5,
-      price: '125.600 TL',
-      priceDetails: '3 gece, 1 oda için\nGecelik 41.867 TL\nvergiler ve ücretler dahildir',
-      amenities: [
-        { icon: '🏊‍♂️', name: 'Havuz' },
-        { icon: '🏌️‍♂️', name: 'Golf Sahası' },
-        { icon: '🎾', name: 'Tenis Kortu' }
-      ]
-    },
-    {
-      id: 5,
-      name: 'Divan Otel',
-      address: 'Beşiktaş, İstanbul',
-      image: 'https://images.unsplash.com/photo-1551882547-ff40c63fe5fa?auto=format&fit=crop&w=400&q=80',
-      stars: 4,
-      price: '78.320 TL',
-      priceDetails: '3 gece, 1 oda için\nGecelik 26.107 TL\nvergiler ve ücretler dahildir',
-      amenities: [
-        { icon: '🍽️', name: 'Restoran' },
-        { icon: '💼', name: 'İş Merkezi' },
-        { icon: '🚕', name: 'Havalimanı Transferi' }
-      ]
-    },
-    {
-      id: 6,
-      name: 'Rixos Premium',
-      address: 'Belek, Antalya',
-      image: 'https://images.unsplash.com/photo-1571003123894-1f0594d2b5d9?auto=format&fit=crop&w=400&q=80',
-      stars: 5,
-      price: '156.780 TL',
-      priceDetails: '3 gece, 1 oda için\nGecelik 52.260 TL\nvergiler ve ücretler dahildir',
-      amenities: [
-        { icon: '🏊‍♂️', name: 'Havuz' },
-        { icon: '🏖️', name: 'Özel Plaj' },
-        { icon: '🎰', name: 'Kumarhane' }
-      ]
+  // FILTER STATE
+  const [priceRange, setPriceRange] = useState([0, 10000]);
+  const [selectedStars, setSelectedStars] = useState([]);
+  const [selectedAmenities, setSelectedAmenities] = useState([]);
+
+  const [filteredHotels, setFilteredHotels] = useState([]);
+
+  // FILTER LOGIC
+  useEffect(() => {
+    const filtered = hotels.filter(hotel => {
+      const priceOk = hotel.offers?.[0]?.price?.amount || hotel.offers?.[0]?.price?.amount <= priceRange[1];
+      const starOk = selectedStars.length === 0 || selectedStars.includes(Math.floor(hotel.stars));
+      const amenitiesOk = selectedAmenities.every(am =>
+        hotel.amenities?.includes(am)
+      );
+      return priceOk && starOk && amenitiesOk;
+    });
+
+    setFilteredHotels(filtered);
+  }, [hotels, priceRange, selectedStars, selectedAmenities]);
+
+  // SORT STATE
+  const [sortOption, setSortOption] = useState('İlk önerilen');
+
+  useEffect(() => {
+    let filtered = hotels.filter(hotel => {
+      const price = hotel.offers?.[0]?.price?.amount;
+      const priceOk = price === undefined || price <= priceRange[1];
+
+      const starOk = selectedStars.length === 0 ||
+        selectedStars.includes(Math.floor(hotel.stars));
+
+      const amenitiesOk = selectedAmenities.every(am =>
+        hotel.amenities?.includes(am)
+      );
+
+      return priceOk && starOk && amenitiesOk;
+    });
+
+    // Sort after filtering
+    switch (sortOption) {
+      case 'Fiyat: düşükten yükseğe':
+        filtered.sort((a, b) => (a.offers?.[0]?.price?.amount ?? Infinity) - (b.offers?.[0]?.price?.amount ?? Infinity));
+        break;
+      case 'Fiyat: yüksekten düşüğe':
+        filtered.sort((a, b) => (b.offers?.[0]?.price?.amount ?? 0) - (a.offers?.[0]?.price?.amount ?? 0));
+        break;
+      case 'Yıldız derecelendirmesi':
+        filtered.sort((a, b) => (b.stars ?? 0) - (a.stars ?? 0));
+        break;
+      case 'İlk önerilen':
+      default:
+        break;
     }
-  ];
+
+    setFilteredHotels(filtered);
+  }, [hotels, priceRange, selectedStars, selectedAmenities, sortOption]);
+
 
   return (
     <div className="detail-page">
@@ -146,12 +117,25 @@ function DetailPage({ handleSearch }) {
           onLocationSelect={setSelectedLocation}
         />
       </div>
-      <SortCriteriaButton />
+      <SortCriteriaButton onChange={setSortOption} />
       <div className="detail-content">
-        <Sidebar style={{ marginTop: "0px" }} />
+       
+        <Sidebar 
+          style={{ marginTop: "0px" }} 
+          hotels={hotels}
+          filteredHotels={filteredHotels}
+          priceRange={priceRange}
+          setPriceRange={setPriceRange}
+          selectedStars={selectedStars}
+          setSelectedStars={setSelectedStars}
+          selectedAmenities={selectedAmenities}
+          setSelectedAmenities={setSelectedAmenities}
+        />
+        
+        
         <div className="detail-container">
-        {hotelss.length > 0 ? (
-          hotelss.map(hotel => {
+        {filteredHotels.length > 0 ? (
+          filteredHotels.map(hotel => {
             // Build amenity icons nicely
             const mappedAmenities = hotel.amenities?.map(a => ({
               icon: getAmenityIcon(a),
@@ -167,7 +151,7 @@ function DetailPage({ handleSearch }) {
                   image: hotel.thumbnailFull || "https://via.placeholder.com/400x300",
                   stars: hotel.stars || 4,
                   amenities: mappedAmenities,
-                  price: `${hotel.offers[0].price.amount} ${hotel.offers[0].price.currency}`,
+                  price: `${hotel.offers?.[0]?.price?.amount || 0} ${hotel.offers?.[0]?.price?.currency || ''}`,
                   priceDetails: "Fiyat bilgi detayı bulunamadı"
                 }}
               />

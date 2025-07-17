@@ -10,7 +10,7 @@ L.Icon.Default.mergeOptions({
   shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-shadow.png',
 });
 
-const LeafletMap = () => {
+const LeafletMap = ({ markers = [] }) => {
   const mapRef = useRef(null);
   const mapInstanceRef = useRef(null);
 
@@ -38,16 +38,33 @@ const LeafletMap = () => {
       maxZoom: 19,
     }).addTo(map);
 
+    markers.forEach(hotel => {
+      if (hotel.geoLocation.latitude && hotel.geoLocation.longitude) {
+        L.marker([hotel.geoLocation.latitude, hotel.geoLocation.longitude])
+          .addTo(map)
+          .bindPopup(hotel.name);
+      }
+    });
+
     // Örnek marker
     L.marker([36.8969, 30.7133]).addTo(map)
-      .bindPopup('Otel Konumu')
+      .bindPopup('ÖRNEK MARKER')
       .openPopup();
 
+    
+
+    if (markers.length > 0) {
+      const bounds = L.latLngBounds(
+        markers.map(h => L.latLng(h.geoLocation?.latitude, h.geoLocation?.longitude))
+      );
+      map.fitBounds(bounds, { padding: [20, 20] });
+    }
+    
     // Harita boyutunu güncelle (kasılmayı önler)
     setTimeout(() => {
       map.invalidateSize();
     }, 250);
-
+    
     // Temizlik
     return () => {
       if (mapInstanceRef.current) {
@@ -55,7 +72,7 @@ const LeafletMap = () => {
         mapInstanceRef.current = null;
       }
     };
-  }, []);
+  }, [markers]);
 
   return (
     <div

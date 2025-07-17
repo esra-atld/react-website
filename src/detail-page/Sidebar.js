@@ -1,8 +1,41 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import './Sidebar.css';
 import LeafletMap from './LeafletMap';
 
-function Sidebar({ style }) {
+function Sidebar({
+  hotels,
+  filteredHotels,
+  priceRange,
+  setPriceRange,
+  selectedStars,
+  setSelectedStars,
+  selectedAmenities,
+  setSelectedAmenities,
+  style
+  }) {
+
+
+  // Handle star rating checkboxes
+  const handleStarChange = (star) => {
+    setSelectedStars(prev =>
+      prev.includes(star) ? prev.filter(s => s !== star) : [...prev, star]
+    );
+  };
+
+  // Handle amenity checkboxes
+  const handleAmenityChange = (amenity) => {
+    setSelectedAmenities(prev =>
+      prev.includes(amenity) ? prev.filter(a => a !== amenity) : [...prev, amenity]
+    );
+  };
+
+  // Handle price slider
+  const handlePriceChange = (e) => {
+    setPriceRange([0, Number(e.target.value)]);
+  };
+
+
+
   return (
     <div className="sidebar" style={style}>
       <div className="sidebar-content">
@@ -10,21 +43,26 @@ function Sidebar({ style }) {
         <div className="map-section">
           <h3>Harita</h3>
           <div className="map-container">
-            <LeafletMap />
+            <LeafletMap markers={filteredHotels} />
           </div>
           <div className="map-info">
             <p>Antalya bölgesindeki oteller</p>
-            <span className="hotel-count">6 otel bulundu</span>
+            <span className="hotel-count">'{filteredHotels.length} otel bulundu'</span>
           </div>
         </div>
 
         <div className="filter-section">
           <h4>Fiyat Aralığı</h4>
           <div className="price-range">
-            <input type="range" min="0" max="10000" className="price-slider" />
+            <input 
+              type="range" 
+              min="0" 
+              max="10000" 
+              className="price-slider" 
+            />
             <div className="price-labels">
               <span>0 TL</span>
-              <span>10.000+ TL</span>
+              <span>{priceRange[1].toLocaleString()} TL</span>
             </div>
           </div>
         </div>
@@ -32,22 +70,30 @@ function Sidebar({ style }) {
         <div className="filter-section">
           <h4>Yıldız</h4>
           <div className="star-filters">
-            <label><input type="checkbox" /> 5 Yıldız</label>
-            <label><input type="checkbox" /> 4 Yıldız</label>
-            <label><input type="checkbox" /> 3 Yıldız</label>
-            <label><input type="checkbox" /> 2 Yıldız</label>
-            <label><input type="checkbox" /> 1 Yıldız</label>
+            {[5, 4, 3, 2, 1].map(star => (
+              <label key={star}>
+                <input
+                  type="checkbox"
+                  checked={selectedStars.includes(star)}
+                  onChange={() => handleStarChange(star)}
+                /> {star} Yıldız
+              </label>
+            ))}
           </div>
         </div>
         
         <div className="filter-section">
           <h4>Özellikler</h4>
           <div className="amenity-filters">
-            <label><input type="checkbox" /> WiFi</label>
-            <label><input type="checkbox" /> Havuz</label>
-            <label><input type="checkbox" /> Spor Salonu</label>
-            <label><input type="checkbox" /> Restoran</label>
-            <label><input type="checkbox" /> Bar</label>
+            {["WiFi", "Havuz", "Spor Salonu", "Restoran", "Bar"].map(amenity => (
+              <label key={amenity}>
+                <input
+                  type="checkbox"
+                  checked={selectedAmenities.includes(amenity)}
+                  onChange={() => handleAmenityChange(amenity)}
+                /> {amenity}
+              </label>
+            ))}
           </div>
         </div>
       </div>
