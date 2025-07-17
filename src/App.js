@@ -3,7 +3,6 @@ import './App.css';
 import { FaMapMarkerAlt } from 'react-icons/fa';
 import React, { useState, useRef, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route, useNavigate } from 'react-router-dom';
-
 import SearchBar from './search-page/SearchBar/SearchBar';
 import PopularDestinations from './search-page/PopularDestinations/PopularDestinations';
 import NationalitySelect from './search-page/SearchBar/NationalitySelect';
@@ -11,19 +10,26 @@ import CurrencySelect from './search-page/SearchBar/CurrencySelect';
 import DetailPage from './detail-page/DetailPage';
 import RoomDetailPage from './detail-page/RoomDetailPage';
 import Header from './components/Header';
+import { SearchSuggestionType } from './search-page/SearchBar/LocationInput';
+import { hotelPriceSearch, locationPriceSearch } from './services/priceSearchService';
+import { BookingProvider } from './BookingContext';
+import { useBooking } from './BookingContext';
 
-function formatRange(start, end) {
-  if (!start || !end) return 'Check-in — Check-out';
-  const aylar = ['Oca', 'Şub', 'Mar', 'Nis', 'May', 'Haz', 'Tem', 'Ağu', 'Eyl', 'Eki', 'Kas', 'Ara'];
-  const gunler = ['Paz', 'Pzt', 'Sal', 'Çar', 'Per', 'Cum', 'Cmt'];
-  const s = new Date(start);
-  const e = new Date(end);
-  return `${s.getDate()} ${aylar[s.getMonth()]}, ${gunler[s.getDay()]} - ${e.getDate()} ${aylar[e.getMonth()]}, ${gunler[e.getDay()]}`;
-}
+
 
 // Ana sayfa bileşeni
-function HomePage() {
-  const [currency, setCurrency] = useState('USD');
+function HomePage({ handleSearch }) {
+  const {
+      selectedLocation, setSelectedLocation,
+      selectedNationality, setSelectedNationality,
+      range, setRange,
+      adults, setAdults,
+      childrens, setChildren,
+      childrenAges, setChildrenAges,
+      rooms, setRooms,
+      currency, setCurrency,
+      loading, setLoading, 
+    } = useBooking();
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const currencyRef = useRef(null);
 
@@ -31,22 +37,12 @@ function HomePage() {
   const [nationalityDropdownOpen, setNationalityDropdownOpen] = useState(false);
   const nationalityRef = useRef(null);
 
-  const [range, setRange] = useState([
-    {
-      startDate: null,
-      endDate: null,
-      key: 'selection',
-    },
-  ]);
   const [calendarOpen, setCalendarOpen] = useState(false);
   const dateBoxRef = useRef(null);
 
   const [guestDropdownOpen, setGuestDropdownOpen] = useState(false);
   const guestRef = useRef(null);
-  const [adults, setAdults] = useState(1);
-  const [children, setChildren] = useState(0);
-  const [rooms, setRooms] = useState(1);
-  const [childrenAges, setChildrenAges] = useState([]);
+  
 
   const navigate = useNavigate();
 
@@ -72,25 +68,20 @@ function HomePage() {
   }, []);
 
   useEffect(() => {
-    if (children > childrenAges.length) {
+    if (childrens > childrenAges.length) {
       setChildrenAges([...childrenAges, null]);
-    } else if (children < childrenAges.length) {
-      setChildrenAges(childrenAges.slice(0, children));
+    } else if (childrens < childrenAges.length) {
+      setChildrenAges(childrenAges.slice(0, childrens));
     }
-  }, [children, childrenAges.length]);
+  }, [childrens, childrenAges.length]);
 
-  const totalGuests = adults + children;
+  const totalGuests = adults + childrens;
   const guestText = `${totalGuests} Misafir, ${rooms} Oda`;
 
   const updateChildAge = (index, age) => {
     const newAges = [...childrenAges];
     newAges[index] = age;
     setChildrenAges(newAges);
-  };
-
-  const handleSearch = () => {
-    // Search butonuna basıldığında detay sayfasına yönlendir
-    navigate('/detail');
   };
 
   return (
@@ -103,11 +94,21 @@ function HomePage() {
           }
           `}
       </style>
-      
-      <Header />
+      {loading && (
+        <div className="loading-overlay">
+          <div className="spinner"></div>
+          <div>Yükleniyor...</div>
+        </div>
+      )}
+      <Header 
+        selectedNationality={selectedNationality} 
+        onNationalityChange={setSelectedNationality} 
+      />
 
       <div style={{ marginTop: '40px', display: 'flex', justifyContent: 'center', width: '100%', marginBottom: '40px' }}>
-          <SearchBar onSearch={handleSearch} />
+          <SearchBar
+          handleSearch={handleSearch}
+          />
       </div>
 
       <div className="PD-container"> 
@@ -131,18 +132,133 @@ function HomePage() {
     </div>
   );
 }
+function toDateOnlyString(date) {
+  return date.getFullYear() + '-' 
+       + String(date.getMonth() + 1).padStart(2, '0') + '-' 
+       + String(date.getDate()).padStart(2, '0');
+}
 
-// Ana App bileşeni
+function AppRoutes() {
+  const {
+    selectedLocation, setSelectedLocation,
+    selectedNationality, setSelectedNationality,
+    range, setRange,
+    loading, setLoading,
+    adults, setAdults,
+    childrenAges, setChildrenAges,
+    children, setChildren,
+    rooms, setRooms,
+    currency, setCurrency,
+  } = useBooking();
+
+
+  const navigate = useNavigate();
+
+  const handleSearch = async () => {
+
+    setLoading(true);
+
+    let arrivalLocations = [];
+
+    if (selectedLocation) {
+      if (selectedLocation.type === SearchSuggestionType.Hotel && selectedLocation.hotel?.id) {
+        arrivalLocations.push({ id: selectedLocation.hotel.id, name: selectedLocation.hotel.name });
+      } else if (selectedLocation.type === SearchSuggestionType.CityOrDestination && selectedLocation.city?.id) {
+        arrivalLocations.push({ id: selectedLocation.city.id, type: selectedLocation.type });
+      }
+    }
+
+    const requestData = {
+      checkAllotment: true,
+      checkStopSale: true,
+      getOnlyDiscountedPrice: false,
+      getOnlyBestOffers: false,
+      productType: 2,
+      roomCriteria: [
+      { adult: adults, childAges: childrenAges }
+      ],
+      nationality: selectedNationality?.id || "TR",
+      checkIn: range[0].startDate ? toDateOnlyString(new Date(range[0].startDate)) 
+                            : toDateOnlyString(new Date()),
+      night: range[0].endDate && range[0].startDate 
+        ? Math.max(1, Math.ceil((new Date(range[0].endDate) - new Date(range[0].startDate)) / (1000 * 60 * 60 * 24)))
+      : 1,
+      currency,
+      culture: "tr-TR"
+    };
+
+    try {
+      if(selectedLocation.type === SearchSuggestionType.Hotel ) {
+          requestData.Products.push(selectedLocation.hotel.id);
+          const data = await hotelPriceSearch(requestData);
+          if(!data.body || !data.body.hotels || data.body.hotels.length === 0) {
+          alert("Bu şehirde otel bulunamadı.");
+          navigate('/detail', { state: { hotelss: [] } });
+        }else{
+          navigate('/detail', { state: { hotelss: data.body.hotels } });
+        }
+      } else if (selectedLocation.type === SearchSuggestionType.CityOrDestination) {
+        requestData.arrivalLocations = arrivalLocations;
+        requestData.arrivalLocations[0].type = 2;
+        const data = await locationPriceSearch(requestData);
+        if(!data.body || !data.body.hotels || data.body.hotels.length === 0) {
+          alert("Bu şehirde otel bulunamadı.");
+          navigate('/detail', { state: { hotelss: [] } });
+        }else if(data.header.success === "false") {
+          alert(data.Header.messages[0].message);
+          navigate('/detail', { state: { hotelss: [] } });
+        }
+        
+        else{
+          navigate('/detail', { state: { hotelss: data.body.hotels } });
+        }
+      }
+    } catch (err) {
+      console.error("Error fetching hotels:", err);
+    }finally {
+      setLoading(false);
+    }
+  };
+
+  return (
+    <Routes>
+      <Route
+        path="/"
+        element={
+          <HomePage
+            handleSearch={handleSearch}
+          />
+        }
+      />
+      <Route
+        path="/detail"
+        element={
+          <DetailPage
+            handleSearch={handleSearch}
+          />
+        }
+      />
+      <Route 
+        path="/room/:id" 
+        element={
+        <RoomDetailPage 
+        />
+        } 
+      />
+
+    </Routes>
+  );
+}
+
 function App() {
   return (
     <Router>
-      <Routes>
-        <Route path="/" element={<HomePage />} />
-        <Route path="/detail" element={<DetailPage />} />
-        <Route path="/room/:id" element={<RoomDetailPage />} />
-      </Routes>
+      <BookingProvider>
+        <AppRoutes />
+      </BookingProvider>
     </Router>
   );
 }
+
 
 export default App;

@@ -5,7 +5,7 @@ import NationalitySelect from '../search-page/SearchBar/NationalitySelect';
 import CurrencySelect from '../search-page/SearchBar/CurrencySelect';
 import './Header.css';
 
-function Header() {
+function Header({selectedNationality, onNationalityChange}) {
   const navigate = useNavigate();
 
   const handleLogoClick = () => {
@@ -23,7 +23,10 @@ function Header() {
       <div style={{ position: 'absolute', right: '16px', top: '50%', transform: 'translateY(-50%)', display: 'flex', gap: '20px', alignItems: 'center' }}>
         <CurrencySelect />
         <div style={{ width: '1.5px', height: '20px', backgroundColor: 'white' }}></div>
-        <NationalitySelect />
+        <NationalitySelect
+          onNationalityChange={onNationalityChange}
+          selectedNationality={selectedNationality}
+         />
         <div style={{ width: '1.5px', height: '20px', backgroundColor: 'white' }}></div>
         <div style={{ 
           fontWeight: '600', 
