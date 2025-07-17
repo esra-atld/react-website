@@ -103,6 +103,8 @@ function DetailPage({ handleSearch }) {
       <Header 
         selectedNationality={selectedNationality} 
         onNationalityChange={setSelectedNationality} 
+        selectedCurrency={currency}
+        onCurrencyChange={setCurrency}
       />
       {loading && (
         <div className="loading-overlay">

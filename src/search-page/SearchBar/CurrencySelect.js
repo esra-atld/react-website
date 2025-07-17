@@ -2,18 +2,28 @@ import React, { useState, useRef, useEffect } from 'react';
 import { getCurrencies } from '../../services/currencyService';
 import './CurrencySelect.css';
 
-function CurrencySelect() {
-  const [selectedCurrency, setSelectedCurrency] = useState('TRY');
-  const [currencies, setCurrencies] = useState([]);
+function CurrencySelect({ onCurrencyChange, selectedCurrency }) {
   const [dropdownOpen, setDropdownOpen] = useState(false);
+  const [currencies, setCurrencies] = useState([]);
   const currencyRef = useRef(null);
 
+  // Fetch currencies on first render
   useEffect(() => {
     getCurrencies()
-      .then((data) => setCurrencies(data))
-      .catch((error) => console.error('Failed to fetch currencies:', error));
-  }, []);
+      .then((data) => {
+        setCurrencies(data);
+        // Only set default if no currency is selected (e.g., first load)
+        if (!selectedCurrency) {
+          const defaultCur = data.find(c => c.code === 'TRY') || data[0];
+          onCurrencyChange?.(defaultCur);
+        }
+      })
+      .catch(err => {
+        console.error('Failed to load currencies:', err);
+      });
+  }, []); // No dependency on selectedCurrency to avoid loops
 
+  // Close dropdown on clicks outside
   useEffect(() => {
     function handleClickOutside(event) {
       if (currencyRef.current && !currencyRef.current.contains(event.target)) {
@@ -21,33 +31,43 @@ function CurrencySelect() {
       }
     }
     document.addEventListener('mousedown', handleClickOutside);
-    return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
-    };
+    return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
-  const handleCurrencySelect = (code) => {
-    setSelectedCurrency(code);
-    localStorage.setItem('currency', code); // save for later requests
+  const handleSelect = (currency) => {
+    onCurrencyChange?.(currency); // Update via callback
     setDropdownOpen(false);
   };
 
   return (
     <div
       className="currency-box"
-      onClick={() => setDropdownOpen(!dropdownOpen)}
+      onClick={() => setDropdownOpen(prev => !prev)}
       ref={currencyRef}
+      style={{ marginLeft: 8 }}
     >
-      <span className="currency-text">{selectedCurrency}</span>
+      <span className="currency-text">
+        {selectedCurrency?.code || 'TRY'}
+      </span>
+
       {dropdownOpen && (
         <div className="currency-dropdown">
-          {currencies.map((cur) => (
+          {currencies.map((currency) => (
             <div
-              key={cur.code}
-              className="currency-option"
-              onClick={() => handleCurrencySelect(cur.code)}
+              key={currency.code}
+              onClick={() => handleSelect(currency)}
+              style={{
+                padding: '10px 20px',
+                cursor: 'pointer',
+                color: '#1E232C',
+                fontWeight: 500,
+                background: currency.code === selectedCurrency?.code ? '#E5E7EB' : '#fff',
+                transition: 'background 0.15s'
+              }}
+              onMouseOver={e => e.currentTarget.style.background = '#E5E7EB'}
+              onMouseOut={e => e.currentTarget.style.background = currency.code === selectedCurrency?.code ? '#E5E7EB' : '#fff'}
             >
-              {cur.code}
+              {currency.code}
             </div>
           ))}
         </div>
