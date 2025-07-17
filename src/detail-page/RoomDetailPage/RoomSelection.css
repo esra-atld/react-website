@@ -1,13 +1,36 @@
 .room-selection-row {
   display: flex;
-  gap: 16px;
-  width: 100%;
+  gap: 90px;
+  width: 60%;
   justify-content: flex-start;
   align-items: center;
   background: none;
   box-shadow: none;
   padding: 0;
   margin: 24px 0 0 0;
+}
+
+.room-selection-row .date-range-box,
+.room-selection-row .guest-box {
+  min-width: 220px;
+  max-width: 500px;
+  border-radius: 10px;
+  border: 2px solid #718ca8;
+  background: #fff;
+  font-family: 'Inter', sans-serif;
+  font-size: 1rem;
+  font-weight: 500;
+  box-shadow: 0 4px 20px rgba(30,36,50,0.13);
+  padding: 10px 18px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  transition: border 0.2s, box-shadow 0.2s;
+}
+.room-selection-row .date-range-box:focus-within,
+.room-selection-row .guest-box:focus-within {
+  border: 1.5px solid #219EBC;
+  box-shadow: 0 0 0 2px #8ECAE6;
 }
 
 .room-selection-btn {
@@ -37,5 +60,11 @@
     flex-direction: column;
     gap: 12px;
     align-items: stretch;
+  }
+  .room-selection-row .date-range-box,
+  .room-selection-row .guest-box {
+    width: 100%;
+    min-width: 0;
+    max-width: 100%;
   }
 } 
