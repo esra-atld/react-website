@@ -1,0 +1,40 @@
+.room-detail-tabs {
+  display: flex;
+  gap: 70px;
+  margin-top: 24px;
+  margin-bottom: 0;
+}
+
+.tab-item {
+  position: relative;
+  font-family: 'Inter', sans-serif;
+  font-weight: 600;
+  font-size: 20px;
+  color: #1E232C;
+  cursor: pointer;
+  padding-bottom: 12px;
+  transition: color 0.2s;
+}
+
+.tab-underline {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  height: 3px;
+  width: 100%;
+  background: #E0E0E0;
+  border-radius: 2px;
+  transition: background 0.2s, width 0.2s;
+}
+
+.tab-item:hover .tab-underline {
+  background: #A0A0A0;
+}
+
+.tab-item.active .tab-underline {
+  background: #1668E3;
+}
+
+.tab-item.active {
+  color: #1668E3;
+} 

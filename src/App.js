@@ -8,6 +8,7 @@ import PopularDestinations from './search-page/PopularDestinations/PopularDestin
 import NationalitySelect from './search-page/SearchBar/NationalitySelect';
 import CurrencySelect from './search-page/SearchBar/CurrencySelect';
 import DetailPage from './detail-page/DetailPage';
+import RoomDetailPage from './detail-page/RoomDetailPage';
 import Header from './components/Header';
 import { SearchSuggestionType } from './search-page/SearchBar/LocationInput';
 import { hotelPriceSearch, locationPriceSearch } from './services/priceSearchService';
@@ -237,6 +238,14 @@ function AppRoutes() {
           />
         }
       />
+      <Route 
+        path="/room/:id" 
+        element={
+        <RoomDetailPage 
+        />
+        } 
+      />
+
     </Routes>
   );
 }

@@ -6,7 +6,11 @@ import Sidebar from './Sidebar';
 import './DetailPage.css';
 import SortCriteriaButton from './SortCriteriaButton';
 import OtelKartlari from './OtelKartlari';
+<<<<<<< HEAD
 import { useBooking } from '../BookingContext';
+=======
+import RoomDetailPage from './RoomDetailPage'; // yeni import klasörden
+>>>>>>> main
 
 function DetailPage({ handleSearch }) {
   const {
