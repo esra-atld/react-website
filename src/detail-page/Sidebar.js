@@ -40,9 +40,9 @@ function Sidebar({
     <div className="sidebar" style={style}>
       <div className="sidebar-content">
         {/* Harita Bölümü */}
-        <div className="map-section">
+        <div className="detail-map-section">
           <h3>Harita</h3>
-          <div className="map-container">
+          <div className="detail-map-container">
             <LeafletMap markers={filteredHotels} />
           </div>
           <div className="map-info">

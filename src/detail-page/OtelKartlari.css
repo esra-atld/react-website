@@ -120,18 +120,19 @@
   display: flex;
   flex-direction: column;
   align-items: flex-end;
-  justify-content: center;
+  justify-content: flex-end;
   height: 100%;
   margin-right: 32px;
   min-width: 160px;
+  padding-bottom: 16px;
 }
 
 .otel-fiyat {
   font-family: 'Inter', sans-serif;
-  font-size: 2rem;
-  font-weight: 500;
+  font-size: 1.3rem;
+  font-weight: 700;
   color: #1E232C;
-  margin-bottom: 8px;
+  margin-bottom: 2px;
 }
 
 .otel-fiyat-detay {
@@ -139,7 +140,7 @@
   font-size: 1rem;
   color: #444;
   text-align: right;
-  margin-bottom: 14px;
+  margin-bottom: 6px;
   line-height: 1.2;
 }
 
@@ -155,6 +156,7 @@
   cursor: pointer;
   transition: background 0.2s;
   box-shadow: 0 2px 8px rgba(30, 36, 50, 0.10);
+  margin-bottom: 4px;
 }
 .oda-sec-btn:hover {
   background: #e68900;
@@ -186,7 +188,7 @@
     min-height: 140px;
     border-radius: 16px;
     flex-direction: column;
-    padding-bottom: 16px;
+    padding-bottom: 200px;
   }
   .otel-image-area {
     width: 90vw;

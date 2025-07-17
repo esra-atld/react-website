@@ -7,6 +7,7 @@ import { FaStar } from 'react-icons/fa';
 import { FaChevronRight } from 'react-icons/fa';
 import RoomDetailTabs from './RoomDetailTabs';
 import AboutOtelPopup from './AboutOtelPopup';
+import RoomSelection from './RoomSelection';
 
 const hotel = {
   name: 'Excalibur',
@@ -222,7 +223,7 @@ const RoomDetailPage = () => {
                 />
                 <div className="about-section-divider" />
                 <h4 className="room-selection-title" ref={roomSelectionRef}>Oda seçimi</h4>
-                <div className="room-selection-placeholder" />
+                <RoomSelection />
               </div>
             )}
             {activeTab === 'rooms' && (

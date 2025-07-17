@@ -25,17 +25,11 @@
 }
 
 /* Harita Bölümü Stilleri */
-.map-section {
+.detail-map-section {
   margin-bottom: 32px;
 }
 
-.map-section h3 {
-  margin-bottom: 16px;
-  border-bottom: none;
-  padding-bottom: 0;
-}
-
-.map-container {
+.detail-map-container {
   position: relative;
   width: 100%;
   height: 200px;
@@ -43,25 +37,26 @@
   overflow: hidden;
   margin-bottom: 12px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  background: white;
 }
 
 /* Leaflet harita stilleri */
-.map-container .leaflet-container {
+.detail-map-container .leaflet-container {
   border-radius: 12px;
   overflow: hidden;
 }
 
-.map-container .leaflet-popup-content-wrapper {
+.detail-map-container .leaflet-popup-content-wrapper {
   border-radius: 8px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
 
-.map-container .leaflet-popup-content {
+.detail-map-container .leaflet-popup-content {
   margin: 0;
   padding: 0;
 }
 
-.map-container .leaflet-popup-tip {
+.detail-map-container .leaflet-popup-tip {
   background: white;
 }
 
