@@ -193,9 +193,9 @@ function AppRoutes() {
           const data = await hotelPriceSearch(requestData);
           if(!data.body || !data.body.hotels || data.body.hotels.length === 0) {
           alert("Bu şehirde otel bulunamadı.");
-          navigate('/detail', { state: { hotelss: [] } });
+          navigate('/detail', { state: { hotels: [] } });
         }else{
-          navigate('/detail', { state: { hotelss: data.body.hotels } });
+          navigate('/detail', { state: { hotels: data.body.hotels } });
         }
       } else if (selectedLocation.type === SearchSuggestionType.CityOrDestination) {
         requestData.arrivalLocations = arrivalLocations;
@@ -203,14 +203,14 @@ function AppRoutes() {
         const data = await locationPriceSearch(requestData);
         if(!data.body || !data.body.hotels || data.body.hotels.length === 0) {
           alert("Bu şehirde otel bulunamadı.");
-          navigate('/detail', { state: { hotelss: [] } });
+          navigate('/detail', { state: { hotels: [] } });
         }else if(data.header.success === "false") {
           alert(data.Header.messages[0].message);
-          navigate('/detail', { state: { hotelss: [] } });
+          navigate('/detail', { state: { hotels: [] } });
         }
         
         else{
-          navigate('/detail', { state: { hotelss: data.body.hotels } });
+          navigate('/detail', { state: { hotels: data.body.hotels } });
         }
       }
     } catch (err) {

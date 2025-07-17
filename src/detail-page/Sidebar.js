@@ -2,7 +2,7 @@ import React from 'react';
 import './Sidebar.css';
 import LeafletMap from './LeafletMap';
 
-function Sidebar({ style }) {
+function Sidebar({ style, hotels = [] }) {
   return (
     <div className="sidebar" style={style}>
       <div className="sidebar-content">
@@ -10,11 +10,11 @@ function Sidebar({ style }) {
         <div className="map-section">
           <h3>Harita</h3>
           <div className="map-container">
-            <LeafletMap />
+            <LeafletMap markers={hotels} />
           </div>
           <div className="map-info">
             <p>Antalya bölgesindeki oteller</p>
-            <span className="hotel-count">6 otel bulundu</span>
+            <span className="hotel-count">'{hotels.length} otel bulundu'</span>
           </div>
         </div>
 
