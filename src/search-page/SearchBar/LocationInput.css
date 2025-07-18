@@ -11,8 +11,8 @@
   user-select: none;
   transition: box-shadow 0.2s;
   cursor: pointer;
-  margin-right: -6px;
-  margin-left: 100px;
+  margin-right: 0;
+  margin-left: 16px;
 }
 .location-input {
   border: none;
@@ -33,13 +33,3 @@
 .location-dropdown > div {
   cursor: pointer;
 } 
-
-
-@keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
-}
-
-.spinner-icon {
-  animation: spin 1s linear infinite;
-}

@@ -11,8 +11,9 @@ function Sidebar({
   setSelectedStars,
   selectedAmenities,
   setSelectedAmenities,
-  style
-  }) {
+  style,
+  selectedLocation // yeni eklendi
+}) {
 
 
   // Handle star rating checkboxes
@@ -46,7 +47,7 @@ function Sidebar({
             <LeafletMap markers={filteredHotels} />
           </div>
           <div className="map-info">
-            <p>Antalya bölgesindeki oteller</p>
+            <p>{selectedLocation?.name ? `${selectedLocation.name} bölgesindeki oteller` : 'Bölgedeki oteller'}</p>
             <span className="hotel-count">'{filteredHotels.length} otel bulundu'</span>
           </div>
         </div>

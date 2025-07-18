@@ -23,7 +23,7 @@ yarn-debug.log*
 yarn-error.log*
 
 # .NET/Visual Studio/Backend için eklenenler
-appsettings.Development.json
+﻿appsettings.Development.json
 bin/
 obj/
 .vs/
