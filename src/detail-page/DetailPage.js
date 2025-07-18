@@ -158,6 +158,7 @@ function DetailPage({ handleSearch }) {
           setSelectedStars={setSelectedStars}
           selectedAmenities={selectedAmenities}
           setSelectedAmenities={setSelectedAmenities}
+          selectedLocation={selectedLocation}
         />
         
         
@@ -176,10 +177,11 @@ function DetailPage({ handleSearch }) {
                   stars: Math.min(hotel.stars || 4, 5),
                   amenities: getAmenities(hotel),
                   price: `${hotel.offers?.[0]?.price?.amount || 0} ${hotel.offers?.[0]?.price?.currency || ''}`,
-                  priceDetails: "Fiyat bilgi detayı bulunamadı"
-                }
-              }
-              onShowMap={handleShowMapClick} // Pass the handler to OtelKartlari
+                  priceDetails: "Fiyat bilgi detayı bulunamadı",
+                  oldPrice: hotel.offers?.[0]?.price?.oldAmount,
+                  discountPercent: hotel.offers?.[0]?.price?.percent
+                }}
+                onShowMap={handleShowMapClick}
               />
             );
           })

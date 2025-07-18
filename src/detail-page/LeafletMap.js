@@ -108,17 +108,27 @@ const LeafletMap = ({ markers = [], choosenHotel }) => {
 
   return (
     <div
-      ref={mapRef}
       style={{
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        height: '220px', // parent yüksekliği
         width: '100%',
-        height: '200px',
-        borderRadius: '12px',
-        overflow: 'hidden',
-        background: '#e0e0e0',
-        minHeight: '200px',
-        minWidth: '100px',
       }}
-    />
+    >
+      <div
+        ref={mapRef}
+        style={{
+          width: '100%',
+          height: '200px',
+          borderRadius: '12px',
+          overflow: 'hidden',
+          background: '#e0e0e0',
+          minHeight: '200px',
+          minWidth: '100px',
+        }}
+      />
+    </div>
   );
 };
 

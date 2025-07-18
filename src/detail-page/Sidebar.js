@@ -11,6 +11,7 @@ function Sidebar({
   setSelectedStars,
   selectedAmenities,
   setSelectedAmenities,
+<<<<<<< HEAD
   style
   }) {
     
@@ -19,6 +20,11 @@ function Sidebar({
     internet: ["94", "95"],
     otopark: ["101", "102"]
   };
+=======
+  style,
+  selectedLocation // yeni eklendi
+}) {
+>>>>>>> main
 
   const amenityOptions = [
     { key: "restoran", label: "Restoran" },
@@ -64,7 +70,7 @@ function Sidebar({
             <LeafletMap markers={filteredHotels} />
           </div>
           <div className="map-info">
-            <p>Antalya bölgesindeki oteller</p>
+            <p>{selectedLocation?.name ? `${selectedLocation.name} bölgesindeki oteller` : 'Bölgedeki oteller'}</p>
             <span className="hotel-count">'{filteredHotels.length} otel bulundu'</span>
           </div>
         </div>

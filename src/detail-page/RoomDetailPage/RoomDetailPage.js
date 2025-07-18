@@ -7,7 +7,8 @@ import { FaStar } from 'react-icons/fa';
 import { FaChevronRight } from 'react-icons/fa';
 import RoomDetailTabs from './RoomDetailTabs';
 import AboutOtelPopup from './AboutOtelPopup';
-import RoomSelection from './RoomSelection';
+import RoomSelectionBar from './RoomSelectionBar';
+import RoomCardList from './RoomCardList';
 
 const hotel = {
   name: 'Excalibur',
@@ -222,8 +223,8 @@ const RoomDetailPage = () => {
                   facilities={hotel.facilities}
                 />
                 <div className="about-section-divider" />
-                <h4 className="room-selection-title" ref={roomSelectionRef}>Oda seçimi</h4>
-                <RoomSelection />
+                <RoomSelectionBar />
+                <RoomCardList />
               </div>
             )}
             {activeTab === 'rooms' && (
@@ -237,10 +238,12 @@ const RoomDetailPage = () => {
         <aside className="room-sidebar">
           <div className="map-section">
             <h3 className="sidebar-map-title">Bölgeyi keşfedin</h3>
+            <hr className="sidebar-divider" />
             <div className="map-container">
               <LeafletMap />
             </div>
           </div>
+          <hr className="sidebar-divider" />
           <div className="sidebar-section">
             <ul className="feature-list">
               <li>Ücretsiz Wi-Fi</li>
