@@ -11,20 +11,15 @@ function Sidebar({
   setSelectedStars,
   selectedAmenities,
   setSelectedAmenities,
-<<<<<<< HEAD
-  style
-  }) {
-    
+  style,
+  selectedLocation // yeni eklendi
+}) {
+  
   const amenityGroups = {
     restoran: ["88", "89"], 
     internet: ["94", "95"],
     otopark: ["101", "102"]
   };
-=======
-  style,
-  selectedLocation // yeni eklendi
-}) {
->>>>>>> main
 
   const amenityOptions = [
     { key: "restoran", label: "Restoran" },
