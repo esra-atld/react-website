@@ -311,31 +311,43 @@
   gap: 2px;
 }
 
+.hotel-stars svg {
+  font-size: 1.4rem;
+  width: 1.4rem;
+  height: 1.4rem;
+}
+
 .hotel-location-theme-row {
   display: flex;
   align-items: center;
-  gap: 12px;
-  margin-top: 2px;
-  margin-bottom: 2px;
+  gap: 8px;
 }
 .hotel-location {
-  color: #5D5D5D;
-  font-size: 1.01rem;
+  color: #666;
+  font-size: 1.25rem;
+  margin-top: 4px;
+  font-family: 'Inter', sans-serif;
   font-weight: 500;
+  vertical-align: middle;
+}
+.hotel-theme {
+  font-size: 1.25rem;
+  color: #6A6A6A;
+  font-family: 'Inter', sans-serif;
+  font-weight: 600;
+  vertical-align: middle;
+  position: relative;
+  top: 2px;
 }
 .vertical-divider {
   display: inline-block;
-  width: 1.5px;
-  height: 18px;
-  background: #5D5D5D;
-  border-radius: 2px;
-  margin: 0 4px;
-}
-.hotel-theme {
-  color: #5D5D5D;
-  font-size: 1.01rem;
-  font-weight: 500;
-  letter-spacing: 0.01em;
+  width: 2px;
+  height: 22px;
+  background: #E0E0E0;
+  margin: 0 12px;
+  vertical-align: middle;
+  position: relative;
+  top: 2px;
 }
 
 .feature-list {
@@ -374,7 +386,7 @@
 .about-section-title {
   font-family: 'Inter', sans-serif;
   font-weight: 700;
-  font-size: 18px;
+  font-size: 22px;
   color: #1E232C;
   margin-top: 24px;
   margin-bottom: 8px;
@@ -385,11 +397,12 @@
   font-weight: 400;
   color: #1E232C;
   margin-bottom: 12px;
-  font-size: 16px;
+  font-size: 1.18rem;
 }
 
 .about-section-desc-grey {
-  color: #7B7B7B;
+  color: #555555;
+  font-size: 1.18rem;
 }
 
 .about-section-features-row {
@@ -405,13 +418,6 @@
   gap: 12px;
 }
 
-@media (max-width: 600px) {
-  .about-section-features-row {
-    flex-direction: column;
-    gap: 12px;
-  }
-}
-
 .about-section-list {
   list-style: none;
   padding: 0;
@@ -422,7 +428,7 @@
 }
 
 .about-section-list li {
-  font-size: 15px;
+  font-size: 1.08rem;
   color: #1E232C;
   font-family: 'Inter', sans-serif;
   font-weight: 500;
@@ -432,7 +438,7 @@
   color: #1668E3;
   font-family: 'Inter', sans-serif;
   font-weight: 600;
-  font-size: 15px;
+  font-size: 17px !important;
   text-decoration: none;
   transition: text-decoration 0.2s;
   margin-top: 4px;
@@ -473,7 +479,7 @@
 .hotel-title {
   font-family: 'Inter', sans-serif;
   font-weight: 800;
-  font-size: 28px;
+  font-size: 2.5rem;
   color: #1E232C;
   margin-bottom: 8px;
 } 
