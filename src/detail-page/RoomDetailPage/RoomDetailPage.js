@@ -7,7 +7,7 @@ import { FaStar } from 'react-icons/fa';
 import { FaChevronRight } from 'react-icons/fa';
 import RoomDetailTabs from './RoomDetailTabs';
 import AboutOtelPopup from './AboutOtelPopup';
-import RoomSelection from './RoomSelection';
+import RoomSelectionBar from './RoomSelectionBar';
 import RoomCardList from './RoomCardList';
 
 const hotel = {
@@ -223,8 +223,7 @@ const RoomDetailPage = () => {
                   facilities={hotel.facilities}
                 />
                 <div className="about-section-divider" />
-                <h4 className="room-selection-title" ref={roomSelectionRef}>Oda seçimi</h4>
-                <RoomSelection />
+                <RoomSelectionBar />
                 <RoomCardList />
               </div>
             )}

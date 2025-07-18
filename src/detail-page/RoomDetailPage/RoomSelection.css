@@ -13,7 +13,7 @@
 .room-selection-row .date-range-box,
 .room-selection-row .guest-box {
   min-width: 220px;
-  max-width: 500px;
+  max-width: 320px;
   border-radius: 10px;
   border: 2px solid #718ca8;
   background: #fff;

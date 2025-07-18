@@ -6,16 +6,18 @@
   box-shadow: 0 8px 32px rgba(30,36,50,0.18), 0 1.5px 6px rgba(30,36,50,0.10);
   margin-bottom: 28px;
   overflow: hidden;
-  min-height: 180px;
-  min-width: 1200px;
-  max-width: 2000px;
-  width: 100%;
+  min-height: 140px;
+  width: calc(100% + 25px);
+  margin-right: -25px;
+  max-width: none;
+  min-width: 0;
+  transition: width 0.3s, margin 0.3s;
 }
 .room-card-image-area {
   position: relative;
-  width: 220px;
-  min-width: 180px;
-  height: 180px;
+  width: 320px;
+  min-width: 240px;
+  height: 270px;
   background: #f3f3f3;
   display: flex;
   align-items: center;
@@ -36,24 +38,33 @@
   justify-content: space-between;
   width: 100%;
   pointer-events: none;
+  z-index: 2;
 }
 .room-card-arrow {
-  background: rgba(255,255,255,0.85);
+  background: transparent;
   border: none;
   border-radius: 50%;
-  width: 32px;
-  height: 32px;
-  font-size: 1.2rem;
-  font-weight: bold;
-  color: #1976d2;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   cursor: pointer;
   pointer-events: all;
+  transition: box-shadow 0.2s, background 0.2s;
   box-shadow: 0 2px 8px rgba(30,36,50,0.10);
   margin: 0 8px;
-  transition: background 0.2s;
+  padding: 0;
+}
+.room-card-arrow svg {
+  display: block;
 }
 .room-card-arrow:hover {
   background: #e0e0e0;
+  box-shadow: 0 4px 16px rgba(2,48,71,0.12);
+}
+.room-card-arrow:active {
+  background: #bcdffb;
 }
 .room-card-image-count {
   position: absolute;
@@ -69,7 +80,7 @@
 }
 .room-card-main-content {
   flex: 2;
-  padding: 32px 40px 32px 40px;
+  padding: 14px 20px 14px 20px;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -110,7 +121,7 @@
   flex-direction: column;
   align-items: flex-end;
   justify-content: center;
-  padding: 32px 40px 32px 0;
+  padding: 14px 20px 14px 0;
   min-width: 220px;
 }
 .room-card-discount {
@@ -157,15 +168,13 @@
   background: #ffb703;
 }
 
-@media (max-width: 2000px) {
-  .room-card {
-    min-width: 0;
-    max-width: 100%;
-  }
-}
+/* Mobil responsive media query kaldırıldı */
 
 @media (max-width: 900px) {
   .room-card {
+    width: 100%;
+    margin-right: 0;
+    max-width: 100%;
     flex-direction: column;
     min-height: 0;
   }
@@ -186,4 +195,15 @@
     text-align: left;
     padding: 16px;
   }
+}
+
+.camera-icon {
+  color: #fff;
+}
+.arrow-icon {
+  color: #0C4A69;
+  transition: color 0.2s;
+}
+.arrow-icon.active {
+  color: #8ECAE6;
 } 

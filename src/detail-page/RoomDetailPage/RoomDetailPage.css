@@ -14,7 +14,7 @@
 .room-detail-content {
   display: flex;
   gap: 32px;
-  max-width: 1200px;
+  max-width: 1500px;
   margin: 0 auto;
   margin-top: 16px;
 }
