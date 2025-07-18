@@ -23,7 +23,6 @@ import baseApi from './baseApi';
 export const getCheckInDates = async (requestDto) => {
     try {
         const response = await baseApi.post('/getcheckindates', requestDto);
-        console.log('Check-in dates response:', response);
         /** @type {GetCheckInDatesResponseDto} */
         return {
             Dates: response.body?.dates || [],

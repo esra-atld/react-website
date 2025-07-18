@@ -44,7 +44,6 @@ function HomePage({ handleSearch }) {
   const guestRef = useRef(null);
   
 
-  const navigate = useNavigate();
 
   useEffect(() => {
     function handleClickOutside(event) {
@@ -174,7 +173,7 @@ function AppRoutes() {
       checkAllotment: true,
       checkStopSale: true,
       getOnlyDiscountedPrice: false,
-      getOnlyBestOffers: false,
+      getOnlyBestOffers: true,
       productType: 2,
       roomCriteria: [
       { adult: adults, childAges: childrenAges }
@@ -211,7 +210,6 @@ function AppRoutes() {
           alert(data.Header.messages[0].message);
           navigate('/detail', { state: { hotels: [] } });
         }
-        
         else{
           navigate('/detail', { state: { hotels: data.body.hotels } });
         }

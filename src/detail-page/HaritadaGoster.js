@@ -1,10 +1,14 @@
 import React from 'react';
 import './HaritadaGoster.css';
 
-function HaritadaGoster() {
+function HaritadaGoster({ onShowMap, hotel}) {
+  
+  
   const handleClick = (e) => {
     e.preventDefault();
-    alert('Harita açılacak');
+    if (onShowMap && hotel) {
+      onShowMap(hotel);
+    }
   };
 
   return (

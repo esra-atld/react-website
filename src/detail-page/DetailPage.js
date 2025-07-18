@@ -8,6 +8,7 @@ import SortCriteriaButton from './SortCriteriaButton';
 import OtelKartlari from './OtelKartlari';
 import { useBooking } from '../BookingContext';
 import RoomDetailPage from './RoomDetailPage'; // yeni import klasörden
+import LeafletMap from './LeafletMap';
 
 function DetailPage({ handleSearch }) {
   const {
@@ -22,44 +23,41 @@ function DetailPage({ handleSearch }) {
       loading, setLoading, 
     } = useBooking();
   
-  const getAmenityIcon = (amenity) => {
-    switch (amenity) {
-      case 'POOL': return '🏊‍♂️';
-      case 'SPA': return '💆‍♀️';
-      case 'RESTAURANT': return '🍽️';
-      case 'GYM': return '🏋️‍♂️';
-      case 'BAR': return '🍹';
-      case 'BEACH': return '🏖️';
-      case 'CASINO': return '🎰';
-      case 'GOLF': return '🏌️‍♂️';
-      case 'TENNIS': return '🎾';
-      default: return '✨';
-    }
-  };  
+  const amenityOptions = [
+    { key: "restoran", label: "Restoran" },
+    { key: "internet", label: "İnternet" },
+    { key: "otopark", label: "Otopark" },
+    { key: "klima", label: "Klima" },
+    { key: "bar", label: "Bar" },
+    { key: "kasa", label: "Kasa" },
+    { key: "odaServisi", label: "Oda Servisi" },
+    { key: "kafeterya", label: "Kafeterya" },
+    { key: "dovizBurosu", label: "Döviz Bürosu" },
+    { key: "kuruTemizleme", label: "Kuru Temizleme" },
+  ];
+  const amenityGroups = {
+    restoran: ["88", "89", "90", "91"],
+    internet: ["94", "95"],
+    otopark: ["101", "102"],
+    klima: ["67", "89"],
+    bar: ["81"],
+    kasa: ["71"],
+    odaServisi: ["69"],
+    kafeterya: ["76"],
+    dovizBurosu: ["72"],
+    kuruTemizleme: ["97"]
+  };
+
+    
   const location = useLocation();
   const hotels = location.state?.hotels || [];
-
   // FILTER STATE
   const [priceRange, setPriceRange] = useState([0, 10000]);
   const [selectedStars, setSelectedStars] = useState([]);
   const [selectedAmenities, setSelectedAmenities] = useState([]);
 
   const [filteredHotels, setFilteredHotels] = useState([]);
-
-  // FILTER LOGIC
-  useEffect(() => {
-    const filtered = hotels.filter(hotel => {
-      const priceOk = hotel.offers?.[0]?.price?.amount || hotel.offers?.[0]?.price?.amount <= priceRange[1];
-      const starOk = selectedStars.length === 0 || selectedStars.includes(Math.floor(hotel.stars));
-      const amenitiesOk = selectedAmenities.every(am =>
-        hotel.amenities?.includes(am)
-      );
-      return priceOk && starOk && amenitiesOk;
-    });
-
-    setFilteredHotels(filtered);
-  }, [hotels, priceRange, selectedStars, selectedAmenities]);
-
+  
   // SORT STATE
   const [sortOption, setSortOption] = useState('İlk önerilen');
 
@@ -71,9 +69,14 @@ function DetailPage({ handleSearch }) {
       const starOk = selectedStars.length === 0 ||
         selectedStars.includes(Math.min(Math.floor(hotel.stars), 5));
 
-      const amenitiesOk = selectedAmenities.every(am =>
-        hotel.amenities?.includes(am)
-      );
+      const amenitiesOk =
+      selectedAmenities.length === 0 ||
+      selectedAmenities.every(groupKey => {
+        const groupIds = amenityGroups[groupKey] || [];
+        return groupIds.some(id =>
+          hotel.facilities?.some(f => f.id === id)
+        );
+      });
 
       return priceOk && starOk && amenitiesOk;
     });
@@ -97,6 +100,18 @@ function DetailPage({ handleSearch }) {
     setFilteredHotels(filtered);
   }, [hotels, priceRange, selectedStars, selectedAmenities, sortOption]);
 
+  const [showMapModal, setShowMapModal] = useState(false);
+  const [mapMarkers, setMapMarkers] = useState(); 
+
+  const handleShowMapClick = (hotel) => {
+    const geo = hotel.geolocation ?? hotel.geoLocation;
+    if (geo && geo.latitude && geo.longitude) {
+      setMapMarkers(hotel);
+      setShowMapModal(true); 
+    } else {
+      console.warn("Hotel location data is missing or invalid for map display:", hotel.geoLocation);
+    }
+  };
 
   return (
     <div className="detail-page">
@@ -119,6 +134,17 @@ function DetailPage({ handleSearch }) {
           onLocationSelect={setSelectedLocation}
         />
       </div>
+      {showMapModal && (
+      <div className="map-modal-overlay" onClick={() => setShowMapModal(false)}>
+        <div className="map-modal-content" onClick={(e) => e.stopPropagation()}>
+          <button className="close-map-button" onClick={() => setShowMapModal(false)}>
+            ×
+          </button>
+          <LeafletMap choosenHotel={mapMarkers} />
+        </div>
+      </div>
+    )}
+
       <SortCriteriaButton onChange={setSortOption} />
       <div className="detail-content">
        
@@ -139,26 +165,23 @@ function DetailPage({ handleSearch }) {
         <div className="detail-container">
         {filteredHotels.length > 0 ? (
           filteredHotels.map(hotel => {
-            // Build amenity icons nicely
-            const mappedAmenities = hotel.amenities?.map(a => ({
-              icon: getAmenityIcon(a),
-              name: a
-            })) || [];
-          
+            
             return (
               <OtelKartlari
                 key={hotel.id}
                 hotel={{
                   name: hotel.name,
-                  address: hotel.address || "Adres bulunamadı",
-                  image: hotel.thumbnailFull || "https://via.placeholder.com/400x300",
+                  geoLocation: getGeoLocation(hotel),
+                  address: getAddressText(hotel.address),
+                  image: hotel.thumbnailFull || "https://placehold.co/400x300",
                   stars: Math.min(hotel.stars || 4, 5),
-                  amenities: mappedAmenities,
+                  amenities: getAmenities(hotel),
                   price: `${hotel.offers?.[0]?.price?.amount || 0} ${hotel.offers?.[0]?.price?.currency || ''}`,
                   priceDetails: "Fiyat bilgi detayı bulunamadı",
                   oldPrice: hotel.offers?.[0]?.price?.oldAmount,
                   discountPercent: hotel.offers?.[0]?.price?.percent
                 }}
+                onShowMap={handleShowMapClick}
               />
             );
           })
@@ -169,6 +192,80 @@ function DetailPage({ handleSearch }) {
       </div>
     </div>
   );
+}
+const getAmenityIcon = (amenity) => {
+    switch (amenity) {
+      case "71": return '🔒'; // Kasa
+      case "72": return '💱'; // Döviz Bürosu
+      case "88": return '🍽️'; //Restoran(lar)
+      case "89": return '❄️🍽️'; //Restoran(lar) (Klimalı)
+      case "90": return '🚭🍽️'; //Restoran(lar) (Sigara İçilmeyen)
+      case "91": return '👶🍽️'; //Restoran(lar) (Çocuk İskemleli)
+      case "94": return '🌐'; //İnternet
+      case "95": return '📶'; //Kablosuz İnternet
+      case "97": return '🧺'; //Kuru Temizleme Servisi
+      case "81": return '🍹'; //Bar
+      case "67": return '❄️'; //Klima
+      case "76": return '☕'; //Kafeterya
+      case "69": return '🛎️'; //Oda Servisi
+      case "101": return '🚗'; //Açık Otopark
+      case "102": return '🚘'; //Kapalı Otopark
+      default: return '✨'; // Default icon for unrecognized amenities
+    }
+  };
+
+function getAmenities(hotel) {
+  // Try direct facilities first
+  if (Array.isArray(hotel.facilities)) {
+    return hotel.facilities.map(a => ({
+      icon: getAmenityIcon(a.id),
+      name: a.name || 'Bilinmeyen'
+    }));
+  }
+
+  // Then fallback to seasons path
+  if (
+    Array.isArray(hotel.seasons) &&
+    Array.isArray(hotel.seasons[0]?.facilityCategories) &&
+    Array.isArray(hotel.seasons[0].facilityCategories[0]?.facilities)
+  ) {
+    return hotel.seasons[0].facilityCategories[0].facilities.map(a => ({
+      icon: getAmenityIcon(a.id),
+      name: a.name || 'Bilinmeyen'
+    }));
+  }
+
+  // Fallback: empty list
+  return [];
+}
+
+
+function getGeoLocation(hotel) {
+  const geo = hotel.geoLocation || hotel.geolocation;
+  if (!geo) return null;
+  return geo.latitude && geo.longitude ? {
+    latitude: parseFloat(geo.latitude),
+    longitude: parseFloat(geo.longitude)
+  } : null;
+}
+function getAddressText(address) {
+  if (!address) return "Adres bulunamadı";
+
+  if (typeof address === 'string') {
+    return address;
+  }
+
+  // If it's an object with city and addressLines
+  if (address.addressLines && Array.isArray(address.addressLines)) {
+    return address.addressLines.join(', ');
+  }
+
+  // Fallback if no addressLines
+  if (address.city && address.city.name) {
+    return address.city.name;
+  }
+
+  return "Adres bulunamadı";
 }
 
 export default DetailPage; 
