@@ -143,20 +143,19 @@ function LocationInput({ onLocationSelect }) {
         className="location-box"
         ref={locationRef}
         style={{ 
-        marginLeft: 8, 
-        display: 'flex', 
-        alignItems: 'center', 
-        background: '#fff', 
-        borderRadius: 16, 
-        padding: '10px 20px 10px 14px', 
-        boxShadow: '0 2px 8px rgba(0,0,0,0.06)', 
-        position: 'relative', 
-        minWidth: 280, // Match dropdown minWidth
-        width: 280, // Fixed width
-        userSelect: 'none', 
-        transition: 'box-shadow 0.2s', 
-        cursor: 'pointer' 
-        }}
+         display: 'flex', 
+         alignItems: 'center', 
+         background: '#fff', 
+         borderRadius: 16, 
+         padding: '10px 20px 10px 14px', 
+         boxShadow: '0 2px 8px rgba(0,0,0,0.06)', 
+         position: 'relative', 
+         minWidth: 280, // Match dropdown minWidth
+         width: 280, // Fixed width
+         userSelect: 'none', 
+         transition: 'box-shadow 0.2s', 
+         cursor: 'pointer' 
+         }}
         onClick={handleBoxClick}
       >
       <span style={{ background: '#F9FAFB', borderRadius: '50%', width: 32, height: 32, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '1.4rem', color: '#0E597E', marginRight: 10 }}>

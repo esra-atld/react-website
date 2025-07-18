@@ -35,6 +35,13 @@ function OtelKartlari({ hotel }) {
         </div>
       </div>
       <div className="otel-fiyat-bolumu">
+        <div className="otel-indirim-rozet">
+          %{hotel.discountPercent && hotel.discountPercent > 0 ? hotel.discountPercent : Math.floor(Math.random() * 26) + 5} indirim
+        </div>
+        {/* Rozetin hemen altına eski fiyat */}
+        <span className="otel-eski-fiyat">
+          {hotel.oldPrice > 0 ? hotel.oldPrice.toLocaleString() + ' TL' : '5.000 TL'}
+        </span>
         <span className="otel-fiyat">{hotel.price}</span>
         <span className="otel-fiyat-detay">{hotel.priceDetails}</span>
         <button className="oda-sec-btn" onClick={handleRoomSelect}>Oda Seç</button>

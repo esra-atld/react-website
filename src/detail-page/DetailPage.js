@@ -69,7 +69,7 @@ function DetailPage({ handleSearch }) {
       const priceOk = price === undefined || price <= priceRange[1];
 
       const starOk = selectedStars.length === 0 ||
-        selectedStars.includes(Math.floor(hotel.stars));
+        selectedStars.includes(Math.min(Math.floor(hotel.stars), 5));
 
       const amenitiesOk = selectedAmenities.every(am =>
         hotel.amenities?.includes(am)
@@ -132,6 +132,7 @@ function DetailPage({ handleSearch }) {
           setSelectedStars={setSelectedStars}
           selectedAmenities={selectedAmenities}
           setSelectedAmenities={setSelectedAmenities}
+          selectedLocation={selectedLocation}
         />
         
         
@@ -151,10 +152,12 @@ function DetailPage({ handleSearch }) {
                   name: hotel.name,
                   address: hotel.address || "Adres bulunamadı",
                   image: hotel.thumbnailFull || "https://via.placeholder.com/400x300",
-                  stars: hotel.stars || 4,
+                  stars: Math.min(hotel.stars || 4, 5),
                   amenities: mappedAmenities,
                   price: `${hotel.offers?.[0]?.price?.amount || 0} ${hotel.offers?.[0]?.price?.currency || ''}`,
-                  priceDetails: "Fiyat bilgi detayı bulunamadı"
+                  priceDetails: "Fiyat bilgi detayı bulunamadı",
+                  oldPrice: hotel.offers?.[0]?.price?.oldAmount,
+                  discountPercent: hotel.offers?.[0]?.price?.percent
                 }}
               />
             );

@@ -1,6 +1,0 @@
-﻿appsettings.Development.json
-bin/
-obj/
-.vs/
-*.user
-*.suo
