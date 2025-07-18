@@ -96,7 +96,6 @@ function LocationInput({ onLocationSelect }) {
     setSelectedOption(selectedOption); // Store the complete option object
     setDropdownOpen(false);
     setFilteredOptions([]);
-    console.log("Selected option:", selectedOption);
     
     // Notify parent component about the selection
     if (onLocationSelect) {

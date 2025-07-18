@@ -10,62 +10,94 @@ L.Icon.Default.mergeOptions({
   shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-shadow.png',
 });
 
-const LeafletMap = ({ markers = [] }) => {
+const LeafletMap = ({ markers = [], choosenHotel }) => {
+  
   const mapRef = useRef(null);
   const mapInstanceRef = useRef(null);
 
   useEffect(() => {
-    if (!mapRef.current) return;
 
-    // Eski harita varsa temizle
+    // Ensure the map container is available
+    if (!mapRef.current) {
+      return;
+    }
+
+    // Clean up previous map instance if it exists to prevent multiple maps
     if (mapInstanceRef.current) {
       mapInstanceRef.current.remove();
       mapInstanceRef.current = null;
     }
 
-    // Harita oluştur
+    // Initialize the map
     const map = L.map(mapRef.current, {
-      center: [36.8969, 30.7133],
+      center: [36.8969, 30.7133], // Default center (Antalya)
       zoom: 12,
-      zoomControl: false,
-      attributionControl: false,
-      preferCanvas: true
+      zoomControl: false, // Disable default zoom control
+      attributionControl: false, // Disable default attribution
+      preferCanvas: true // Use canvas rendering for performance
     });
-    mapInstanceRef.current = map;
+    mapInstanceRef.current = map; // Store the map instance
 
-    // Tile layer ekle
+    // Add OpenStreetMap tile layer
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
       maxZoom: 19,
+      // You can add attribution here if attributionControl is enabled
+      // attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
     }).addTo(map);
 
+    // Add markers to the map
+    const newMarkers = [];
     markers.forEach(hotel => {
-      if (hotel.geoLocation.latitude && hotel.geoLocation.longitude) {
-        L.marker([hotel.geoLocation.latitude, hotel.geoLocation.longitude])
+      const geo = hotel.geolocation ?? hotel.geoLocation;
+
+      if (geo?.latitude && geo?.longitude) {
+        const marker = L.marker([geo.latitude, geo.longitude])
           .addTo(map)
-          .bindPopup(hotel.name);
+          .bindPopup(hotel.name || 'Konum');
+        newMarkers.push(marker);
+      } else {
+        console.warn("Invalid marker data:", hotel);
       }
     });
-
-    // Örnek marker
-    L.marker([36.8969, 30.7133]).addTo(map)
-      .bindPopup('ÖRNEK MARKER')
-      .openPopup();
-
-    
-
-    if (markers.length > 0) {
-      const bounds = L.latLngBounds(
-        markers.map(h => L.latLng(h.geoLocation?.latitude, h.geoLocation?.longitude))
-      );
-      map.fitBounds(bounds, { padding: [20, 20] });
+    // Add chosen hotel markers to the map
+    if (choosenHotel && (choosenHotel.geoLocation || choosenHotel.geolocation)) {
+      const geo = choosenHotel.geolocation ?? choosenHotel.geoLocation;
+      const chosenMarker = L.marker([geo.latitude, geo.longitude])
+        .addTo(map)
+        .bindPopup(choosenHotel.name || 'Seçilen Konum');
+      newMarkers.push(chosenMarker);
+    } else {
+      console.warn("No valid markers to display on the map.");
+    }
+    // Adjust map view based on markers
+    if (newMarkers.length > 0) {
+      if (newMarkers.length === 1) {
+        // For a single marker, set view directly and open popup
+        const singleMarker = newMarkers[0];
+        map.setView(singleMarker.getLatLng(), 15); // Zoom in closer for single marker
+        singleMarker.openPopup();
+      } else {
+        // For multiple markers, fit bounds
+        const bounds = L.latLngBounds(
+          newMarkers.map(m => m.getLatLng())
+        );
+        map.fitBounds(bounds, { padding: [50, 50] }); // Add some padding around the bounds
+      }
+    } else {
+      // If no valid markers, set a default view (Antalya)
+      map.setView([36.8969, 30.7133], 12);
     }
     
-    // Harita boyutunu güncelle (kasılmayı önler)
+    // Invalidate map size after a short delay to ensure correct rendering
+    // This is crucial if the map container's size changes after initialization (e.g., in a modal)
+    // A slightly longer delay might help if the modal animation is slow.
     setTimeout(() => {
-      map.invalidateSize();
-    }, 250);
-    
-    // Temizlik
+      if (mapInstanceRef.current) {
+        mapInstanceRef.current.invalidateSize();
+      }
+    }, 300); // Increased timeout slightly
+
+    // Cleanup function: remove the map when the component unmounts
     return () => {
       if (mapInstanceRef.current) {
         mapInstanceRef.current.remove();
