@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import './RoomCard.css';
+import { FaChevronRight } from 'react-icons/fa';
 
 // ÖRNEK KULLANIM (test için):
 // <RoomCard
@@ -32,6 +33,7 @@ const RoomCard = ({
   const imageList = images.length > 0 ? images : (image ? [image] : []);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [activeArrow, setActiveArrow] = useState(null); // 'left' veya 'right'
+  const [showDetailPopup, setShowDetailPopup] = useState(false);
 
   const handlePrev = (e) => {
     e.stopPropagation();
@@ -95,14 +97,29 @@ const RoomCard = ({
           {details.map((d, i) => <li key={i}>{d}</li>)}
         </ul>
         {freeCancel && <div className="room-card-free-cancel">✔ Ücretsiz iptal</div>}
-        <a className="room-card-detail-link" href={detailLink}>Tüm detaylar</a>
+        <a className="about-section-link" href="#" onClick={e => { e.preventDefault(); setShowDetailPopup(true); }}>
+          Tüm detaylar <FaChevronRight style={{ verticalAlign: 'middle', marginLeft: 4 }} />
+        </a>
+        {showDetailPopup && (
+          <div className="roomcard-detail-popup-overlay" onClick={() => setShowDetailPopup(false)}>
+            <div className="roomcard-detail-popup" onClick={e => e.stopPropagation()}>
+              <button className="roomcard-detail-popup-close" onClick={() => setShowDetailPopup(false)}>×</button>
+              <h3>Oda Detayları</h3>
+              <ul>
+                {details.map((d, i) => <li key={i}>{d}</li>)}
+              </ul>
+            </div>
+          </div>
+        )}
       </div>
       <div className="room-card-price-section">
-        {discount && <div className="room-card-discount">%{discount} indirim</div>}
-        <div className="room-card-old-price">{oldPrice && <s>{oldPrice}</s>}</div>
-        <div className="room-card-price">{price}</div>
-        <div className="room-card-price-info">{priceInfo}</div>
-        <button className="room-card-reserve-btn" onClick={onReserve}>Rezervasyon yap</button>
+        {discount && <div className="roomcard-indirim-badgesi">%{discount} indirim</div>}
+        <div>
+          {oldPrice && <span className="roomcard-eski-fiyat">{oldPrice}</span>}
+          <span className="roomcard-fiyat">{price}</span>
+        </div>
+        <div className="roomcard-fiyat-detay">{priceInfo}</div>
+        <button className="roomcard-oda-sec-btn" onClick={onReserve}>Rezervasyon yap</button>
       </div>
     </div>
   );

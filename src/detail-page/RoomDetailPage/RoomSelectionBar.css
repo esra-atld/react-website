@@ -18,25 +18,25 @@
 .room-detail-guestselector {
   min-width: 220px;
   max-width: 320px;
-  border-radius: 10px;
+  border-radius: 12px;
   border: 2px solid #718ca8;
   background: #fff;
   font-family: 'Inter', sans-serif;
-  font-size: 1rem;
-  font-weight: 500;
+  font-size: 1.05rem;
+  font-weight: 600;
   box-shadow: 0 4px 20px rgba(30,36,50,0.13);
-  padding: 10px 18px;
-  height: 52px;
+  padding: 12px 24px;
+  height: 56px;
   display: flex;
   align-items: center;
-  gap: 15px;
+  gap: 14px;
   cursor: pointer;
   transition: border 0.2s, box-shadow 0.2s;
   position: relative;
 }
 .room-detail-datepicker:focus,
 .room-detail-guestselector:focus {
-  border: 1.5px solid #219EBC;
+  border: 2px solid #219EBC;
   box-shadow: 0 0 0 2px #8ECAE6;
 }
 .room-detail-datepicker-icon,
@@ -48,7 +48,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 1.4rem;
+  font-size: 1.5rem;
   color: #0E597E;
   margin-right: 10px;
   flex-shrink: 0;
@@ -56,7 +56,7 @@
 .room-detail-datepicker-text, .room-detail-guestselector-text {
   font-family: 'Inter', sans-serif;
   font-weight: 700;
-  font-size: 0.9rem;
+  font-size: 1.05rem;
   color: #1E232C;
   white-space: nowrap;
   overflow: hidden;
@@ -75,16 +75,16 @@
   background: #FB8500;
   color: #fff;
   font-family: 'Inter', sans-serif;
-  font-size: 1rem;
-  font-weight: 600;
+  font-size: 1.05rem;
+  font-weight: 700;
   border: none;
-  border-radius: 8px;
-  padding: 14px 32px;
-  height: 48px;
+  border-radius: 12px;
+  padding: 12px 24px;
+  height: 56px;
   cursor: pointer;
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 12px;
   transition: background 0.2s, box-shadow 0.2s;
   box-shadow: 0 2px 8px rgba(30, 36, 50, 0.10);
   margin-left: 16px;
@@ -95,35 +95,35 @@
 .room-detail-search-btn-icon {
   display: flex;
   align-items: center;
-  font-size: 1.2rem;
+  font-size: 1.5rem;
   color: #fff;
 }
 .room-detail-search-btn-text {
   font-family: 'Inter', sans-serif;
-  font-weight: 600;
-  font-size: 1rem;
+  font-weight: 700;
+  font-size: 1.05rem;
   color: #fff;
 }
 
+.room-detail-dropdown-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
 .room-detail-dropdown-label {
   font-family: 'Inter', sans-serif;
   font-weight: 600;
   font-size: 1rem;
   color: #1E232C;
-  margin-bottom: 4px;
+  margin-bottom: 2px;
 }
 .room-detail-dropdown-desc {
   font-family: 'Inter', sans-serif;
   font-weight: 400;
   font-size: 0.85rem;
   color: #6B7280;
-  margin-bottom: 8px;
-}
-.room-detail-dropdown-row {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 20px;
+  margin-bottom: 0;
 }
 .room-detail-dropdown-value-group {
   display: flex;
@@ -162,4 +162,12 @@
 }
 .room-detail-dropdown-age-select.invalid {
   border: 2px solid #FF6B6B;
+}
+
+.room-detail-dropdown-label-group {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  flex: 1;
+  min-width: 0;
 } 

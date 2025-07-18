@@ -142,8 +142,10 @@ export default function RoomSelectionBar() {
             }} onClick={e => e.stopPropagation()}>
               {/* Yetişkin */}
               <div className="room-detail-dropdown-row">
-                <div className="room-detail-dropdown-label">Yetişkin</div>
-                <div className="room-detail-dropdown-desc">13 yaş ve üzeri</div>
+                <div className="room-detail-dropdown-label-group">
+                  <div className="room-detail-dropdown-label">Yetişkin</div>
+                  <div className="room-detail-dropdown-desc">13 yaş ve üzeri</div>
+                </div>
                 <div className="room-detail-dropdown-value-group">
                   <button className="guest-incdec-btn" aria-label="Yetişkin sayısını azalt" onClick={e => { e.stopPropagation(); setAdults(Math.max(1, adults - 1)); }} disabled={adults <= 1}>-</button>
                   <span className="room-detail-dropdown-value">{adults}</span>
@@ -152,8 +154,10 @@ export default function RoomSelectionBar() {
               </div>
               {/* Çocuk */}
               <div className="room-detail-dropdown-row">
-                <div className="room-detail-dropdown-label">Çocuk</div>
-                <div className="room-detail-dropdown-desc">0-12 yaş</div>
+                <div className="room-detail-dropdown-label-group">
+                  <div className="room-detail-dropdown-label">Çocuk</div>
+                  <div className="room-detail-dropdown-desc">0-12 yaş</div>
+                </div>
                 <div className="room-detail-dropdown-value-group">
                   <button className="guest-incdec-btn" aria-label="Çocuk sayısını azalt" onClick={e => { e.stopPropagation(); setChildren(Math.max(0, childrens - 1)); }} disabled={childrens <= 0}>-</button>
                   <span className="room-detail-dropdown-value">{childrens}</span>
@@ -162,8 +166,10 @@ export default function RoomSelectionBar() {
               </div>
               {/* Oda */}
               <div className="room-detail-dropdown-row">
-                <div className="room-detail-dropdown-label">Oda</div>
-                <div className="room-detail-dropdown-desc">Oda sayısı</div>
+                <div className="room-detail-dropdown-label-group">
+                  <div className="room-detail-dropdown-label">Oda</div>
+                  <div className="room-detail-dropdown-desc">Oda sayısı</div>
+                </div>
                 <div className="room-detail-dropdown-value-group">
                   <button className="guest-incdec-btn" aria-label="Oda sayısını azalt" onClick={e => { e.stopPropagation(); setRooms(Math.max(1, rooms - 1)); }} disabled={rooms <= 1}>-</button>
                   <span className="room-detail-dropdown-value">{rooms}</span>
