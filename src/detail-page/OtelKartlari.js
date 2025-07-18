@@ -43,7 +43,7 @@ function OtelKartlari({ hotel }) {
           {hotel.oldPrice > 0 ? hotel.oldPrice.toLocaleString() + ' TL' : '5.000 TL'}
         </span>
         <span className="otel-fiyat">{hotel.price}</span>
-        <span className="otel-fiyat-detay">{hotel.priceDetails}</span>
+        <span className="otel-fiyat-detay">Vergi ve ücretler dahildir.</span>
         <button className="oda-sec-btn" onClick={handleRoomSelect}>Oda Seç</button>
       </div>
     </div>

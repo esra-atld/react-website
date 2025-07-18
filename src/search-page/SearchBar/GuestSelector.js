@@ -67,7 +67,7 @@ function GuestSelector() {
           position: 'absolute', 
           top: '110%', 
           left: 0, 
-          zIndex: 120, 
+          zIndex: 1000, 
           background: '#fff', 
           borderRadius: 16, 
           boxShadow: '0 4px 20px rgba(0,0,0,0.15)', 
