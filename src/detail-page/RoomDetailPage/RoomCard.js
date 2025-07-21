@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import './RoomCard.css';
 import { FaChevronRight } from 'react-icons/fa';
 import RoomDetailPopup from './RoomDetailPopup';
@@ -36,6 +37,7 @@ const RoomCard = ({
   const [currentIndex, setCurrentIndex] = useState(0);
   const [activeArrow, setActiveArrow] = useState(null); // 'left' veya 'right'
   const [showRoomDetailPopup, setShowRoomDetailPopup] = useState(false);
+  const navigate = useNavigate();
 
   const handlePrev = (e) => {
     e.stopPropagation();
@@ -110,7 +112,7 @@ const RoomCard = ({
           <span className="roomcard-fiyat">{price}</span>
         </div>
         <div className="roomcard-fiyat-detay">{priceInfo}</div>
-        <button className="roomcard-oda-sec-btn" onClick={onReserve}>Rezervasyon yap</button>
+        <button className="roomcard-oda-sec-btn" onClick={() => navigate('/payment')}>Rezervasyon yap</button>
       </div>
       <RoomDetailPopup open={showRoomDetailPopup} onClose={() => setShowRoomDetailPopup(false)} images={[
         "https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=800&q=80",

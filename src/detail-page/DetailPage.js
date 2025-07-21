@@ -165,7 +165,7 @@ function DetailPage({ handleSearch }) {
         <div className="detail-container">
         {filteredHotels.length > 0 ? (
           filteredHotels.map(hotel => {
-            
+          
             return (
               <OtelKartlari
                 key={hotel.id}

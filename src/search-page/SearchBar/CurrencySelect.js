@@ -44,7 +44,7 @@ function CurrencySelect({ onCurrencyChange, selectedCurrency }) {
       className="currency-box"
       onClick={() => setDropdownOpen(prev => !prev)}
       ref={currencyRef}
-      style={{ marginLeft: 8 }}
+      style={{ marginLeft: 8, position: 'relative' }}
     >
       <span className="currency-text">
         {selectedCurrency?.code || 'EUR'}
