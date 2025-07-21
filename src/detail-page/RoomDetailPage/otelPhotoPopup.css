@@ -1,0 +1,153 @@
+.otel-photo-popup-backdrop {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(20, 24, 32, 0.85);
+  z-index: 3000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100vw;
+  height: 100vh;
+}
+
+.otel-photo-popup-modal {
+  background: #fff;
+  border-radius: 18px;
+  box-shadow: 0 8px 48px rgba(0,0,0,0.25);
+  width: 90vw;
+  height: 85vh;
+  max-width: 1600px;
+  max-height: 900px;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: stretch;
+  overflow: hidden;
+}
+
+.otel-photo-popup-close {
+  background: #fff;
+  border: 1.5px solid #8A99A8;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  position: absolute;
+  left: 20px;
+  top: 20px;
+  transition: box-shadow 0.2s, border-color 0.2s;
+  z-index: 2;
+  box-shadow: 0 2px 8px #00000008;
+}
+
+.otel-photo-popup-close:hover {
+  box-shadow: 0 0 0 2px #EAF2FB;
+  border-color: #1668E3;
+  background: #f2f2f2;
+}
+
+.aboutotel-popup-close-icon {
+  color: #023047;
+  font-size: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.photo-popup-gallery {
+  flex: 1 1 auto;
+  width: 100%;
+  height: 100%;
+  overflow-y: auto;
+  padding: 32px 48px 32px 48px;
+  background: #f8f9fa;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+.photo-popup-gallery-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+  width: 100%;
+  max-width: 1300px;
+}
+
+.photo-popup-gallery-img {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+  border-radius: 14px;
+  box-shadow: 0 1px 8px #0001;
+  background: #eaeaea;
+  display: block;
+}
+
+.otel-photo-popup-header-row {
+  display: flex;
+  align-items: center;
+  padding: 28px 32px 18px 20px;
+  min-height: 68px;
+  position: relative;
+  box-shadow: 0 4px 18px -8px rgba(30,35,44,0.13);
+  background: #fff;
+  z-index: 2;
+}
+
+.otel-photo-popup-header-center {
+  justify-content: flex-start;
+}
+
+.otel-photo-popup-header-center-content {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.otel-photo-popup-hotel-name {
+  font-family: 'Inter', sans-serif;
+  font-weight: 800;
+  font-size: 1.8rem;
+  color: #1E232C;
+  white-space: nowrap;
+  letter-spacing: -0.5px;
+}
+
+.otel-photo-popup-stars {
+  display: flex;
+  align-items: center;
+  margin-left: 4px;
+}
+
+.otel-photo-popup-select-room-btn {
+  background: #219EBC;
+  color: #fff;
+  font-family: 'Inter', sans-serif;
+  font-weight: 700;
+  font-size: 1.08rem;
+  border: none;
+  border-radius: 20px;
+  padding: 11px 28px;
+  margin-left: auto;
+  margin-right: 0;
+  cursor: pointer;
+  box-shadow: 0 2px 8px #0001;
+  transition: background 0.18s, box-shadow 0.18s;
+  letter-spacing: 0.01em;
+  outline: none;
+  z-index: 3;
+}
+
+.otel-photo-popup-select-room-btn:hover {
+  background: #176cae;
+  box-shadow: 0 4px 16px #219EBC33;
+} 

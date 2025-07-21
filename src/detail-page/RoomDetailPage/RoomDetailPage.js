@@ -9,6 +9,7 @@ import RoomDetailTabs from './RoomDetailTabs';
 import AboutOtelPopup from './AboutOtelPopup';
 import RoomSelectionBar from './RoomSelectionBar';
 import RoomCardList from './RoomCardList';
+import OtelPhotoPopup from './otelPhotoPopup';
 
 const hotel = {
   name: 'Excalibur',
@@ -148,6 +149,7 @@ const RoomDetailPage = () => {
   const [activeTab, setActiveTab] = useState('about');
   const [showAboutPopup, setShowAboutPopup] = useState(false);
   const roomSelectionRef = useRef(null);
+  const [isPhotoPopupOpen, setIsPhotoPopupOpen] = useState(false);
 
   const handleRoomsTabClick = () => {
     setTimeout(() => {
@@ -155,6 +157,21 @@ const RoomDetailPage = () => {
         roomSelectionRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' });
       }
     }, 100); // sekme değişimi sonrası scroll için küçük gecikme
+  };
+
+  const handleOpenPhotoPopup = () => setIsPhotoPopupOpen(true);
+  const handleClosePhotoPopup = () => setIsPhotoPopupOpen(false);
+
+  const handleThumbnailClick = (photo) => {
+    console.log('Thumbnail clicked:', photo);
+    handleOpenPhotoPopup();
+  };
+
+  const handleSelectRoomFromPopup = () => {
+    if (roomSelectionRef.current) {
+      roomSelectionRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+    setIsPhotoPopupOpen(false);
   };
 
   return (
@@ -184,16 +201,28 @@ const RoomDetailPage = () => {
             </div>
           </div>
           <div className="photo-gallery">
-            <img src={hotel.images[0]} alt="main" className="main-photo" />
+            <img src={hotel.images[0]} alt="main" className="main-photo" onClick={() => handleThumbnailClick(hotel.images[0])} style={{cursor: 'pointer'}} />
             <div className="side-photos">
-              <img src={hotel.images[1]} alt="side1" />
+              <img src={hotel.images[1]} alt="side1" onClick={() => handleThumbnailClick(hotel.images[1])} style={{cursor: 'pointer'}} />
               <div className="side-photo-with-button">
-                <img src={hotel.images[2]} alt="side2" />
-                <button className="more-photos-btn">+50 fotoğraf</button>
+                <img src={hotel.images[2]} alt="side2" onClick={() => handleThumbnailClick(hotel.images[2])} style={{cursor: 'pointer'}} />
+                <button className="more-photos-btn" onClick={handleOpenPhotoPopup}>Tüm Fotoğraflar</button>
               </div>
             </div>
           </div>
-          <RoomDetailTabs activeTab={activeTab} onTabChange={setActiveTab} onRoomsTabClick={handleRoomsTabClick} />
+          <RoomDetailTabs
+            activeTab={activeTab}
+            onTabChange={(tab) => {
+              if (tab === 'rooms') {
+                if (roomSelectionRef.current) {
+                  roomSelectionRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+              } else {
+                setActiveTab(tab);
+              }
+            }}
+            onRoomsTabClick={handleRoomsTabClick}
+          />
           <div className="tab-content">
             {activeTab === 'about' && (
               <div>
@@ -223,14 +252,35 @@ const RoomDetailPage = () => {
                   facilities={hotel.facilities}
                 />
                 <div className="about-section-divider" />
-                <RoomSelectionBar />
+                <div ref={roomSelectionRef}>
+                  <RoomSelectionBar />
+                </div>
                 <RoomCardList />
               </div>
             )}
             {activeTab === 'rooms' && (
               <div>
-                <h3>Odalar</h3>
-                <p>Burada otelin tüm oda tipleri, oda özellikleri ve fiyatları listelenecek.</p>
+                <button
+                  className="scroll-to-room-selection-btn"
+                  style={{
+                    background: 'none',
+                    border: 'none',
+                    color: '#219EBC',
+                    fontWeight: 700,
+                    fontSize: 22,
+                    cursor: 'pointer',
+                    padding: 0,
+                    margin: '24px 0 0 0',
+                    textDecoration: 'underline',
+                  }}
+                  onClick={() => {
+                    if (roomSelectionRef.current) {
+                      roomSelectionRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    }
+                  }}
+                >
+                  Odalar
+                </button>
               </div>
             )}
           </div>
@@ -254,6 +304,13 @@ const RoomDetailPage = () => {
           </div>
         </aside>
       </div>
+      <OtelPhotoPopup
+        open={isPhotoPopupOpen}
+        onClose={handleClosePhotoPopup}
+        hotelName={hotel.name}
+        starCount={5}
+        onSelectRoomClick={handleSelectRoomFromPopup}
+      />
     </div>
   );
 };

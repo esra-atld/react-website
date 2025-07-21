@@ -235,24 +235,6 @@
   padding-bottom: 0;
 }
 
-@media (max-width: 900px) {
-  .aboutotel-popup-modal.large {
-    max-width: 99vw;
-    min-width: 0;
-    padding: 0;
-  }
-  .aboutotel-popup-content.vertical {
-    padding: 18px 10px 18px 10px;
-  }
-  .aboutotel-popup-header {
-    padding: 18px 10px 0 10px;
-  }
-  .aboutotel-popup-close {
-    left: 4px;
-    top: 8px;
-  }
-}
-
 .aboutotel-popup-about-content {
   margin-top: 24px;
 }
