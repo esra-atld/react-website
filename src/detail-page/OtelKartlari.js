@@ -42,14 +42,17 @@ function OtelKartlari({ hotel, onShowMap }) {
           ))}
         </div>
       </div>
-      <div className="otel-fiyat-bolumu">
-        <div className="otel-indirim-rozet">
-          %{hotel.discountPercent && hotel.discountPercent > 0 ? hotel.discountPercent : Math.floor(Math.random() * 26) + 5} indirim
-        </div>
-        {/* Rozetin hemen altına eski fiyat */}
-        <span className="otel-eski-fiyat">
-          {hotel.oldPrice > 0 ? hotel.oldPrice.toLocaleString() + ' TL' : '5.000 TL'}
-        </span>
+      <div className={`otel-fiyat-bolumu ${hotel.discountPercent > 0 ? 'with-discount' : ''}`}>
+        {hotel.discountPercent > 0 && (
+        <>
+          <div className="otel-indirim-rozet">
+            %{hotel.discountPercent} indirim
+          </div>
+          <span className="otel-eski-fiyat">
+            {hotel.oldPrice?.toLocaleString() + hotel.offers?.[0]?.price?.currency}
+          </span>
+        </>
+      )}
         <span className="otel-fiyat">{hotel.price}</span>
         <span className="otel-fiyat-detay">Vergi ve ücretler dahildir.</span>
         <button className="oda-sec-btn" onClick={handleRoomSelect}>Oda Seç</button>

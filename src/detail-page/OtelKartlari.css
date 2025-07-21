@@ -258,4 +258,8 @@
     margin: 18px 0 0 18px;
     width: 90vw;
   }
+  .otel-fiyat-bolumu:not(.with-discount) .otel-eski-fiyat {
+  display: none;
+  margin-top: 0;
+}
 } 

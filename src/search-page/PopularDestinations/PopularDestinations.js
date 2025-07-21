@@ -67,6 +67,7 @@ const PopularDestinations = () => {
       city: { id: destination.id, name: destination.name }
     });
     setCurrency({ code: 'EUR', name: 'Euro' });
+
     const requestData = {
       checkAllotment: true,
       checkStopSale: true,
@@ -108,8 +109,6 @@ const PopularDestinations = () => {
     } finally {
       setLoading(false);
     }
-
-
 
     /*
     try {
