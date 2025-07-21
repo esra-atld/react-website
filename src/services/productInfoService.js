@@ -68,11 +68,29 @@ import("./priceSearchService")
  * @property {AddressDto} address
  * @property {GeoLocation} geoLocation
  * @property {number} stars
+ * @property {string} thumbnail
  * @property {string} thumbnailFull
  * @property {string} name
+ * @property {string} homePage
+ * @property {string} phoneNumber
+ * @property {number} rating
+ * @property {Array<Theme>} themes
+ * @property {Description} description
+ * @property {string} id
+ * @property {Country} country
+ * @property {City} city
  * 
  */
 
+/**
+ * @typedef {Object} Description
+ * @property {string} text
+ */
+/**
+ * @typedef {Object} Theme
+ * @property {string} id
+ * @property {string} name
+ */
 /**
  * @typedef {Object} GeoLocation
  * @property {string} longitude
@@ -82,8 +100,15 @@ import("./priceSearchService")
 /**
  * @typedef {Object} Seasons
  * @property {Array<FacilityCategories>} facilityCategories
+ * @property {Array<MediaFiles>} mediaFiles
 */
 
+/**
+ * @typedef {Object} MediaFiles
+ * @property {string} filetype
+ * @property {string} url
+ * @property {string} urlFull
+ */
 /**
  * @typedef {Object} FacilityCategories
  * @property {Array<Facilities>} facilities

@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import './otelPhotoPopup.css';
 import { FaTimes, FaStar } from 'react-icons/fa';
 
-function OtelPhotoPopup({ open, onClose, hotelName = '', starCount = 0, onSelectRoomClick }) {
+function OtelPhotoPopup({ open, onClose, hotelName = '', starCount = 0, onSelectRoomClick, photos = [] }) {
   useEffect(() => {
     if (open) {
       document.body.style.overflow = 'hidden';
@@ -41,14 +41,18 @@ function OtelPhotoPopup({ open, onClose, hotelName = '', starCount = 0, onSelect
         </div>
         <div className="photo-popup-gallery">
           <div className="photo-popup-gallery-grid">
-            {Array.from({ length: 12 }).map((_, i) => (
-              <img
-                key={i}
-                src={`https://picsum.photos/seed/otelphoto${i}/600/600`}
-                alt={`Otel Fotoğrafı ${i + 1}`}
-                className="photo-popup-gallery-img"
-              />
-            ))}
+            {photos.length > 0 ? (
+              photos.map((url, i) => (
+                <img
+                  key={i}
+                  src={url}
+                  alt={`Otel Fotoğrafı ${i + 1}`}
+                  className="photo-popup-gallery-img"
+                />
+              ))
+            ) : (
+              <p>Fotoğraf bulunamadı.</p>
+            )}
           </div>
         </div>
       </div>

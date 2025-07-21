@@ -2,9 +2,10 @@ import React, { useState } from 'react';
 import './AboutOtelPopup.css';
 import { FaTimes } from 'react-icons/fa';
 
-function AboutOtelPopup({ open, onClose, themes = [], facilities = [] }) {
+function AboutOtelPopup({ open, onClose, themes = [], facilities = [], description = '' }) {
   const [activeTab, setActiveTab] = useState('features');
   if (!open) return null;
+  
   return (
     <div className="aboutotel-popup-backdrop" onClick={onClose}>
       <div className="aboutotel-popup-modal large" onClick={e => e.stopPropagation()}>
@@ -42,7 +43,8 @@ function AboutOtelPopup({ open, onClose, themes = [], facilities = [] }) {
             <div className="aboutotel-popup-about-content">
               <h3 className="aboutotel-popup-about-title">Bu konaklama yeri hakkında</h3>
               <div className="aboutotel-popup-about-desc">
-                Lexi Las Vegas gece kulübü olanağı sunar, ayrıca Stratosfer Kulesi ve Sahara Las Vegas Kumarhanesi hedeflerine sadece 5 dakikalık sürüş mesafesinde olmanızı sağlar. Açık havuzda keyifli vakit geçirebilir, bir şeyler atıştırmak için 3 restoran arasından birini ziyaret edebilir veya 3 bar/dinlenme salonu arasından birinde bir şeyler içerek gevşeyebilirsiniz. Havuz kenarı barı, spor salonu ve teras; bu butik otel dâhilindeki diğer öne çıkan özellikler arasındadır. Misafirler oda servisi ve yardıma hazır personel ile ilgili harika yorumlarda bulunuyor.<br/><br/>
+                {description ? description : 'Bu konaklama yeri hakkında bilgi bulunamadı.'}
+                
                 <b>Diller</b><br/>
                 İngilizce, İspanyolca
               </div>

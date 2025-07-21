@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import Header from '../../components/Header';
 import SearchBar from '../../search-page/SearchBar/SearchBar';
 import './RoomDetailPage.css';
@@ -10,142 +10,45 @@ import AboutOtelPopup from './AboutOtelPopup';
 import RoomSelectionBar from './RoomSelectionBar';
 import RoomCardList from './RoomCardList';
 import OtelPhotoPopup from './otelPhotoPopup';
+import { getProductInfo } from '../../services/productInfoService';
+import { useLocation } from 'react-router-dom';
 
-const hotel = {
-  name: 'Excalibur',
-  rating: 9.2,
-  ratingLabel: 'Harika',
-  reviewCount: 1322,
-  location: 'Türkiye, Antalya, Belek',
-  images: [
-    'https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=800&q=80',
-    'https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&w=400&q=80',
-    'https://images.unsplash.com/photo-1571003123894-1f0594d2b5d9?auto=format&fit=crop&w=400&q=80',
-    'https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=400&q=80',
-    'https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&w=400&q=80',
-    'https://images.unsplash.com/photo-1571003123894-1f0594d2b5d9?auto=format&fit=crop&w=400&q=80',
-  ],
-  description: 'Serik bölgesinde, plaja yakın, plaja bitişik, spa, ücretsiz plaj servisi olan konaklama yeri. Havaalanı transferi, bar, ücretsiz kahvaltı, havuz, spa gibi olanaklar sunar. Modern ve konforlu odaları ile aileler ve çiftler için idealdir.',
-  hotelCategory: { name: 'Resort' },
-  themes: ['Spa', 'Lüks', 'Aile', 'Deniz Manzarası', 'Çocuk Dostu', 'Golf'],
-  facilities: [
-    {
-      title: 'Otopark',
-      desc: ['Tekerlekli sandalye kullanımına uygun otopark mevcuttur']
-    },
-    {
-      title: 'Kahvaltı',
-      desc: [
-        'Ücretli Zengin tipi kahvaltı',
-        'Her gün 8-13 saatleri arasında sunulur',
-        'Kişi başı 10-70 USD'
-      ]
-    },
-    {
-      title: 'Yiyecek ve içecek',
-      desc: [
-        '3 bar/oturma salonu',
-        '3 restoran',
-        'Bir havuz kenarı barı',
-        'Bir kahve dükkânı/kafe',
-        'Ortak alanlarda kahve ve çay',
-        'Konaklama yerinde birden fazla restoran',
-        'The Lexi Lounge - Bu lobi salonu kahvaltı, hafta sonu geç kahvaltı, öğle yemeği ve akşam yemeği servisi yapmaktadır. Misafirler için indirimli içki saati servisi mevcuttur.',
-        'RSK - temalı restoran. Her gün açık'
-      ]
-    },
-    {
-      title: 'Havuz',
-      desc: [
-        'Konaklama yerinde 1 açık havuz',
-        'Havuz kabini ve havuzda şezlong bulunur',
-        'Havuz girişi: 10 - 19'
-      ]
-    },
-    {
-      title: 'Spor salonu',
-      desc: ['Spor salonu']
-    },
-    {
-      title: 'Evcil hayvanlar',
-      desc: ['Sadece rehber hayvanlar kabul edilir (evcil hayvanlar kabul edilmez)']
-    },
-    {
-      title: 'Yapılacak şeyler',
-      desc: [
-        'Gece eğlencesi',
-        'Gece kulübü',
-        'Karaoke',
-        'Konserler/canlı gösteriler',
-        'Ortak alanlarda televizyon'
-      ]
-    },
-    {
-      title: 'Sunulan Kolaylıklar',
-      desc: [
-        '24 saat açık resepsiyon',
-        'ATM',
-        'Ortak mikrodalga fırın',
-        'Rehber kitaplar',
-        'Resepsiyonda emanet kasası',
-        'Su sebili',
-        'Valiz dolabı'
-      ]
-    },
-    {
-      title: 'Misafir hizmetleri',
-      desc: [
-        'Çarşaf takımı değişimi (istek üzerine)',
-        'Danışma hizmetleri',
-        'Düğün organizasyonu',
-        'İstek üzerine havlu değişimi',
-        'Kat hizmetleri (istek üzerine)',
-        'Oda hizmetçisi/belboy'
-      ]
-    },
-    {
-      title: 'Ofis ve iş hizmetleri',
-      desc: ['Toplantı odaları']
-    },
-    {
-      title: 'Açık alanlar',
-      desc: ['Piknik alanı', 'Teras']
-    },
-    {
-      title: 'Engellilere yönelik özellikler',
-      desc: [
-        'Engellilere yönelik özel istekleriniz varsa lütfen rezervasyonunuzu yaptıktan sonra rezervasyon onayındaki bilgileri kullanarak konaklama yeriyle iletişime geçin.',
-        'Asansör',
-        'Genel alanlarda karo döşeme',
-        'Tekerlekli sandalye kullanımına uygun (kısıtlamalar olabilir)',
-        'Tekerlekli sandalye kullanımına uygun otopark'
-      ]
-    },
-    {
-      title: 'Diğer',
-      desc: [
-        '1 yapı',
-        '5 kat',
-        'Aydınlatmanın en az %80\'i LED\'dir',
-        'Banket salonu',
-        'Gıdaların en az %80\'i yerel kaynaklardan tedarik edilir',
-        'Kârın en az %10\'u topluluğa ve sürdürülebilirliğe yeniden yatırılır',
-        'Resepsiyon salonu',
-        'Sigara içilmeyen konaklama yeri',
-        'Vegan yemek seçenekleri',
-        'Vejetaryen kahvaltı seçeneği',
-        'Vejetaryen yemek seçenekleri',
-        'Yerel sanatçı sergisi'
-      ]
-    },
-    {
-      title: 'Yakındaki etkinlikler',
-      desc: ['Golf']
+const RoomDetailPage =  () => {
+  
+  const location = useLocation();
+  const productID = location.state?.productID || '';
+  const amenities = location.state?.amenities || [];
+  const offerID = location.state?.offerID || '';
+  const [productInfo, setProductInfo] = useState(null);
+
+
+  useEffect(() => {
+    async function fetchProductInfo() {
+      try {
+        const productRequests = {
+          productType: 2,
+          ownerProvider: 2,
+          product: productID,
+          culture: 'tr-TR'
+        };
+
+        const response = await getProductInfo(productRequests);
+        if (response.body?.hotel) {
+          setProductInfo(response.body.hotel);
+        } else {
+          console.error('No hotel found in response');
+        }
+      } catch (err) {
+        console.error('Error fetching product info:', err);
+      } finally {
+      }
     }
-  ],
-};
 
-const RoomDetailPage = () => {
+    if (productID) {
+      fetchProductInfo();
+    }
+  }, [productID]);
+
   const [activeTab, setActiveTab] = useState('about');
   const [showAboutPopup, setShowAboutPopup] = useState(false);
   const roomSelectionRef = useRef(null);
@@ -174,6 +77,36 @@ const RoomDetailPage = () => {
     setIsPhotoPopupOpen(false);
   };
 
+  if (!productInfo) {
+    return (
+      <div className="room-detail-page">
+        <Header />
+        <div className="searchbar-wrapper">
+          <SearchBar />
+        </div>
+        <div style={{ padding: '2rem', textAlign: 'center' }}>Yükleniyor...</div>
+      </div>
+    );
+  }
+
+  const hotel2 = {
+    name: productInfo.name,
+    stars: productInfo.stars || 5,
+    rating: productInfo.rating,
+    ratingLabel: 'Harika',
+    reviewCount: 1322,
+    location: `${productInfo.country?.name || ''}, ${productInfo.city?.name || ''}`,
+    images: productInfo.seasons?.[0]?.mediaFiles?.map(file => file.urlFull) || [],
+    description: extractText(productInfo.description?.text) || '',
+    hotelCategory: { name: 'Resort' },
+    themes: productInfo.themes?.map(theme => theme.name) || [],
+    facilities: productInfo.seasons?.[0]?.facilityCategories?.[0]?.facilities?.map(facilitie => ({
+      title: facilitie.name,
+      isPriced: facilitie.isPriced,
+    })) || []
+  };
+
+
   return (
     <div className="room-detail-page">
       <Header />
@@ -184,15 +117,20 @@ const RoomDetailPage = () => {
         <div className="room-main">
           <div className="hotel-header">
             <div>
-              <h2 className="hotel-title">{hotel.name}</h2>
+              <h2 className="hotel-title">{hotel2.name}</h2>
               <div className="hotel-location-theme-row">
-                <span className="hotel-location">{hotel.location}</span>
+                <span className="hotel-location">{hotel2.location}</span>
                 <span className="vertical-divider" />
                 <span className="hotel-theme">Resort</span>
               </div>
               <div className="hotel-stars">
-                {[1,2,3,4,5].map((i) => (
-                  <FaStar key={i} color={i <= 4 ? '#FFB703' : '#e0e0e0'} size={18} style={{marginRight: 2}} />
+                {[1, 2, 3, 4, 5].map(i => (
+                  <FaStar
+                    key={i}
+                    color={i <= Math.floor(hotel2.stars) ? '#FFB703' : '#e0e0e0'}
+                    size={18}
+                    style={{ marginRight: 2 }}
+                  />
                 ))}
               </div>
             </div>
@@ -207,11 +145,11 @@ const RoomDetailPage = () => {
             </div>
           </div>
           <div className="photo-gallery">
-            <img src={hotel.images[0]} alt="main" className="main-photo" onClick={() => handleThumbnailClick(hotel.images[0])} style={{cursor: 'pointer'}} />
+            <img src={hotel2.images[0]} alt="main" className="main-photo" onClick={() => handleThumbnailClick(hotel2.images[0])} style={{cursor: 'pointer'}} />
             <div className="side-photos">
-              <img src={hotel.images[1]} alt="side1" onClick={() => handleThumbnailClick(hotel.images[1])} style={{cursor: 'pointer'}} />
+              <img src={hotel2.images[1]} alt="side1" onClick={() => handleThumbnailClick(hotel2.images[1])} style={{cursor: 'pointer'}} />
               <div className="side-photo-with-button">
-                <img src={hotel.images[2]} alt="side2" onClick={() => handleThumbnailClick(hotel.images[2])} style={{cursor: 'pointer'}} />
+                <img src={hotel2.images[2]} alt="side2" onClick={() => handleThumbnailClick(hotel2.images[2])} style={{cursor: 'pointer'}} />
                 <button className="more-photos-btn" onClick={handleOpenPhotoPopup}>Tüm Fotoğraflar</button>
               </div>
             </div>
@@ -234,16 +172,18 @@ const RoomDetailPage = () => {
               <div>
                 <h4 className="about-section-title">Bu konaklama yeri hakkında</h4>
                 <p className="about-section-desc about-section-desc-grey">
-                  Serik bölgesinde, plaja yakın, plaja bitişik, spa, ücretsiz plaj servisi olan konaklama yeri.
+                  {(hotel2.description && hotel2.description.substring
+                  ? hotel2.description.substring(0, 300) + ' ...'
+                  : 'Bu konaklama yeri hakkında bilgi bulunamadı.')}
                 </p>
                 <div className="about-section-features-row">
                   <ul className="about-section-list">
-                    {hotel.themes.slice(0,3).map((theme) => (
+                    {hotel2.themes.slice(0,3).map((theme) => (
                       <li key={theme}>{theme}</li>
                     ))}
                   </ul>
                   <ul className="about-section-list">
-                    {hotel.facilities.slice(0,3).map((facility) => (
+                    {hotel2.facilities.slice(0,3).map((facility) => (
                       <li key={facility.title}>{facility.title}</li>
                     ))}
                   </ul>
@@ -254,8 +194,9 @@ const RoomDetailPage = () => {
                 <AboutOtelPopup
                   open={showAboutPopup}
                   onClose={() => setShowAboutPopup(false)}
-                  themes={hotel.themes}
-                  facilities={hotel.facilities}
+                  themes={hotel2.themes}
+                  facilities={hotel2.facilities}
+                  description={hotel2.description}
                 />
                 <div className="about-section-divider" />
                 <div ref={roomSelectionRef}>
@@ -302,25 +243,34 @@ const RoomDetailPage = () => {
           <hr className="sidebar-divider" />
           <div className="sidebar-section">
             <ul className="feature-list">
-              <li>Ücretsiz Wi-Fi</li>
-              <li>24 Saat Resepsiyon</li>
-              <li>Otopark</li>
-              <li>Spa & Wellness</li>
-              <li>Çocuk Kulübü</li>
-              <li>Denize Sıfır</li>
-            </ul>
+            {amenities.length > 0 ? (
+              amenities.map((amenity, index) => (
+                <li key={index}>{amenity.name}</li>  // <-- access name here
+              ))
+            ) : (
+              <li>Özellik bilgisi bulunamadı.</li>
+            )}
+          </ul>
           </div>
         </aside>
       </div>
       <OtelPhotoPopup
         open={isPhotoPopupOpen}
         onClose={handleClosePhotoPopup}
-        hotelName={hotel.name}
+        hotelName={hotel2.name}
         starCount={5}
         onSelectRoomClick={handleSelectRoomFromPopup}
+        photos={hotel2.images}
       />
     </div>
   );
 };
+
+function extractText(html) {
+  const div = document.createElement('div');
+  div.innerHTML = html;
+  return div.textContent || div.innerText || '';
+}
+
 
 export default RoomDetailPage; 
