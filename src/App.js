@@ -133,7 +133,7 @@ function HomePage({ handleSearch }) {
     </div>
   );
 }
-function toDateOnlyString(date) {
+export function toDateOnlyString(date) {
   return date.getFullYear() + '-' 
        + String(date.getMonth() + 1).padStart(2, '0') + '-' 
        + String(date.getDate()).padStart(2, '0');
@@ -189,6 +189,7 @@ function AppRoutes() {
     };
 
     try {
+      
       if(selectedLocation.type === SearchSuggestionType.Hotel ) {
           requestData.Products = [];
           requestData.Products.push(selectedLocation.hotel.id);
