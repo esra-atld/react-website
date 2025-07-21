@@ -44,7 +44,6 @@ function HomePage({ handleSearch }) {
   const guestRef = useRef(null);
   
 
-  const navigate = useNavigate();
 
   useEffect(() => {
     function handleClickOutside(event) {
@@ -134,7 +133,7 @@ function HomePage({ handleSearch }) {
     </div>
   );
 }
-function toDateOnlyString(date) {
+export function toDateOnlyString(date) {
   return date.getFullYear() + '-' 
        + String(date.getMonth() + 1).padStart(2, '0') + '-' 
        + String(date.getDate()).padStart(2, '0');
@@ -174,7 +173,7 @@ function AppRoutes() {
       checkAllotment: true,
       checkStopSale: true,
       getOnlyDiscountedPrice: false,
-      getOnlyBestOffers: false,
+      getOnlyBestOffers: true,
       productType: 2,
       roomCriteria: [
       { adult: adults, childAges: childrenAges }
@@ -185,11 +184,12 @@ function AppRoutes() {
       night: range[0].endDate && range[0].startDate 
         ? Math.max(1, Math.ceil((new Date(range[0].endDate) - new Date(range[0].startDate)) / (1000 * 60 * 60 * 24)))
       : 1,
-      currency: currency?.code || "TRY",
+      currency: currency?.code || "EUR",
       culture: "tr-TR"
     };
 
     try {
+      
       if(selectedLocation.type === SearchSuggestionType.Hotel ) {
           requestData.Products = [];
           requestData.Products.push(selectedLocation.hotel.id);
@@ -211,7 +211,6 @@ function AppRoutes() {
           alert(data.Header.messages[0].message);
           navigate('/detail', { state: { hotels: [] } });
         }
-        
         else{
           navigate('/detail', { state: { hotels: data.body.hotels } });
         }

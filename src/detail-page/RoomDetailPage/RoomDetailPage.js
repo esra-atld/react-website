@@ -288,10 +288,12 @@ const RoomDetailPage = () => {
         <aside className="room-sidebar">
           <div className="map-section">
             <h3 className="sidebar-map-title">Bölgeyi keşfedin</h3>
+            <hr className="sidebar-divider" />
             <div className="map-container">
               <LeafletMap />
             </div>
           </div>
+          <hr className="sidebar-divider" />
           <div className="sidebar-section">
             <ul className="feature-list">
               <li>Ücretsiz Wi-Fi</li>

@@ -25,7 +25,7 @@
 }
 
 .room-sidebar {
-  background: #023047;
+  background: white;
   border-radius: 16px;
   padding: 24px 16px;
   width: 100%;
@@ -36,6 +36,14 @@
   display: flex;
   flex-direction: column;
   gap: 24px;
+}
+
+.sidebar-divider {
+  width: 100%;
+  height: 2px;
+  background: #E0E0E0;
+  margin: -8px 0 16px 0;
+  border: none;
 }
 
 .hotel-header {
@@ -146,7 +154,7 @@
 }
 
 .sidebar-section {
-  background: #023047;
+  background: white;
   border-radius: 12px;
   padding: 24px 20px 20px 20px;
   margin-bottom: 16px;
@@ -158,7 +166,7 @@
   margin-bottom: 18px;
   font-size: 1.25rem;
   font-weight: 700;
-  color: #fff;
+  color: #1E232C;
   align-self: flex-start;
 }
 .map-box {
@@ -169,7 +177,7 @@
 }
 .region-info {
   margin-bottom: 0;
-  color: #fff;
+  color: #1E232C;
   width: 100%;
   display: flex;
   flex-direction: column;
@@ -181,7 +189,7 @@
   font-size: 1.08rem;
 }
 .region-info > div:nth-child(2) {
-  color: #bde0fe;
+  color: #666;
   font-size: 0.98rem;
   margin-bottom: 6px;
 }
@@ -194,13 +202,13 @@
 .nearby-list li {
   display: flex;
   justify-content: space-between;
-  color: #e0e0e0;
+  color: #666;
   font-size: 0.98rem;
   margin-bottom: 4px;
   padding: 2px 0;
 }
 .region-link {
-  color: #8ecae6;
+  color: #1668E3;
   font-weight: 600;
   text-decoration: none;
   font-size: 0.98rem;
@@ -256,29 +264,30 @@
 }
 
 .map-section {
-  margin-bottom: 32px;
-  background: #023047;
+  margin-bottom: 16px;
+  background: white;
   border-radius: 12px;
-  padding: 20px 16px 16px 16px;
+  padding: 16px 0 8px 0;
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
+  align-items: center;
 }
 .sidebar-map-title {
   margin-bottom: 16px;
   font-size: 1.15rem;
   font-weight: 700;
-  color: #fff;
+  color: #1E232C;
   font-family: 'Inter', sans-serif;
   letter-spacing: 0.01em;
 }
 .map-container {
   position: relative;
-  width: 100%;
+  width: 90%;
+  max-width: 320px;
   height: 200px;
   border-radius: 12px;
   overflow: hidden;
-  margin-bottom: 0;
+  margin: 0 auto 0 auto;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
   background: white;
 }
@@ -286,10 +295,12 @@
   border-radius: 12px;
   overflow: hidden;
   background: white;
+  z-index: 1;
 }
 .map-container .leaflet-popup-content-wrapper {
   border-radius: 8px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  z-index: 1;
 }
 .map-container .leaflet-popup-content {
   margin: 0;
@@ -360,7 +371,7 @@
   width: 100%;
 }
 .feature-list li {
-  color: #fff;
+  color: #1E232C;
   font-size: 1.01rem;
   font-family: 'Inter', sans-serif;
   font-weight: 500;
@@ -376,7 +387,7 @@
 }
 .feature-list li::before {
   content: '•';
-  color: #8ecae6;
+  color: #1668E3;
   font-size: 1.2em;
   position: absolute;
   left: 0.2em;

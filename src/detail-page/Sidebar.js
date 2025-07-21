@@ -14,7 +14,25 @@ function Sidebar({
   style,
   selectedLocation // yeni eklendi
 }) {
+  
+  const amenityGroups = {
+    restoran: ["88", "89"], 
+    internet: ["94", "95"],
+    otopark: ["101", "102"]
+  };
 
+  const amenityOptions = [
+    { key: "restoran", label: "Restoran" },
+    { key: "internet", label: "İnternet" },
+    { key: "otopark", label: "Otopark" },
+    { key: "klima", label: "Klima" },
+    { key: "bar", label: "Bar" },
+    { key: "kasa", label: "Kasa" },
+    { key: "odaServisi", label: "Oda Servisi" },
+    { key: "kafeterya", label: "Kafeterya" },
+    { key: "dovizBurosu", label: "Döviz Bürosu" },
+    { key: "kuruTemizleme", label: "Kuru Temizleme" },
+  ];
 
   // Handle star rating checkboxes
   const handleStarChange = (star) => {
@@ -24,9 +42,9 @@ function Sidebar({
   };
 
   // Handle amenity checkboxes
-  const handleAmenityChange = (amenity) => {
-    setSelectedAmenities(prev =>
-      prev.includes(amenity) ? prev.filter(a => a !== amenity) : [...prev, amenity]
+  const handleAmenityChange = (key) => {
+    setSelectedAmenities((prev) =>
+      prev.includes(key) ? prev.filter((k) => k !== key) : [...prev, key]
     );
   };
 
@@ -51,6 +69,7 @@ function Sidebar({
             <span className="hotel-count">'{filteredHotels.length} otel bulundu'</span>
           </div>
         </div>
+        
 
         <div className="filter-section">
           <h4>Fiyat Aralığı</h4>
@@ -86,15 +105,16 @@ function Sidebar({
         <div className="filter-section">
           <h4>Özellikler</h4>
           <div className="amenity-filters">
-            {["WiFi", "Havuz", "Spor Salonu", "Restoran", "Bar"].map(amenity => (
-              <label key={amenity}>
-                <input
-                  type="checkbox"
-                  checked={selectedAmenities.includes(amenity)}
-                  onChange={() => handleAmenityChange(amenity)}
-                /> {amenity}
-              </label>
-            ))}
+            {amenityOptions.map(({ key, label }) => (
+            <label key={key}>
+              <input
+                type="checkbox"
+                checked={selectedAmenities.includes(key)}
+                onChange={() => handleAmenityChange(key)}
+              />
+              {label}
+            </label>
+          ))}
           </div>
         </div>
       </div>

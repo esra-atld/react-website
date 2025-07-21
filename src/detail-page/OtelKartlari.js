@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import { FaStar } from 'react-icons/fa';
 import PropTypes from 'prop-types';
 
-function OtelKartlari({ hotel }) {
+function OtelKartlari({ hotel, onShowMap }) {
   const navigate = useNavigate();
   const handleRoomSelect = () => {
     navigate(`/room/${hotel.id}`);
@@ -19,13 +19,21 @@ function OtelKartlari({ hotel }) {
         <div className="otel-header">
           <span className="otel-isim">{hotel.name}</span>
           <span className="otel-adres">{hotel.address}</span>
-          <HaritadaGoster />
+          <HaritadaGoster
+            onShowMap={onShowMap} 
+            hotel={hotel}
+          />
           <div className="otel-ozellikler">
-            {hotel.amenities.map((amenity) => (
+            {hotel.amenities.slice(0, 3).map((amenity) => (
               <span key={amenity.name} className="ozellik">
                 <span className="ozellik-ikon">{amenity.icon}</span> {amenity.name}
               </span>
             ))}
+            {hotel.amenities.length > 3 && (
+              <span className="ozellik ozellik-devam">
+                +{hotel.amenities.length - 3} daha
+              </span>
+            )}
           </div>
         </div>
         <div className="otel-yildizlar">
@@ -34,16 +42,19 @@ function OtelKartlari({ hotel }) {
           ))}
         </div>
       </div>
-      <div className="otel-fiyat-bolumu">
-        <div className="otel-indirim-rozet">
-          %{hotel.discountPercent && hotel.discountPercent > 0 ? hotel.discountPercent : Math.floor(Math.random() * 26) + 5} indirim
-        </div>
-        {/* Rozetin hemen altına eski fiyat */}
-        <span className="otel-eski-fiyat">
-          {hotel.oldPrice > 0 ? hotel.oldPrice.toLocaleString() + ' TL' : '5.000 TL'}
-        </span>
+      <div className={`otel-fiyat-bolumu ${hotel.discountPercent > 0 ? 'with-discount' : ''}`}>
+        {hotel.discountPercent > 0 && (
+        <>
+          <div className="otel-indirim-rozet">
+            %{hotel.discountPercent} indirim
+          </div>
+          <span className="otel-eski-fiyat">
+            {hotel.oldPrice?.toLocaleString() + hotel.offers?.[0]?.price?.currency}
+          </span>
+        </>
+      )}
         <span className="otel-fiyat">{hotel.price}</span>
-        <span className="otel-fiyat-detay">{hotel.priceDetails}</span>
+        <span className="otel-fiyat-detay">Vergi ve ücretler dahildir.</span>
         <button className="oda-sec-btn" onClick={handleRoomSelect}>Oda Seç</button>
       </div>
     </div>
@@ -54,6 +65,10 @@ OtelKartlari.propTypes = {
   hotel: PropTypes.shape({
     id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
     name: PropTypes.string.isRequired,
+    geoLocation: PropTypes.shape({
+      latitude: PropTypes.string,
+      longitude: PropTypes.string,
+    }).isRequired,
     address: PropTypes.string.isRequired,
     image: PropTypes.string.isRequired,
     stars: PropTypes.number,
