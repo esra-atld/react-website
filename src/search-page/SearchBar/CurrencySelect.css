@@ -1,3 +1,5 @@
+/* CurrencySelect styles - now matches NationalitySelect */
+
 .currency-box {
   display: flex;
   align-items: center;
@@ -11,7 +13,7 @@
   cursor: pointer;
 }
 .currency-icon {
-  margin-right: 8px;
+  margin-right: 2px;
   font-size: 1.4rem;
 }
 .currency-text {
@@ -31,19 +33,10 @@
   padding: 8px 0;
   min-width: 120px;
   border: 1px solid #E5E7EB;
-
-  max-height: 200px;      /* Limit the dropdown height */
-  overflow-y: auto;       /* Enable vertical scroll when needed */
+  max-height: 200px;
+  overflow-y: auto;
 }
 
-.currency-option {
-  padding: 10px 20px;
+.currency-dropdown > div {
   cursor: pointer;
-  color: #1E232C;
-  font-weight: 500;
-  background: #fff;
-  transition: background 0.15s;
-}
-.currency-option:hover {
-  background: #E5E7EB;
 } 

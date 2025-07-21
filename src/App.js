@@ -4,7 +4,7 @@ import { FaMapMarkerAlt } from 'react-icons/fa';
 import React, { useState, useRef, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route, useNavigate } from 'react-router-dom';
 import SearchBar from './search-page/SearchBar/SearchBar';
-import PopularDestinations from './search-page/PopularDestinations/PopularDestinations';
+import PopularDestinations from './rezervation-page/PopularDestinations/PopularDestinations';
 import NationalitySelect from './search-page/SearchBar/NationalitySelect';
 import CurrencySelect from './search-page/SearchBar/CurrencySelect';
 import DetailPage from './detail-page/DetailPage';
@@ -14,7 +14,7 @@ import { SearchSuggestionType } from './search-page/SearchBar/LocationInput';
 import { hotelPriceSearch, locationPriceSearch } from './services/priceSearchService';
 import { BookingProvider } from './BookingContext';
 import { useBooking } from './BookingContext';
-
+import PaymentPage from './pages/PaymentPage';
 
 
 // Ana sayfa bileşeni
@@ -116,20 +116,6 @@ function HomePage({ handleSearch }) {
         <PopularDestinations />
       </div>  
 
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
     </div>
   );
 }
@@ -247,7 +233,10 @@ function AppRoutes() {
         />
         } 
       />
-
+      <Route
+        path="/payment"
+        element={<PaymentPage />}
+      />
     </Routes>
   );
 }
