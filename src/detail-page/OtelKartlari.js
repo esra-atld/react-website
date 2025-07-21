@@ -8,7 +8,7 @@ import PropTypes from 'prop-types';
 function OtelKartlari({ hotel, onShowMap }) {
   const navigate = useNavigate();
   const handleRoomSelect = () => {
-    navigate(`/room/${hotel.id}`);
+    navigate('/room/${hotel.id}', {state: { productID: hotel.id, amenities: hotel.amenities, offerID: hotel.offers?.[0]?.offerId }});
   };
   return (
     <div className="otel-kartlari-box">

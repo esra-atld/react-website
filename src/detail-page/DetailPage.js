@@ -170,6 +170,7 @@ function DetailPage({ handleSearch }) {
               <OtelKartlari
                 key={hotel.id}
                 hotel={{
+                  id: hotel.id,
                   name: hotel.name,
                   geoLocation: getGeoLocation(hotel),
                   address: getAddressText(hotel.address),
@@ -193,6 +194,8 @@ function DetailPage({ handleSearch }) {
     </div>
   );
 }
+
+
 const getAmenityIcon = (amenity) => {
     switch (amenity) {
       case "71": return '🔒'; // Kasa
