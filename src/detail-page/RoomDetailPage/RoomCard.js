@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import './RoomCard.css';
 import { FaChevronRight } from 'react-icons/fa';
+import RoomDetailPopup from './RoomDetailPopup';
 
 // ÖRNEK KULLANIM (test için):
 // <RoomCard
@@ -28,12 +29,13 @@ const RoomCard = ({
   oldPrice,
   price,
   priceInfo,
-  onReserve
+  onReserve,
+  facilities
 }) => {
   const imageList = images.length > 0 ? images : (image ? [image] : []);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [activeArrow, setActiveArrow] = useState(null); // 'left' veya 'right'
-  const [showDetailPopup, setShowDetailPopup] = useState(false);
+  const [showRoomDetailPopup, setShowRoomDetailPopup] = useState(false);
 
   const handlePrev = (e) => {
     e.stopPropagation();
@@ -97,20 +99,9 @@ const RoomCard = ({
           {details.map((d, i) => <li key={i}>{d}</li>)}
         </ul>
         {freeCancel && <div className="room-card-free-cancel">✔ Ücretsiz iptal</div>}
-        <a className="about-section-link" href="#" onClick={e => { e.preventDefault(); setShowDetailPopup(true); }}>
+        <a className="about-section-link" href="#" onClick={e => { e.preventDefault(); setShowRoomDetailPopup(true); }}>
           Tüm detaylar <FaChevronRight style={{ verticalAlign: 'middle', marginLeft: 4 }} />
         </a>
-        {showDetailPopup && (
-          <div className="roomcard-detail-popup-overlay" onClick={() => setShowDetailPopup(false)}>
-            <div className="roomcard-detail-popup" onClick={e => e.stopPropagation()}>
-              <button className="roomcard-detail-popup-close" onClick={() => setShowDetailPopup(false)}>×</button>
-              <h3>Oda Detayları</h3>
-              <ul>
-                {details.map((d, i) => <li key={i}>{d}</li>)}
-              </ul>
-            </div>
-          </div>
-        )}
       </div>
       <div className="room-card-price-section">
         {discount && <div className="roomcard-indirim-badgesi">%{discount} indirim</div>}
@@ -121,6 +112,10 @@ const RoomCard = ({
         <div className="roomcard-fiyat-detay">{priceInfo}</div>
         <button className="roomcard-oda-sec-btn" onClick={onReserve}>Rezervasyon yap</button>
       </div>
+      <RoomDetailPopup open={showRoomDetailPopup} onClose={() => setShowRoomDetailPopup(false)} images={[
+        "https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=800&q=80",
+        "https://images.unsplash.com/photo-1465101046530-73398c7f28ca?auto=format&fit=crop&w=800&q=80"
+      ]} facilities={facilities} />
     </div>
   );
 };
