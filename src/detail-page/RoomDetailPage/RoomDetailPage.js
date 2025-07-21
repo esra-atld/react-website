@@ -242,15 +242,15 @@ const RoomDetailPage =  () => {
           </div>
           <hr className="sidebar-divider" />
           <div className="sidebar-section">
-            <ul className="feature-list">
-            {amenities.length > 0 ? (
-              amenities.map((amenity, index) => (
-                <li key={index}>{amenity.name}</li>  // <-- access name here
-              ))
-            ) : (
-              <li>Özellik bilgisi bulunamadı.</li>
-            )}
-          </ul>
+            <ul className={`feature-list${amenities.length > 8 ? ' feature-list-scroll' : ''}`}>
+              {amenities.length > 0 ? (
+                amenities.map((amenity, index) => (
+                  <li key={index}>{amenity.name}</li>
+                ))
+              ) : (
+                <li>Özellik bilgisi bulunamadı.</li>
+              )}
+            </ul>
           </div>
         </aside>
       </div>
