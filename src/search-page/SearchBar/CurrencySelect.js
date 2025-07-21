@@ -14,7 +14,7 @@ function CurrencySelect({ onCurrencyChange, selectedCurrency }) {
         setCurrencies(data);
         // Only set default if no currency is selected (e.g., first load)
         if (!selectedCurrency) {
-          const defaultCur = data.find(c => c.code === 'TRY') || data[0];
+          const defaultCur = data.find(c => c.code === 'EUR') || data[0];
           onCurrencyChange?.(defaultCur);
         }
       })
@@ -47,7 +47,7 @@ function CurrencySelect({ onCurrencyChange, selectedCurrency }) {
       style={{ marginLeft: 8 }}
     >
       <span className="currency-text">
-        {selectedCurrency?.code || 'TRY'}
+        {selectedCurrency?.code || 'EUR'}
       </span>
 
       {dropdownOpen && (
