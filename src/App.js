@@ -184,7 +184,7 @@ function AppRoutes() {
       night: range[0].endDate && range[0].startDate 
         ? Math.max(1, Math.ceil((new Date(range[0].endDate) - new Date(range[0].startDate)) / (1000 * 60 * 60 * 24)))
       : 1,
-      currency: currency?.code || "TRY",
+      currency: currency?.code || "EUR",
       culture: "tr-TR"
     };
 
