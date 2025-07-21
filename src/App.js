@@ -14,7 +14,7 @@ import { SearchSuggestionType } from './search-page/SearchBar/LocationInput';
 import { hotelPriceSearch, locationPriceSearch } from './services/priceSearchService';
 import { BookingProvider } from './BookingContext';
 import { useBooking } from './BookingContext';
-import PaymentPage from './pages/PaymentPage';
+import PaymentPage from './rezervation-page/PaymentPage';
 
 
 // Ana sayfa bileşeni

@@ -197,7 +197,13 @@ const RoomDetailPage = () => {
               </div>
             </div>
             <div className="hotel-actions">
-              <button className="select-room-btn">Oda Seç</button>
+              <button className="select-room-btn" onClick={() => {
+                if (roomSelectionRef.current) {
+                  roomSelectionRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+              }}>
+                Oda Seç
+              </button>
             </div>
           </div>
           <div className="photo-gallery">

@@ -1,0 +1,41 @@
+.reservation-info-card {
+  width: 100%;
+  background: #fff;
+  border-radius: 28px;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.12);
+  padding: 48px;
+  box-sizing: border-box;
+  font-family: 'Inter', sans-serif;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+.reservation-info-title {
+  font-size: 28px;
+  font-weight: 700;
+  margin: 0 0 20px 0;
+  color: #1E232C;
+  font-family: 'Poppins', sans-serif;
+}
+.reservation-info-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: 100%;
+}
+.reservation-info-item {
+  background: #F5F6FA;
+  border-radius: 10px;
+  box-shadow: 0 1px 3px rgba(30,35,44,0.05);
+  padding: 10px 14px;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  font-size: 15px;
+}
+.reservation-info-label {
+  color: #222;
+  font-weight: 600;
+  font-size: 15px;
+  margin-bottom: 2px;
+} 

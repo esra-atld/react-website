@@ -1,0 +1,65 @@
+.helppopup-backdrop {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(30, 35, 44, 0.45);
+  z-index: 2000;
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-end;
+}
+.helppopup-modal {
+  background: #fff;
+  border-radius: 24px;
+  box-shadow: 0 8px 40px rgba(0,0,0,0.18);
+  width: 420px;
+  max-width: 95vw;
+  padding: 32px 32px 28px 32px;
+  position: relative;
+  margin-top: 32px;
+  margin-right: 32px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+.helppopup-header {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  margin-bottom: 12px;
+}
+.helppopup-close {
+  background: none;
+  border: none;
+  cursor: pointer;
+  position: absolute;
+  top: 18px;
+  right: 18px;
+  padding: 4px;
+  z-index: 2;
+}
+.helppopup-title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #1E232C;
+  margin-left: auto;
+  margin-right: auto;
+  font-family: 'Poppins', sans-serif;
+}
+.helppopup-content {
+  width: 100%;
+  margin-top: 12px;
+}
+.helppopup-main-title {
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: #1668E3;
+  margin-bottom: 12px;
+  font-family: 'Poppins', sans-serif;
+}
+.helppopup-desc {
+  font-size: 1rem;
+  color: #222;
+  font-family: 'Inter', sans-serif;
+  line-height: 1.6;
+} 
