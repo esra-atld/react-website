@@ -44,9 +44,19 @@ function NationalitySelect({ onNationalityChange, selectedNationality }) {
       className="nationality-box"
       onClick={() => setDropdownOpen(prev => !prev)}
       ref={nationalityRef}
-      style={{ marginLeft: 8 }}
+      style={{
+        marginLeft: 8,
+        cursor: 'pointer',
+        display: 'flex',
+        alignItems: 'center'
+      }}
     >
-      <span className="nationality-text">
+      <img
+        src={`https://flagsapi.com/${selectedNationality?.id || 'TR'}/flat/32.png`}
+        alt={selectedNationality?.threeLetterCode || 'TUR'}
+        className="flag-img"
+      />
+      <span className="nationality-text" style={{ marginLeft: 8 }}>
         {selectedNationality?.threeLetterCode || 'TUR'}
       </span>
 
@@ -62,12 +72,19 @@ function NationalitySelect({ onNationalityChange, selectedNationality }) {
                 color: '#1E232C',
                 fontWeight: 500,
                 background: nat.id === selectedNationality?.id ? '#E5E7EB' : '#fff',
-                transition: 'background 0.15s'
+                transition: 'background 0.15s',
+                display: 'flex',
+                alignItems: 'center'
               }}
               onMouseOver={e => e.currentTarget.style.background = '#E5E7EB'}
               onMouseOut={e => e.currentTarget.style.background = nat.id === selectedNationality?.id ? '#E5E7EB' : '#fff'}
             >
-              {nat.threeLetterCode}
+              <img
+                src={`https://flagsapi.com/${nat.id}/flat/32.png`}
+                alt={nat.threeLetterCode}
+                className="flag-img"
+              />
+              <span style={{ marginLeft: 8 }}>{nat.threeLetterCode}</span>
             </div>
           ))}
         </div>
