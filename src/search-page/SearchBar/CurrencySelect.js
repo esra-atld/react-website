@@ -2,6 +2,44 @@ import React, { useState, useRef, useEffect } from 'react';
 import { getCurrencies } from '../../services/currencyService';
 import './CurrencySelect.css';
 
+const currencySymbols = {
+  AED: 'د.إ',
+  AMD: '֏',
+  BAM: 'KM',
+  BHD: 'ب.د',
+  CHF: 'CHF',
+  CZK: 'Kč',
+  DKK: 'kr',
+  EGP: '£',
+  EUR: '€',
+  EUR1: '€',
+  FJD: 'FJ$',
+  GBP: '£',
+  HUF: 'Ft',
+  INR: '₹',
+  IQD: 'ع.د',
+  JOD: 'د.ا',
+  JPY: '¥',
+  KWD: 'د.ك',
+  KZT: '₸',
+  MAD: 'د.م.',
+  MDL: 'L',
+  MKD: 'ден',
+  MXN: '$',
+  PKR: '₨',
+  RON: 'lei',
+  RSD: 'дин',
+  RUB: '₽',
+  SHTR: '¤',
+  THB: '฿',
+  TND: 'د.ت',
+  TRY: '₺',
+  UAH: '₴',
+  USD: '$',
+  YER: '﷼',
+  ZAR: 'R'
+};
+
 function CurrencySelect({ onCurrencyChange, selectedCurrency }) {
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [currencies, setCurrencies] = useState([]);
@@ -46,9 +84,14 @@ function CurrencySelect({ onCurrencyChange, selectedCurrency }) {
       ref={currencyRef}
       style={{ marginLeft: 8, position: 'relative' }}
     >
-      <span className="currency-text">
-        {selectedCurrency?.code || 'EUR'}
-      </span>
+      <span className="currency-text-wrapper">
+  <span className="currency-symbol-circle">
+    {currencySymbols[selectedCurrency?.code] || currencySymbols["EUR"]}
+  </span>
+  <span className="currency-text">
+    {selectedCurrency?.code || 'EUR'}
+  </span>
+</span>
 
       {dropdownOpen && (
         <div className="currency-dropdown">
@@ -67,9 +110,14 @@ function CurrencySelect({ onCurrencyChange, selectedCurrency }) {
               onMouseOver={e => e.currentTarget.style.background = '#E5E7EB'}
               onMouseOut={e => e.currentTarget.style.background = currency.code === selectedCurrency?.code ? '#E5E7EB' : '#fff'}
             >
-              {currency.code}
+            <span className="currency-symbol-circle">
+              {currencySymbols[currency.code] || ''}
+            </span>
+            <span>{currency.code}</span>
             </div>
           ))}
+
+
         </div>
       )}
     </div>
