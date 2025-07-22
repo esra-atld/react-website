@@ -43,7 +43,16 @@ function HomePage({ handleSearch }) {
   const [guestDropdownOpen, setGuestDropdownOpen] = useState(false);
   const guestRef = useRef(null);
   
-
+  const [loadingDots, setLoadingDots] = useState('');
+  useEffect(() => {
+    if (!loading) return;
+    let count = 0;
+    const interval = setInterval(() => {
+      count = (count + 1) % 4;
+      setLoadingDots('.'.repeat(count));
+    }, 500);
+    return () => clearInterval(interval);
+  }, [loading]);
 
   useEffect(() => {
     function handleClickOutside(event) {
@@ -96,7 +105,7 @@ function HomePage({ handleSearch }) {
       {loading && (
         <div className="loading-overlay">
           <div className="spinner"></div>
-          <div>Yükleniyor...</div>
+          <div>{`Tripora${loadingDots}`}</div>
         </div>
       )}
       <Header 

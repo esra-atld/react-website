@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import Header from '../components/Header';
 import SearchBar from '../search-page/SearchBar/SearchBar';
@@ -135,6 +135,17 @@ function DetailPage({ handleSearch }) {
     }
   };
 
+  const [loadingDots, setLoadingDots] = useState('');
+  useEffect(() => {
+    if (!loading) return;
+    let count = 0;
+    const interval = setInterval(() => {
+      count = (count + 1) % 4;
+      setLoadingDots('.'.repeat(count));
+    }, 500);
+    return () => clearInterval(interval);
+  }, [loading]);
+
   return (
     <div className="detail-page">
       <Header 
@@ -146,7 +157,7 @@ function DetailPage({ handleSearch }) {
       {loading && (
         <div className="loading-overlay">
           <div className="spinner"></div>
-          <div>Yükleniyor...</div>
+          <div>{`Tripora${loadingDots}`}</div>
         </div>
       )}
       <div className="search-section">

@@ -20,6 +20,7 @@ const RoomDetailPage =  () => {
   const amenities = location.state?.amenities || [];
   const offerID = location.state?.offerID || '';
   const [productInfo, setProductInfo] = useState(null);
+  const [loadingDots, setLoadingDots] = useState('');
 
 
   useEffect(() => {
@@ -48,6 +49,16 @@ const RoomDetailPage =  () => {
       fetchProductInfo();
     }
   }, [productID]);
+
+  useEffect(() => {
+    if (productInfo) return;
+    let count = 0;
+    const interval = setInterval(() => {
+      count = (count + 1) % 4;
+      setLoadingDots('.'.repeat(count));
+    }, 500);
+    return () => clearInterval(interval);
+  }, [productInfo]);
 
   const [activeTab, setActiveTab] = useState('about');
   const [showAboutPopup, setShowAboutPopup] = useState(false);
@@ -84,7 +95,7 @@ const RoomDetailPage =  () => {
         <div className="searchbar-wrapper">
           <SearchBar />
         </div>
-        <div style={{ padding: '2rem', textAlign: 'center' }}>Yükleniyor...</div>
+        <div style={{ padding: '2rem', textAlign: 'center' }}>{`Tripora${loadingDots}`}</div>
       </div>
     );
   }
