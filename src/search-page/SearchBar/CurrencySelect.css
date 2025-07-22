@@ -40,3 +40,26 @@
 .currency-dropdown > div {
   cursor: pointer;
 } 
+
+.currency-symbol-circle {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  width: 30px;           /* Bigger circle size */
+  height: 30px;
+  border-radius: 50%;
+  background-color: white;
+  border: 1px solid black;
+  color: black;
+  font-weight: 600;
+  font-size: 0.8rem;       /* Slightly bigger font */
+  margin-right: 8px;
+  user-select: none;
+  box-shadow: none;
+}
+
+.currency-text-wrapper {
+  display: flex;
+  align-items: center;
+}
+
