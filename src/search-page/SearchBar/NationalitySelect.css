@@ -39,3 +39,11 @@
 .nationality-dropdown > div {
   cursor: pointer;
 } 
+
+.flag-img {
+  width: 28px;
+  height: auto;
+  flex-shrink: 0;
+  border-radius: 4px; /* Optional: slight rounding */
+}
+
