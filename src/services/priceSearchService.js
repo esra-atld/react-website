@@ -92,22 +92,7 @@ import baseApi from './baseApi';
  */
 
 /**
- * @typedef {Object} OfferDto
- * @property {number} night
- * @property {boolean} isAvailable
- * @property {number} availability
- * @property {RoomDto[]} rooms
- * @property {boolean} isRefundable
- * @property {boolean} isChannelManager
- * @property {string} expiresOn
- * @property {string} offerId
- * @property {string} checkIn
- * @property {Price} price
- * @property {boolean} ownOffer
- * @property {number} provider
- * @property {boolean} availabilityChecked
- * @property {CancellationPolicyDto[]} cancellationPolicies
- * @property {boolean} thirdPartyOwnOffer
+ * @typedef {import('./types').OfferDto} OfferDto
  */
 
 /**
@@ -223,11 +208,7 @@ import baseApi from './baseApi';
  */
 
 /**
- * @typedef {Object} HeaderDto
- * @property {string} [requestId]
- * @property {boolean} [success]
- * @property {string} [responseTime]
- * @property {Array<Object>} [messages]
+ * @typedef {import('./types').HeaderDto} HeaderDto
  */
 
 /**

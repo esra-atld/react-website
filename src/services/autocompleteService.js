@@ -50,11 +50,7 @@ import baseApi from './baseApi';
  */
 
 /**
- * @typedef {Object} HeaderDto
- * @property {string} [requestId]
- * @property {boolean} [success]
- * @property {string} [responseTime]
- * @property {Array<Object>} [messages] // You can define this more strictly if needed
+ * @typedef {import('./types').HeaderDto} HeaderDto
  */
 
 /**
@@ -79,5 +75,5 @@ export const getArrivalAutocomplete = async (requestData) => {
       console.error('Error fetching autocomplete suggestions:', error);
       throw error;
     }
-  };
+};
 

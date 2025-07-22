@@ -68,7 +68,6 @@ const LeafletMap = ({ markers = [], choosenHotel }) => {
         .bindPopup(choosenHotel.name || 'Seçilen Konum');
       newMarkers.push(chosenMarker);
     } else {
-      console.warn("No valid markers to display on the map.");
     }
     // Adjust map view based on markers
     if (newMarkers.length > 0) {
@@ -96,7 +95,7 @@ const LeafletMap = ({ markers = [], choosenHotel }) => {
       if (mapInstanceRef.current) {
         mapInstanceRef.current.invalidateSize();
       }
-    }, 300); // Increased timeout slightly
+    }, 400); // Increased timeout slightly
 
     // Cleanup function: remove the map when the component unmounts
     return () => {
@@ -105,7 +104,7 @@ const LeafletMap = ({ markers = [], choosenHotel }) => {
         mapInstanceRef.current = null;
       }
     };
-  }, [markers]);
+  }, [markers, choosenHotel]);
 
   return (
     <div

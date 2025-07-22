@@ -2,11 +2,21 @@ import React, { useState } from 'react';
 import './RoomDetailPopup.css';
 import { FaTimes } from 'react-icons/fa';
 
-function RoomDetailPopup({ open, onClose, images = [], facilities = [] }) {
+function RoomDetailPopup(
+  {
+    open,
+    onClose,
+    images = [],
+    roomName,
+    facilities,
+    roomDetails
+  }) {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [activeArrow, setActiveArrow] = useState(null); // 'left' veya 'right'
   if (!open) return null;
+  
   const imageList = images.length > 0 ? images : [];
+
   const handlePrev = (e) => {
     e.stopPropagation();
     setCurrentIndex((prev) => (prev === 0 ? imageList.length - 1 : prev - 1));
@@ -15,6 +25,8 @@ function RoomDetailPopup({ open, onClose, images = [], facilities = [] }) {
     e.stopPropagation();
     setCurrentIndex((prev) => (prev === imageList.length - 1 ? 0 : prev + 1));
   };
+
+
   return (
     <div className="roomdetail-popup-backdrop" onClick={onClose}>
       <div className="roomdetail-popup-modal large" onClick={e => e.stopPropagation()}>
@@ -23,7 +35,7 @@ function RoomDetailPopup({ open, onClose, images = [], facilities = [] }) {
             <span className="roomdetail-popup-close-icon"><FaTimes size={24} /></span>
           </button>
           <div className="roomdetail-popup-title-row">
-            <span className="roomdetail-popup-title">Oda Bilgileri</span>
+            <span className="roomdetail-popup-title">{roomDetails.hotels[0].offers[0].rooms[0].roomName + " ("+roomDetails.hotels[0].offers[0].rooms[0].boardName+")"}</span>
           </div>
         </div>
         <div className="roomdetail-popup-scrollable">
@@ -66,61 +78,10 @@ function RoomDetailPopup({ open, onClose, images = [], facilities = [] }) {
             )}
           </div>
           <div className="roomdetail-popup-content vertical">
-            <div className="roomdetail-popup-roomname-heading">Deluxe King Oda</div>
-            <div className="roomdetail-popup-amenities-section">
-              <div className="roomdetail-popup-amenities-title">Room Amenities and Features</div>
-              <div className="roomdetail-popup-amenities-list">
-                {[
-                  { heading: 'Bathroom', features: [
-                    { icon: <span className="fa fa-bath" />, text: 'Bathrobes' },
-                    { icon: <span className="fa fa-shower" />, text: 'Shower/tub combo' },
-                    { icon: <span className="fa fa-towel" />, text: 'Towels' },
-                    { icon: <span className="fa fa-door-closed" />, text: 'Private bathroom' },
-                    { icon: <span className="fa fa-soap" />, text: 'Soap' },
-                    { icon: <span className="fa fa-wind" />, text: 'Hair dryer' },
-                  ]},
-                  { heading: 'Comfort', features: [
-                    { icon: <span className="fa fa-moon" />, text: 'Blackout curtains' },
-                    { icon: <span className="fa fa-snowflake" />, text: 'Air conditioning' },
-                    { icon: <span className="fa fa-feather-alt" />, text: 'Down comforter' },
-                    { icon: <span className="fa fa-bed" />, text: 'Bed linen' },
-                  ]},
-                  { heading: 'Entertainment', features: [
-                    { icon: <span className="fa fa-tv" />, text: '40-inch flat-screen TV with cable channels' },
-                  ]},
-                  { heading: 'Family Friendly', features: [
-                    { icon: <span className="fa fa-baby" />, text: 'Free crib' },
-                  ]},
-                  { heading: 'Food and Drink', features: [
-                    { icon: <span className="fa fa-ice-cream" />, text: 'Refrigerator' },
-                    { icon: <span className="fa fa-bread-slice" />, text: 'Toaster' },
-                  ]},
-                  { heading: 'Kitchen', features: [
-                    { icon: <span className="fa fa-utensils" />, text: 'Cookware/dishes/utensils' },
-                    { icon: <span className="fa fa-chair" />, text: 'Dining area' },
-                    { icon: <span className="fa fa-table" />, text: 'Dining table' },
-                  ]},
-                  { heading: 'Other', features: [
-                    { icon: <span className="fa fa-check" />, text: 'Extra pillows' },
-                    { icon: <span className="fa fa-check" />, text: 'Iron/ironing board (on request)' },
-                  ]},
-                ].map((group, idx) => (
-                  <div className="roomdetail-popup-amenities-group" key={group.heading}>
-                    <div className="roomdetail-popup-amenities-group-title">{group.heading}</div>
-                    <ul className="roomdetail-popup-amenities-feature-list">
-                      {group.features.map((feature, fidx) => (
-                        <li className="roomdetail-popup-amenities-feature" key={fidx}>
-                          <span className="roomdetail-popup-amenities-feature-icon">{feature.icon}</span>
-                          <span className="roomdetail-popup-amenities-feature-text">{feature.text}</span>
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                ))}
-              </div>
-            </div>
+            <div className="roomdetail-popup-roomname-heading">{roomName}</div>
+            
             <div className="roomdetail-popup-blocks">
-              {facilities.length === 0 ? <div>Veri yok</div> : facilities.map((facility, i) => (
+              {facilities.length === 0 ? <div>Veri yok</div> : facilities.slice(0,10).map((facility, i) => (
                 <div className="roomdetail-popup-feature-block" key={facility.title || facility.name || i}>
                   <div className="roomdetail-popup-feature-title-row">
                     {facility.icon && <span className="roomdetail-popup-feature-icon">{facility.icon}</span>}

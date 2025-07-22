@@ -8,7 +8,7 @@ import PropTypes from 'prop-types';
 function OtelKartlari({ hotel, onShowMap }) {
   const navigate = useNavigate();
   const handleRoomSelect = () => {
-    navigate('/room/${hotel.id}', {state: { productID: hotel.id, amenities: hotel.amenities, offerID: hotel.offers?.[0]?.offerId }});
+    navigate(`/room/${hotel.id}`, {state: { productID: hotel.id, amenities: hotel.amenities, offerID: hotel.offerId, searchId: hotel.searchId, offerID: hotel.offerId }});
   };
   return (
     <div className="otel-kartlari-box">
@@ -80,6 +80,8 @@ OtelKartlari.propTypes = {
         icon: PropTypes.node.isRequired,
       })
     ).isRequired,
+    searchId: PropTypes.string.isRequired,
+    offerId: PropTypes.string.isRequired
   }).isRequired,
 };
 
