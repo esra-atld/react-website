@@ -21,7 +21,8 @@ const RoomDetailPage =  ({ handleSearch }) => {
   const {
     selectedLocation, setSelectedLocation,
     loading, setLoading,
-    currency
+    currency,
+    selectedNationality, setSelectedNationality,
   } = useBooking();
   
   const location = useLocation();
@@ -174,7 +175,10 @@ const RoomDetailPage =  ({ handleSearch }) => {
   if (!productInfo) {
     return (
       <div className="room-detail-page">
-        <Header />
+        <Header 
+        selectedNationality={selectedNationality} 
+        onNationalityChange={setSelectedNationality} 
+      />
         <div className="searchbar-wrapper">
           <SearchBar  
             handleSearch={handleSearch}
@@ -217,7 +221,10 @@ const RoomDetailPage =  ({ handleSearch }) => {
         </div>
       )}
 
-      <Header />
+<Header 
+  selectedNationality={selectedNationality} 
+  onNationalityChange={setSelectedNationality} 
+/>
       {loading && (
         <div className="loading-overlay">
           <div className="spinner"></div>
