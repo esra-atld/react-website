@@ -34,7 +34,8 @@ const LeafletMap = ({ markers = [], choosenHotel }) => {
       zoom: 12,
       zoomControl: false, // Disable default zoom control
       attributionControl: false, // Disable default attribution
-      preferCanvas: true // Use canvas rendering for performance
+      preferCanvas: true, // Use canvas rendering for performance
+      zoomAnimation: false, // Disable zoom animation for better performance
     });
     mapInstanceRef.current = map; // Store the map instance
 
