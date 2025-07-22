@@ -21,7 +21,7 @@ const RoomDetailPage =  ({ handleSearch }) => {
   const {
     selectedLocation, setSelectedLocation,
     loading, setLoading,
-    currency,
+    currency, setCurrency,
     selectedNationality, setSelectedNationality,
   } = useBooking();
   
@@ -178,6 +178,8 @@ const RoomDetailPage =  ({ handleSearch }) => {
         <Header 
         selectedNationality={selectedNationality} 
         onNationalityChange={setSelectedNationality} 
+        selectedCurrency={currency}
+        onCurrencyChange={setCurrency}
       />
         <div className="searchbar-wrapper">
           <SearchBar  
@@ -224,6 +226,8 @@ const RoomDetailPage =  ({ handleSearch }) => {
 <Header 
   selectedNationality={selectedNationality} 
   onNationalityChange={setSelectedNationality} 
+  selectedCurrency={currency}
+  onCurrencyChange={setCurrency}
 />
       {loading && (
         <div className="loading-overlay">
