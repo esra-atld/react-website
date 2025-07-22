@@ -30,7 +30,6 @@
   margin-top: 20px;
   border-bottom: 1px solid #E5E7EB;
   padding-bottom: 20px;
-  border-bottom: 1px solid white;
 }
 
 .detail-map-container {
@@ -42,7 +41,6 @@
   margin-bottom: 12px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
   background: white;
-  border-bottom: 1px solid white;
 }
 
 /* Leaflet harita stilleri */
@@ -106,48 +104,8 @@
   margin-bottom: 12px;
 }
 
-.price-range {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-}
 
-.price-slider {
-  width: 100%;
-  height: 6px;
-  border-radius: 3px;
-  background: #E5E7EB;
-  outline: none;
-  -webkit-appearance: none;
-}
-
-.price-slider::-webkit-slider-thumb {
-  -webkit-appearance: none;
-  appearance: none;
-  width: 20px;
-  height: 20px;
-  border-radius: 50%;
-  background: #FB8500;
-  cursor: pointer;
-}
-
-.price-slider::-moz-range-thumb {
-  width: 20px;
-  height: 20px;
-  border-radius: 50%;
-  background: #FB8500;
-  cursor: pointer;
-  border: none;
-}
-
-.price-labels {
-  display: flex;
-  justify-content: space-between;
-  font-size: 0.875rem;
-  color: #6B7280;
-  font-family: 'Inter', sans-serif;
-}
-
+/* Star and Amenity Filters */
 .star-filters, .amenity-filters {
   display: flex;
   flex-direction: column;
@@ -162,9 +120,11 @@
   font-size: 0.9rem;
   color: #374151;
   cursor: pointer;
+  user-select: none;
 }
 
-.star-filters input[type="checkbox"], .amenity-filters input[type="checkbox"] {
+.star-filters input[type="checkbox"], 
+.amenity-filters input[type="checkbox"] {
   width: 16px;
   height: 16px;
   accent-color: #FB8500;
@@ -179,4 +139,15 @@
     margin-bottom: 20px;
     position: static;
   }
-} 
+  
+  .slider-wrapper::after {
+    content: '';
+    position: absolute;
+    left: calc(100% * (var(--min) - var(--min-value)) / (var(--max-value) - var(--min-value)));
+    right: calc(100% - (100% * (var(--max) - var(--min-value)) / (var(--max-value) - var(--min-value))));
+    height: 6px;
+    background: #FB8500;
+    border-radius: 3px;
+    z-index: 2;
+  }
+}

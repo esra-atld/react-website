@@ -1,18 +1,25 @@
 import React, { useState, useEffect } from 'react';
 import './Sidebar.css';
+import Box from '@mui/material/Box';
+import Slider from '@mui/material/Slider';
+import Typography from '@mui/material/Typography';
 import LeafletMap from './LeafletMap';
 
 function Sidebar({
   hotels,
   filteredHotels,
-  priceRange,
+  priceRange = [0, 10000],
   setPriceRange,
+  rangeCurrency,
+  setRangeCurrency,
   selectedStars,
   setSelectedStars,
   selectedAmenities,
   setSelectedAmenities,
   style,
-  selectedLocation // yeni eklendi
+  selectedLocation, // yeni eklendi
+  currency,
+  absoluteMinMax = [0, 10000]
 }) {
   
   const amenityGroups = {
@@ -48,11 +55,26 @@ function Sidebar({
     );
   };
 
-  // Handle price slider
-  const handlePriceChange = (e) => {
-    setPriceRange([0, Number(e.target.value)]);
+
+  const [searchCurrency, setSearchCurrency] = useState(currency);
+
+  
+  const [tempPriceRange, setTempPriceRange] = React.useState(priceRange);
+// Update temp range while dragging
+  const handleSliderChange = (event, newValue) => {
+    setTempPriceRange(newValue);
   };
 
+  // Apply final range on mouse up
+  const handleSliderCommit = (event, newValue) => {
+    setPriceRange(newValue);
+  };
+
+
+  const formatValue = (value) => {
+    // Always show in original currency (from hotel data)
+    return `${value.toLocaleString()} ${rangeCurrency || 'USD'}`;
+  };
 
 
   return (
@@ -72,19 +94,46 @@ function Sidebar({
         
 
         <div className="filter-section">
-          <h4>Fiyat Aralığı</h4>
-          <div className="price-range">
-            <input 
-              type="range" 
-              min="0" 
-              max="10000" 
-              className="price-slider" 
+        <h4>Fiyat Aralığı ({rangeCurrency})</h4>
+          <Box sx={{ width: '100%', padding: '0 8px' }}>
+            <Slider
+              value={tempPriceRange}
+              onChange={handleSliderChange}
+              onChangeCommitted={handleSliderCommit}
+              valueLabelDisplay="auto"
+              valueLabelFormat={formatValue}
+              min={Math.min(absoluteMinMax[0], priceRange[0])}
+              max={Math.max(absoluteMinMax[1], priceRange[1])}
+              step={10}
+              sx={{
+                color: '#FB8500',
+                height: 8,
+                '& .MuiSlider-thumb': {
+                  height: 24,
+                  width: 24,
+                  backgroundColor: '#fff',
+                  border: '2px solid currentColor',
+                  '&:hover': {
+                    boxShadow: '0 0 0 8px rgba(251, 133, 0, 0.16)',
+                  },
+                },
+                '& .MuiSlider-valueLabel': {
+                  backgroundColor: '#FB8500',
+                  borderRadius: '4px',
+                  padding: '4px 8px',
+                  fontSize: '0.75rem',
+                },
+              }}
             />
-            <div className="price-labels">
-              <span>0 TL</span>
-              <span>{priceRange[1].toLocaleString()} TL</span>
-            </div>
-          </div>
+            <Box sx={{ display: 'flex', justifyContent: 'space-between', mt: 1 }}>
+              <Typography variant="body2" sx={{ fontSize: '0.8rem' }}>
+              {formatValue(absoluteMinMax[0] || 0, rangeCurrency)}
+              </Typography>
+              <Typography variant="body2" sx={{ fontSize: '0.8rem' }}>
+              {formatValue(absoluteMinMax[1] || 1, rangeCurrency)}
+              </Typography>
+            </Box>
+          </Box>
         </div>
         
         <div className="filter-section">
