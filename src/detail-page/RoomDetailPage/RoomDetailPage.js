@@ -80,7 +80,7 @@ const RoomDetailPage =  ({ handleSearch }) => {
           offerId: offerID,
           productType: 2,
           productId: productID,
-          currency:currency,
+          currency:currency.code,
           culture: "tr-TR",
           getRoomInfo: true
         }
@@ -110,7 +110,7 @@ const RoomDetailPage =  ({ handleSearch }) => {
       try{
         const offerDetailRequest = {
           offerIds: offers.map(offer => offer.offerId),
-          currency: currency,
+          currency: currency.code,
           getProductInfo: true
         }
 
