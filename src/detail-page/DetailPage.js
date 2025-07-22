@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import Header from '../components/Header';
 import SearchBar from '../search-page/SearchBar/SearchBar';
@@ -53,7 +53,28 @@ function DetailPage({ handleSearch }) {
   const hotels = location.state?.hotels || [];
   const searchId = location.state?.searchId || "";
   // FILTER STATE
+  const [rangeCurrency, setRangeCurrency] = useState(['EUR']);
+  useEffect(() => {
+    if (!hotels || hotels.length === 0) {
+      setPriceRange([0, 0]);
+      setAbsoluteMinMax([0, 0]);
+      setRangeCurrency(' '); // Default currency
+      return;
+    }
+    if (hotels.length > 0) {
+      const prices = hotels.map(hotel => hotel.offers?.[0]?.price?.amount).filter(Boolean);
+      const rangeCurrency = hotels.map(hotel => hotel.offers?.[0]?.price?.currency).filter(Boolean);
+      const minPrice = Math.min(...prices);
+      const maxPrice = Math.max(...prices);
+      setPriceRange([minPrice, maxPrice]);
+      setRangeCurrency(rangeCurrency[0] || 'EUR');
+      setAbsoluteMinMax([minPrice, maxPrice]);
+    }
+  }, [hotels,rangeCurrency]);
   const [priceRange, setPriceRange] = useState([0, 10000]);
+  
+  const [absoluteMinMax, setAbsoluteMinMax] = useState([0, 10000]);
+
   const [selectedStars, setSelectedStars] = useState([]);
   const [selectedAmenities, setSelectedAmenities] = useState([]);
 
@@ -65,7 +86,8 @@ function DetailPage({ handleSearch }) {
   useEffect(() => {
     let filtered = hotels.filter(hotel => {
       const price = hotel.offers?.[0]?.price?.amount;
-      const priceOk = price === undefined || price <= priceRange[1];
+      const priceOk = price === undefined || 
+                     (price >= priceRange[0] && price <= priceRange[1]);
 
       const starOk = selectedStars.length === 0 ||
         selectedStars.includes(Math.min(Math.floor(hotel.stars), 5));
@@ -99,7 +121,7 @@ function DetailPage({ handleSearch }) {
     }
 
     setFilteredHotels(filtered);
-  }, [hotels, priceRange, selectedStars, selectedAmenities, sortOption]);
+  }, [hotels, priceRange,rangeCurrency, selectedStars, selectedAmenities, sortOption]);
 
   const [showMapModal, setShowMapModal] = useState(false);
   const [mapMarkers, setMapMarkers] = useState(); 
@@ -114,6 +136,17 @@ function DetailPage({ handleSearch }) {
     }
   };
 
+  const [loadingDots, setLoadingDots] = useState('');
+  useEffect(() => {
+    if (!loading) return;
+    let count = 0;
+    const interval = setInterval(() => {
+      count = (count + 1) % 4;
+      setLoadingDots('.'.repeat(count));
+    }, 500);
+    return () => clearInterval(interval);
+  }, [loading]);
+
   return (
     <div className="detail-page">
       <Header 
@@ -125,7 +158,7 @@ function DetailPage({ handleSearch }) {
       {loading && (
         <div className="loading-overlay">
           <div className="spinner"></div>
-          <div>Yükleniyor...</div>
+          <div>{`Tripora${loadingDots}`}</div>
         </div>
       )}
       <div className="search-section">
@@ -155,11 +188,15 @@ function DetailPage({ handleSearch }) {
           filteredHotels={filteredHotels}
           priceRange={priceRange}
           setPriceRange={setPriceRange}
+          rangeCurrency={rangeCurrency}
+          setRangeCurrency={setRangeCurrency}
           selectedStars={selectedStars}
           setSelectedStars={setSelectedStars}
           selectedAmenities={selectedAmenities}
           setSelectedAmenities={setSelectedAmenities}
           selectedLocation={selectedLocation}
+          currency={currency}
+          absoluteMinMax={absoluteMinMax}
         />
         
         
@@ -197,8 +234,6 @@ function DetailPage({ handleSearch }) {
     </div>
   );
 }
-
-
 const getAmenityIcon = (amenity) => {
     switch (amenity) {
       case "71": return '🔒'; // Kasa

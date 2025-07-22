@@ -38,7 +38,8 @@ const RoomDetailPage =  ({ handleSearch }) => {
 
   const displayedAmenities = showAll ? amenities : amenities.slice(0, MAX_VISIBLE);
 
-  const toggleShow = () => setShowAll(prev => !prev);
+  const toggleShow = () => setShowAll(prev => !prev);  const [loadingDots, setLoadingDots] = useState('');
+
 
   useEffect(() => {
     setLoading(true)
@@ -132,6 +133,16 @@ const RoomDetailPage =  ({ handleSearch }) => {
 
 
 
+  useEffect(() => {
+    if (productInfo) return;
+    let count = 0;
+    const interval = setInterval(() => {
+      count = (count + 1) % 4;
+      setLoadingDots('.'.repeat(count));
+    }, 500);
+    return () => clearInterval(interval);
+  }, [productInfo]);
+
   const [activeTab, setActiveTab] = useState('about');
   const [showAboutPopup, setShowAboutPopup] = useState(false);
   const roomSelectionRef = useRef(null);
@@ -171,7 +182,7 @@ const RoomDetailPage =  ({ handleSearch }) => {
             onLocationSelect={setSelectedLocation} 
           />
         </div>
-        <div style={{ padding: '2rem', textAlign: 'center' }}>Yükleniyor...</div>
+        <div style={{ padding: '2rem', textAlign: 'center' }}>{`Tripora${loadingDots}`}</div>
       </div>
     );
   }
@@ -242,7 +253,13 @@ const RoomDetailPage =  ({ handleSearch }) => {
               </div>
             </div>
             <div className="hotel-actions">
-              <button className="select-room-btn">Oda Seç</button>
+              <button className="select-room-btn" onClick={() => {
+                if (roomSelectionRef.current) {
+                  roomSelectionRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+              }}>
+                Oda Seç
+              </button>
             </div>
           </div>
           <div className="photo-gallery">
@@ -348,21 +365,15 @@ const RoomDetailPage =  ({ handleSearch }) => {
           </div>
           <hr className="sidebar-divider" />
           <div className="sidebar-section">
-            <ul className="feature-list">
-              {displayedAmenities.length > 0 ? (
-                displayedAmenities.map((amenity, index) => (
+            <ul className={`feature-list${amenities.length > 8 ? ' feature-list-scroll' : ''}`}>
+              {amenities.length > 0 ? (
+                amenities.map((amenity, index) => (
                   <li key={index}>{amenity.name}</li>
                 ))
               ) : (
                 <li>Özellik bilgisi bulunamadı.</li>
               )}
             </ul>
-            
-            {amenities.length > MAX_VISIBLE && (
-              <button onClick={toggleShow} className="toggle-amenities-btn">
-                {showAll ? 'Daha az göster' : 'Daha fazla göster'}
-              </button>
-            )}
           </div>
         </aside>
       </div>

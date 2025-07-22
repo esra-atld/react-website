@@ -45,8 +45,13 @@ function AboutOtelPopup({ open, onClose, themes = [], facilities = [], descripti
               <div className="aboutotel-popup-about-desc">
                 {description ? description : 'Bu konaklama yeri hakkında bilgi bulunamadı.'}
                 
-                <b>Diller</b><br/>
-                İngilizce, İspanyolca
+                <div style={{ marginTop: 18 }}>
+                  <div style={{ fontWeight: 700, fontSize: '1.1rem', marginBottom: 6 }}>Diller</div>
+                  <ul style={{ paddingLeft: 18, margin: 0 }}>
+                    <li>İngilizce</li>
+                    <li>İspanyolca</li>
+                  </ul>
+                </div>
               </div>
             </div>
           )}

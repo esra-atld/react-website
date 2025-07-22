@@ -1,0 +1,91 @@
+.hotel-info-card {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: #fff;
+  border-radius: 28px;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.12);
+  padding: 0 0 32px 0;
+  /* top:0, right:0, bottom:32px, left:0 */
+  box-sizing: border-box;
+  overflow: hidden;
+  font-family: 'Inter', sans-serif;
+}
+.hotel-info-image {
+  width: 100%;
+  height: 220px;
+  border-top-left-radius: 28px;
+  border-top-right-radius: 28px;
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+  object-fit: cover;
+  margin-bottom: 12px;
+  display: block;
+}
+.hotel-info-name {
+  font-size: 28px;
+  font-weight: 700;
+  margin: 0;
+  color: #1E232C;
+  text-align: center;
+  margin-bottom: 2px;
+  max-width: 260px;
+  word-break: break-word;
+  font-family: 'Poppins', sans-serif;
+}
+.hotel-info-address {
+  color: #666;
+  font-size: 22px;
+  margin: 10px 0 1px 0;
+  text-align: center;
+  max-width: 260px;
+  word-break: break-word;
+}
+.hotel-info-stars {
+  color: #FFD700;
+  font-size: 28px;
+  margin-bottom: 0;
+  text-align: center;
+}
+.hotel-info-features {
+  list-style: none;
+  padding: 0;
+  margin: 32px 0 0 0;
+  color: #1E232C;
+  font-size: 17px;
+  font-weight: 600;
+  width: 100%;
+  line-height: 1.5;
+  max-width: 420px;
+  word-break: break-word;
+  background: transparent;
+  font-family: 'Inter', sans-serif;
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+}
+.hotel-info-features li {
+  margin-bottom: 0;
+  white-space: nowrap;
+}
+.hotel-info-features-grid {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  margin-top: 18px;
+}
+.hotel-info-features-row {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  gap: 16px;
+}
+.hotel-info-feature {
+  font-size: 17px;
+  font-weight: 600;
+  color: #444;
+  font-family: 'Inter', sans-serif;
+  white-space: nowrap;
+} 
