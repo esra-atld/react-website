@@ -51,6 +51,7 @@ function DetailPage({ handleSearch }) {
     
   const location = useLocation();
   const hotels = location.state?.hotels || [];
+  const searchId = location.state?.searchId || "";
   // FILTER STATE
   const [priceRange, setPriceRange] = useState([0, 10000]);
   const [selectedStars, setSelectedStars] = useState([]);
@@ -180,7 +181,9 @@ function DetailPage({ handleSearch }) {
                   price: `${hotel.offers?.[0]?.price?.amount || 0} ${hotel.offers?.[0]?.price?.currency || ''}`,
                   priceDetails: "Fiyat bilgi detayı bulunamadı",
                   oldPrice: hotel.offers?.[0]?.price?.oldAmount,
-                  discountPercent: hotel.offers?.[0]?.price?.percent
+                  discountPercent: hotel.offers?.[0]?.price?.percent,
+                  searchId: searchId,
+                  offerId: hotel.offers?.[0]?.offerId
                 }}
                 onShowMap={handleShowMapClick}
               />

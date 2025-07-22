@@ -9,12 +9,9 @@ import baseApi from './baseApi';
  */
 
 /**
- * @typedef {Object} HeaderDto
- * @property {string} [requestId]
- * @property {boolean} [success]
- * @property {string} [responseTime]
- * @property {Array<Object>} [messages]
+ * @typedef {import('./types').HeaderDto} HeaderDto
  */
+
 
 /**
  * @typedef {Object} GetNationalitiesResponseDto

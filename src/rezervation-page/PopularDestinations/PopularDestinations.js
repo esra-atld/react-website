@@ -96,13 +96,13 @@ const PopularDestinations = () => {
 
       if(!data.body || !data.body.hotels || data.body.hotels.length === 0) {
         alert("Bu şehirde otel bulunamadı.");
-        navigate('/detail', { state: { hotels: [] } });
+        navigate('/detail', { state: { hotels: [], searchId: "" } });
       }else if(data.header.success === "false") {
         alert(data.Header.messages[0].message);
-        navigate('/detail', { state: { hotels: [] } });
+        navigate('/detail', { state: { hotels: [], searchId: "" } });
       }
       else{
-        navigate('/detail', { state: { hotels: data.body.hotels } });
+        navigate('/detail', { state: { hotels: data.body.hotels, searchId: data.body.searchId } });
       }
     } catch (err) {
       console.error('Error during destination search:', err);

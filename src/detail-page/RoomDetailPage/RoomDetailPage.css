@@ -368,6 +368,8 @@
   display: flex;
   flex-direction: column;
   gap: 8px;
+  overflow-y: auto;
+  max-height: 450px; 
   width: 100%;
 }
 .feature-list li {
@@ -494,3 +496,13 @@
   color: #1E232C;
   margin-bottom: 8px;
 } 
+
+.toggle-amenities-btn {
+  background: none;
+  border: none;
+  color: #007bff;
+  cursor: pointer;
+  margin-top: 8px;
+  padding: 0;
+  font-size: 14px;
+}

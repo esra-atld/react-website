@@ -13,6 +13,9 @@ import baseApi from './baseApi';
  * @property {HeaderDto} [header] 
 */
 
+/**
+ * @typedef {import('./types').HeaderDto} HeaderDto
+ */
 
 /** 
 * Fetches available check-in dates for a given product type and locations.

@@ -58,6 +58,10 @@ import("./priceSearchService")
 */
 
 /**
+ * @typedef {import('./types').HeaderDto} HeaderDto
+ */
+
+/**
  * @typedef {Object} ProductInfoResponseBody
  * @property {HotelDto} hotel
  */
