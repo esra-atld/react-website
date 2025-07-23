@@ -49,7 +49,6 @@ const RoomCard = ({
     e.stopPropagation();
     setCurrentIndex((prev) => (prev === imageList.length - 1 ? 0 : prev + 1));
   };
-
   // SVG renkleri
   const defaultColor = "#0C4A69";
   const activeColor = "#8ECAE6";
@@ -114,7 +113,25 @@ const RoomCard = ({
           <span className="roomcard-fiyat">{price}</span>
         </div>
         <div className="roomcard-fiyat-detay">{priceInfo}</div>
-        <button className="roomcard-oda-sec-btn" onClick={() => navigate('/payment')}>Rezervasyon yap</button>
+        <button
+          className="roomcard-oda-sec-btn"
+          onClick={() => {
+            if (!matchedDetail || Object.keys(matchedDetail).length === 0) {
+              console.warn('matchedDetail is not ready yet');
+              return;
+            }
+          
+            navigate('/payment', {
+              state: {
+                offerDetail: matchedDetail,
+                features: facilities
+              }
+            });
+          }}
+        >
+          {matchedDetail ? 'Rezervasyon yap' : 'Yükleniyor...'}
+        </button>
+
       </div>
       <RoomDetailPopup 
         open={showRoomDetailPopup} 

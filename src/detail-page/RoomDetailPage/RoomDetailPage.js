@@ -39,8 +39,19 @@ const RoomDetailPage =  ({ handleSearch }) => {
 
   const displayedAmenities = showAll ? amenities : amenities.slice(0, MAX_VISIBLE);
 
-  const toggleShow = () => setShowAll(prev => !prev);  const [loadingDots, setLoadingDots] = useState('');
-
+  const toggleShow = () => setShowAll(prev => !prev);  
+  
+  const [loadingDots, setLoadingDots] = useState('');
+  useEffect(() => {
+    if (!loading) return;
+    let count = 0;
+    const interval = setInterval(() => {
+      count = (count + 1) % 4;
+      setLoadingDots('.'.repeat(count));
+    }, 500);
+    return () => clearInterval(interval);
+  }, [loading]);
+  
 
   useEffect(() => {
     setLoading(true)
@@ -181,14 +192,13 @@ const RoomDetailPage =  ({ handleSearch }) => {
         selectedCurrency={currency}
         onCurrencyChange={setCurrency}
       />
-        <div className="searchbar-wrapper">
-          <SearchBar  
-            handleSearch={handleSearch}
-            selectedLocation={selectedLocation}
-            onLocationSelect={setSelectedLocation} 
-          />
-        </div>
-        <div style={{ padding: '2rem', textAlign: 'center' }}>{`Tripora${loadingDots}`}</div>
+      <div className="searchbar-wrapper">
+        <SearchBar  
+          handleSearch={handleSearch}
+          selectedLocation={selectedLocation}
+          onLocationSelect={setSelectedLocation} 
+        />
+      </div>
       </div>
     );
   }
@@ -219,22 +229,16 @@ const RoomDetailPage =  ({ handleSearch }) => {
       {loading && (
         <div className="loading-overlay">
           <div className="spinner"></div>
-          <div>Yükleniyor...</div>
+          <div>{`Tripora${loadingDots}`}</div>
         </div>
       )}
 
-<Header 
-  selectedNationality={selectedNationality} 
-  onNationalityChange={setSelectedNationality} 
-  selectedCurrency={currency}
-  onCurrencyChange={setCurrency}
-/>
-      {loading && (
-        <div className="loading-overlay">
-          <div className="spinner"></div>
-          <div>Yükleniyor...</div>
-        </div>
-      )}
+      <Header 
+        selectedNationality={selectedNationality} 
+        onNationalityChange={setSelectedNationality} 
+        selectedCurrency={currency}
+        onCurrencyChange={setCurrency}
+      />
       <div className="searchbar-wrapper">
         <SearchBar
           handleSearch={handleSearch}

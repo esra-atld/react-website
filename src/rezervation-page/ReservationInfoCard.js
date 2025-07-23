@@ -7,11 +7,11 @@ const ReservationInfoCard = ({ checkIn, checkOut, guestCount, roomType }) => (
     <div className="reservation-info-list">
       <div className="reservation-info-item">
         <span className="reservation-info-label">Giriş Tarihi</span>
-        <span>{checkIn}</span>
+        <span>{checkIn.slice(0,10)}</span>
       </div>
       <div className="reservation-info-item">
         <span className="reservation-info-label">Çıkış Tarihi</span>
-        <span>{checkOut}</span>
+        <span>{checkOut.slice(0,10)}</span>
       </div>
       <div className="reservation-info-item">
         <span className="reservation-info-label">Kişi Sayısı</span>
