@@ -22,12 +22,13 @@
 .room-main {
   flex: 2;
   min-width: 0;
+  margin: 24px;
 }
 
 .room-sidebar {
   background: white;
   border-radius: 16px;
-  padding: 24px 16px;
+  margin: 24px;
   width: 100%;
   min-width: 320px;
   max-width: 360px;

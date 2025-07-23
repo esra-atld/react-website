@@ -26,12 +26,28 @@ const PaymentPage = () => {
     starts: offerDetail.hotels[0].stars,
     features: hotelFeatures,
   };
+
+  const rooms = offerDetail?.hotels?.[0]?.offers?.[0]?.rooms || [];
+  const totalGuests = rooms.reduce((sum, room) => sum + (room.travellers?.length || 0), 0);
   return (
     <div>
       <Header showSelectors={false} />
-      <div style={{ marginTop: 100 }}>
-        <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'flex-start', minHeight: '80vh', background: '#f8f9fa', padding: '40px 0' }}>
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 32, marginLeft: 80 }}>
+      <div style={{
+  marginTop: 100,
+  background: '#f8f9fa',
+  padding: '40px 0'
+}}>
+  <div
+    style={{
+      maxWidth: 1200,
+      margin: '0 auto',
+      display: 'flex',
+      gap: 48,
+      alignItems: 'flex-start',
+      padding: '0 24px', // equal left-right padding
+    }}
+  >
+    <div style={{ flex: 1, display: 'flex', flexDirection: 'column', gap: 32 }}>
             <HotelInfoCard
               image={hotel.image}
               name={hotel.name}
@@ -42,8 +58,8 @@ const PaymentPage = () => {
             <ReservationInfoCard
               checkIn={offerDetail.checkIn}
               checkOut={offerDetail.checkOut}
-              guestCount={offerDetail.hotels[0].offers[0].rooms[0].travellers.length}
-              roomType={offerDetail.hotels[0].offers[0].rooms[0].roomName}
+              guestCount={totalGuests}
+              roomType={rooms.length + "-" + offerDetail.hotels[0].offers[0].rooms[0].roomName}
             />
             <PriceSummaryCard
               roomPrice={
@@ -59,7 +75,7 @@ const PaymentPage = () => {
               }
             />
           </div>
-          <div style={{ flex: 1, display: 'flex', justifyContent: 'center', alignItems: 'flex-start', flexDirection: 'column' }}>
+          <div style={{ flex: 1 }}>
             <PaymentForm />
           </div>
         </div>
