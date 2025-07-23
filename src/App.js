@@ -29,6 +29,7 @@ function HomePage({ handleSearch }) {
       rooms, setRooms,
       currency, setCurrency,
       loading, setLoading, 
+      roomList, setRoomList
     } = useBooking();
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const currencyRef = useRef(null);
@@ -144,6 +145,7 @@ function AppRoutes() {
     childrenAges, setChildrenAges,
     children, setChildren,
     rooms, setRooms,
+    roomList, setRoomList,
     currency, setCurrency,
   } = useBooking();
 
@@ -170,9 +172,7 @@ function AppRoutes() {
       getOnlyDiscountedPrice: false,
       getOnlyBestOffers: true,
       productType: 2,
-      roomCriteria: [
-      { adult: adults, childAges: childrenAges }
-      ],
+      roomCriteria: roomList,
       nationality: selectedNationality?.id || "TR",
       checkIn: range[0].startDate ? toDateOnlyString(new Date(range[0].startDate)) 
                             : toDateOnlyString(new Date()),

@@ -12,6 +12,9 @@ export const BookingProvider = ({ children }) => {
   const [childrens, setChildren] = useState(0);
   const [childrenAges, setChildrenAges] = useState([]);
   const [rooms, setRooms] = useState(1);
+  const [roomList, setRoomList] = useState([
+    { adult: 2, childAges: [] }
+  ]);
   const [currency, setCurrency] = useState({code:"EUR", internationalCode:"EUR", iconText: "EUR", name:"Euro"});
   const [loading, setLoading] = useState(false);
 
@@ -25,6 +28,7 @@ export const BookingProvider = ({ children }) => {
         childrens, setChildren,
         childrenAges, setChildrenAges,
         rooms, setRooms,
+        roomList, setRoomList,
         currency, setCurrency,
         loading, setLoading
       }}
