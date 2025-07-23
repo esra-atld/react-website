@@ -4,6 +4,7 @@ import HotelInfoCard from './HotelInfoCard';
 import ReservationInfoCard from './ReservationInfoCard';
 import PriceSummaryCard from './PriceSummaryCard';
 import PaymentForm from './PaymentForm';
+import { useLocation } from 'react-router-dom';
 
 const dummyHotel = {
   name: 'Excalibur Hotel',
@@ -14,6 +15,17 @@ const dummyHotel = {
 };
 
 const PaymentPage = () => {
+  const location = useLocation();
+  const offerDetail = location.state?.offerDetail || {};
+  const hotelFeatures = location.state?.features || [];
+  
+  const hotel = {
+    name: offerDetail.hotels[0].name,
+    address: offerDetail.hotels[0].country.name+", "+ offerDetail.hotels[0].city.name,
+    image: offerDetail.hotels[0].thumbnailFull,
+    starts: offerDetail.hotels[0].stars,
+    features: hotelFeatures,
+  };
   return (
     <div>
       <Header showSelectors={false} />
@@ -21,22 +33,30 @@ const PaymentPage = () => {
         <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'flex-start', minHeight: '80vh', background: '#f8f9fa', padding: '40px 0' }}>
           <div style={{ display: 'flex', flexDirection: 'column', gap: 32, marginLeft: 80 }}>
             <HotelInfoCard
-              image={dummyHotel.image}
-              name={dummyHotel.name}
-              address={dummyHotel.address}
-              stars={dummyHotel.stars}
-              features={dummyHotel.features}
+              image={hotel.image}
+              name={hotel.name}
+              address={hotel.address}
+              stars={hotel.stars}
+              features={hotel.features}
             />
             <ReservationInfoCard
-              checkIn="12.07.2024"
-              checkOut="15.07.2024"
-              guestCount="2 Yetişkin"
-              roomType="Deluxe"
+              checkIn={offerDetail.checkIn}
+              checkOut={offerDetail.checkOut}
+              guestCount={offerDetail.hotels[0].offers[0].rooms[0].travellers.length}
+              roomType={offerDetail.hotels[0].offers[0].rooms[0].roomName}
             />
             <PriceSummaryCard
-              roomPrice="₺12.000"
-              discount="₺1.800"
-              currentPrice="₺10.200"
+              roomPrice={
+                ((offerDetail.price.oldAmount ?? offerDetail.price.amount) + " " + offerDetail.price.currency)
+              }
+              discount={
+                offerDetail.price.oldAmount
+                  ? offerDetail.price.oldAmount - offerDetail.price.amount
+                  : 0
+              }
+              currentPrice={
+                offerDetail.price.amount + " " + offerDetail.price.currency
+              }
             />
           </div>
           <div style={{ flex: 1, display: 'flex', justifyContent: 'center', alignItems: 'flex-start', flexDirection: 'column' }}>

@@ -64,7 +64,7 @@ const RoomCardList = ({offers, offerDetails, images, amenities}) => {
             priceInfo={priceInfo}
             onReserve={() => alert('Rezervasyon yapıldı!')}
             matchedDetail = {matchedDetail}
-            facilities={amenities} // 👈 pass real facilities
+            facilities={amenities} 
             images= {images}
           />
         );
