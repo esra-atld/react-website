@@ -19,6 +19,7 @@ const PopularDestinations = () => {
     setChildren,
     setRooms,
     childrenAges,
+    roomList, setRoomList,
     currency, setCurrency
   } = useBooking();
 
@@ -74,9 +75,7 @@ const PopularDestinations = () => {
       getOnlyDiscountedPrice: false,
       getOnlyBestOffers: true,
       productType: 2,
-      roomCriteria: [
-        { adult: 1, childAges: [] }
-      ],
+      roomCriteria: roomList,
       nationality: selectedNationality?.id || 'TR',
       checkIn: range[0].startDate ? toDateOnlyString(new Date(range[0].startDate)) 
                             : toDateOnlyString(new Date()),
