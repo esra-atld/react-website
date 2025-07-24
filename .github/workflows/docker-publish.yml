@@ -27,7 +27,7 @@ jobs:
 
       - name: Build the Docker image
         run: |
-          docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/my-react-app:latest .
+          docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/tripora:latest .
 
       - name: Push the Docker image
         run: |
