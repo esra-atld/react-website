@@ -1,24 +1,24 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import Header from '../components/Header';
 import HotelInfoCard from './HotelInfoCard';
 import ReservationInfoCard from './ReservationInfoCard';
 import PriceSummaryCard from './PriceSummaryCard';
 import PaymentForm from './PaymentForm';
 import { useLocation } from 'react-router-dom';
+import { useBooking } from '../BookingContext';
+import { BeginTransaction } from '../services/bookingService'; 
 
-const dummyHotel = {
-  name: 'Excalibur Hotel',
-  address: 'Antalya, Belek',
-  image: 'https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=400&q=80',
-  stars: 5,
-  features: ['Ücretsiz Wi-Fi', '24 Saat Resepsiyon', 'Otopark', 'Spa & Wellness', 'Denize Sıfır', 'Açık Havuz', 'Fitness Merkezi', 'Çocuk Kulübü', 'Deniz Manzarası', 'Klima', 'Mini Bar']
-};
+
 
 const PaymentPage = () => {
+  
+  const { roomList, setRoomList, currency, selectedNationality } = useBooking();
+
   const location = useLocation();
   const offerDetail = location.state?.offerDetail || {};
   const hotelFeatures = location.state?.features || [];
-  
+  const [transactionId, setTransactionId] = useState("");
+
   const hotel = {
     name: offerDetail.hotels[0].name,
     address: offerDetail.hotels[0].country.name+", "+ offerDetail.hotels[0].city.name,
@@ -26,9 +26,36 @@ const PaymentPage = () => {
     starts: offerDetail.hotels[0].stars,
     features: hotelFeatures,
   };
-
+  console.log("offerID:", offerDetail.offerId)
+  
   const rooms = offerDetail?.hotels?.[0]?.offers?.[0]?.rooms || [];
+  console.log("rooms", rooms)
   const totalGuests = rooms.reduce((sum, room) => sum + (room.travellers?.length || 0), 0);
+
+
+  // Begin Transaction
+  useEffect(() => {
+    async function beginTransaction() {
+      if (!offerDetail?.offerId) return;
+      console.log("transaction beginned")
+      /** @type {import('../services/bookingService').BeginTransactionRequest} */
+      const requestData = {
+        offerIds: [offerDetail.offerId],
+        currency: currency.code,
+        culture: 'tr-TR',
+      };
+      try {
+        const response = await BeginTransaction(requestData);
+        console.log('Transaction started:', response);
+        setTransactionId(response.body.transactionId);
+      } catch (err) {
+        console.error('Failed to begin transaction:', err);
+      }      
+    }
+    beginTransaction();
+
+  }, [offerDetail]);
+
   return (
     <div>
       <Header showSelectors={false} />
@@ -76,7 +103,10 @@ const PaymentPage = () => {
             />
           </div>
           <div style={{ flex: 1 }}>
-            <PaymentForm />
+            <PaymentForm 
+              rooms ={rooms}
+              transactionId = {transactionId}  
+            />
           </div>
         </div>
       </div>
