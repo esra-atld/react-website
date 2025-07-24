@@ -30,6 +30,7 @@ const RoomDetailPage =  ({ handleSearch }) => {
   const amenities = location.state?.amenities || [];
   const offerID = location.state?.offerID || '';
   const searchID = location.state?.searchId || '';
+  
   const [productInfo, setProductInfo] = useState(null);
   const [offers, setOffers] = useState([]);
   const [offerDetails, setOfferDetails] = useState([]);

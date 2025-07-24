@@ -39,53 +39,70 @@ const PaymentForm = ({ rooms, transactionId }) => {
       return () => clearInterval(interval);
     }, [loading]);
 
-  console.log("selectedNat", selectedNationality)
   useEffect(() => {
-    if (rooms && rooms.length > 0) {
-      let travellerIdCounter = 1;
-      let travellerId = travellerIdCounter.toString(); 
-      travellerIdCounter++
-      const initializedRooms = rooms.map(room => ({
-        roomId: room.roomId || '',
-        roomName: room.roomName || '',
-        boardName: room.boardName || '',
-        travellers: room.travellers?.map(traveller => ({
-          contactPhone: {countryCode:"",areaCode:"", phoneNumber:""},
-          documents:[],
-          insertFields:[],
-          identityNumber:"",
-          destinationAddress:{},
+  if (rooms && rooms.length > 0) {
+    let travellerIdCounter = 1;
+
+    const initializedRooms = rooms.map(room => ({
+      roomId: room.roomId || '',
+      roomName: room.roomName || '',
+      boardName: room.boardName || '',
+      travellers: room.travellers?.map(traveller => {
+        
+        const travellerId = travellerIdCounter.toString();
+        travellerIdCounter++;  // increment for next traveller
+        
+        let title = traveller.title ?? null;
+        let gender = null;
+        
+        let birthDate = "0001-01-01T00:00:00";
+        if (traveller.age > 0) {
+          const today = new Date();
+          const birth = new Date(today);
+          birth.setFullYear(today.getFullYear() - traveller.age);
+          birthDate = birth.toISOString();
+        }
+
+        if (traveller.type === 2) { // Child
+          title = 5; // Child
+          gender = 1; // default to male for children if no input
+        }
+
+        return {
+          contactPhone: { countryCode: "", areaCode: "", phoneNumber: "" },
+          documents: [],
+          insertFields: [],
+          identityNumber: "",
+          destinationAddress: {},
           travellerId: travellerId,
           type: traveller.type || 1, // 1 = adult, 2 = child
-          title: null,
+          title: title,
           name: '',
           surname: '',
           isLeader: traveller.isLeader || false,
+          birthDate: birthDate,
+          age: traveller.age || 0,
+          gender: gender,
           leaderEmail: '',
-          nationality: {twoLetterCode: selectedNationality.id},
+          nationality: { twoLetterCode: traveller.nationality || selectedNationality.id },
           passportInfo: { expireDate: "0001-01-01T00:00:00" },
           address: {
             contactPhone: {},
             email: "",
             address: "",
             zipCode: "",
-            city: {
-              id: "", 
-              name: ""
-            },
-            country: {
-              id: selectedNationality.id, 
-              name: selectedNationality.name
-            }
+            city: { id: "", name: "" },
+            country: { id: selectedNationality.id, name: selectedNationality.name }
           },
           // validation fields
           nameError: '',
           surnameError: '',
           titleError: '',
           nationalityError: '',
-        })) || []
-      }));
-
+        };
+      }) || []
+    }));
+    
       setRoomGuests(initializedRooms);
     }
   }, [rooms]);
@@ -192,6 +209,7 @@ const PaymentForm = ({ rooms, transactionId }) => {
 
 
   const handleTravellerChange = (e, roomIndex, travellerIndex, field) => {
+    
     let value = e.target.value;
 
     // Eğer 'title' alanıysa, integer yap
@@ -212,10 +230,16 @@ const PaymentForm = ({ rooms, transactionId }) => {
             const error = ['name', 'surname', 'nationality'].includes(field)
               ? validateTravellerField(field, value)
               : (field === 'title' && (value === null || value === "" )) ? "Unvan boş bırakılamaz." : ''; // Also check for empty string for select
-
+            
+            let gender = traveller.gender;
+            if (field === 'title') {
+            if (value === 1) gender = 1; // Mr → Male (1)
+            else if ([2, 3, 4].includes(value)) gender = 0; // Ms, Mrs, Miss → Female (0)
+            }
             return {
               ...traveller,
               [field]: value,
+              gender: gender,             
               [`${field}Error`]: error,
             };
           }),
@@ -335,12 +359,15 @@ const PaymentForm = ({ rooms, transactionId }) => {
                       value={traveller.title === null ? "" : traveller.title} // Handle null for initial state
                       onChange={(e) => handleTravellerChange(e, roomIndex, travellerIndex, 'title')}
                       required
+                      disabled={traveller.type === 2} // Disable for children
+
                     >
                       <option value="">Seçiniz</option>
                       <option value={1}>Mr</option>
                       <option value={2}>Ms</option>
                       <option value={3}>Mrs</option>
                       <option value={4}>Miss</option>
+                      <option value={5}>Child</option>
                     </select>
                     {(traveller.titleError || traveller.title === null || traveller.title === "") && <div className="payment-form-error">{traveller.titleError || "Unvan boş bırakılamaz."}</div>}
                   </div>

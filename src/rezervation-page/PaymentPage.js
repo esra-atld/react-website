@@ -16,6 +16,7 @@ const PaymentPage = () => {
 
   const location = useLocation();
   const offerDetail = location.state?.offerDetail || {};
+  const matchedOffer = location.state?.matchedOffer || {};
   const hotelFeatures = location.state?.features || [];
   const [transactionId, setTransactionId] = useState("");
 
@@ -29,8 +30,9 @@ const PaymentPage = () => {
   console.log("offerID:", offerDetail.offerId)
   
   const rooms = offerDetail?.hotels?.[0]?.offers?.[0]?.rooms || [];
-  console.log("rooms", rooms)
-  const totalGuests = rooms.reduce((sum, room) => sum + (room.travellers?.length || 0), 0);
+  const mergedRooms = updateTravellerInfo(rooms, matchedOffer.rooms);
+  console.log("rooms", mergedRooms)
+  const totalGuests = mergedRooms.reduce((sum, room) => sum + (room.travellers?.length || 0), 0);
 
 
   // Begin Transaction
@@ -104,7 +106,7 @@ const PaymentPage = () => {
           </div>
           <div style={{ flex: 1 }}>
             <PaymentForm 
-              rooms ={rooms}
+              rooms ={mergedRooms}
               transactionId = {transactionId}  
             />
           </div>
@@ -113,5 +115,28 @@ const PaymentPage = () => {
     </div>
   );
 };
+function updateTravellerInfo(originalRooms, updatedRooms) {
+  return originalRooms.map((room, roomIndex) => {
+    const updatedTravellers = updatedRooms[roomIndex]?.travellers || [];
+
+    const updatedRoomTravellers = room.travellers.map((traveller, travellerIndex) => {
+      const updated = updatedTravellers[travellerIndex];
+      return updated
+        ? {
+            ...traveller,
+            type: updated.type,
+            age: updated.age,
+            nationality: updated.nationality,
+          }
+        : traveller;
+    });
+
+    return {
+      ...room,
+      travellers: updatedRoomTravellers,
+    };
+  });
+}
+
 
 export default PaymentPage; 

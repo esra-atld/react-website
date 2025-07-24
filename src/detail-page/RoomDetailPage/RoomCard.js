@@ -33,7 +33,8 @@ const RoomCard = ({
   priceInfo,
   onReserve,
   facilities,
-  matchedDetail
+  matchedDetail,
+  matchedOffer
 }) => {
   const imageList = images.length > 0 ? images : (image ? [image] : []);
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -124,6 +125,7 @@ const RoomCard = ({
             navigate('/payment', {
               state: {
                 offerDetail: matchedDetail,
+                matchedOffer: matchedOffer,
                 features: facilities
               }
             });
