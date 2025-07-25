@@ -115,7 +115,7 @@ function GuestSelector() {
 
               {/* Children */}
               <div className="guest-row">
-                <span>Çocuk 0-17 Yaş</span>
+                <span>Çocuk 0-12 Yaş</span>
                 <button
                   onClick={() => updateCount(index, 'child', -1)}
                   disabled={room.childAges.length <= 0}
@@ -151,7 +151,7 @@ function GuestSelector() {
                     }}
                   >
                     <option value="">Yaşını Seçin</option>
-                    {Array.from({ length: 18 }, (_, i) => (
+                    {Array.from({ length: 13 }, (_, i) => (
                       <option key={i} value={i}>
                         {i}
                       </option>

@@ -333,9 +333,6 @@ const RoomDetailPage =  ({ handleSearch }) => {
                   description={hotel.description}
                 />
                 <div className="about-section-divider" />
-                <div ref={roomSelectionRef}>
-                  <RoomSelectionBar />
-                </div>
                 <RoomCardList
                   offers = {offers}
                   offerDetails = {offerDetails}
