@@ -6,7 +6,7 @@ This project was developed as part of the **SAN TSG 2025 Summer Internship Progr
 
 To provide an end-to-end hotel booking experience, allowing users to search for hotels, view details, compare rooms, and make reservations.
 
-The frontend is supported by the [Backend Repo](https://github.com/phantosys/BackendSan) built during the SAN TSG 2025 Summer Internship Program.
+The frontend is supported by the [Backend Repo](https://github.com/Yselim1/BackendSan.git) built during the SAN TSG 2025 Summer Internship Program.
 
 ---
 
